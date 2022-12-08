@@ -10,7 +10,7 @@ public class Appointment {
     private LocalDateTime start;
     private LocalDateTime end;
     private User user;
-    private Imobil imobil;
+    private Estate estate;
     private AppointmentStatus appointmentStatus;
 
     public Appointment() {
@@ -56,12 +56,12 @@ public class Appointment {
         this.user = user;
     }
 
-    public Imobil getImobil() {
-        return imobil;
+    public Estate getEstate() {
+        return estate;
     }
 
-    public void setImobil(Imobil imobil) {
-        this.imobil = imobil;
+    public void setEstate(Estate estate) {
+        this.estate = estate;
     }
 
     public AppointmentStatus getAppointmentStatus() {

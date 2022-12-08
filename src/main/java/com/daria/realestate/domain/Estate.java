@@ -1,24 +1,25 @@
 package com.daria.realestate.domain;
 
+import com.daria.realestate.domain.enums.EstateStatus;
 import com.daria.realestate.domain.enums.PaymentType;
 
 import java.time.LocalDate;
 
-public abstract class Imobil {
+public abstract class Estate {
     private Long id;
     private PaymentType paymentType;
     private int squareMeters;
     private Address address;
     private long priceRange;
     private User owner;
-    private String status;
+    private EstateStatus acquisitionStatus;
     private int numberOfRooms;
     private int numberOfBathRooms;
     private int numberOfFloors;
     private int numberOfGarages;
     private LocalDate yearOfConstruction;
 
-    public Imobil() {
+    public Estate() {
     }
 
     public Long getId() {
@@ -69,12 +70,12 @@ public abstract class Imobil {
         this.owner = owner;
     }
 
-    public String getStatus() {
-        return status;
+    public EstateStatus getAcquisitionStatus() {
+        return acquisitionStatus;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setAcquisitionStatus(EstateStatus acquisitionStatus) {
+        this.acquisitionStatus = acquisitionStatus;
     }
 
     public int getNumberOfRooms() {

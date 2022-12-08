@@ -2,7 +2,7 @@ package com.daria.realestate.domain;
 
 import com.daria.realestate.domain.enums.HouseType;
 
-public class House extends Imobil {
+public class House extends Estate {
     private HouseType houseType;
 
     public HouseType getHouseType() {

@@ -2,7 +2,7 @@ package com.daria.realestate.domain;
 
 import com.daria.realestate.domain.enums.ApartmentType;
 
-public class Apartment extends Imobil {
+public class Apartment extends Estate {
     private int floorNumber;
     private ApartmentType apartmentType;
     public int getFloorNumber() {

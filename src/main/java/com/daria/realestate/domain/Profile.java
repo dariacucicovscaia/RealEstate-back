@@ -1,6 +1,7 @@
 package com.daria.realestate.domain;
 
 public class Profile {
+    private Long id;
     private String firstName;
     private String lastName;
     private String phoneNr;

@@ -2,17 +2,23 @@ package com.daria.realestate.domain;
 
 import com.daria.realestate.domain.enums.PaymentType;
 
-public abstract class Property {
+import java.time.LocalDate;
+
+public abstract class Imobil {
     private Long id;
     private PaymentType paymentType;
     private int squareMeters;
     private Address address;
     private long priceRange;
     private User owner;
-
     private String status;
+    private int numberOfRooms;
+    private int numberOfBathRooms;
+    private int numberOfFloors;
+    private int numberOfGarages;
+    private LocalDate yearOfConstruction;
 
-    public Property() {
+    public Imobil() {
     }
 
     public Long getId() {
@@ -61,5 +67,53 @@ public abstract class Property {
 
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public int getNumberOfRooms() {
+        return numberOfRooms;
+    }
+
+    public void setNumberOfRooms(int numberOfRooms) {
+        this.numberOfRooms = numberOfRooms;
+    }
+
+    public int getNumberOfBathRooms() {
+        return numberOfBathRooms;
+    }
+
+    public void setNumberOfBathRooms(int numberOfBathRooms) {
+        this.numberOfBathRooms = numberOfBathRooms;
+    }
+
+    public int getNumberOfGarages() {
+        return numberOfGarages;
+    }
+
+    public void setNumberOfGarages(int numberOfGarages) {
+        this.numberOfGarages = numberOfGarages;
+    }
+
+    public int getNumberOfFloors() {
+        return numberOfFloors;
+    }
+
+    public void setNumberOfFloors(int numberOfFloors) {
+        this.numberOfFloors = numberOfFloors;
+    }
+
+    public LocalDate getYearOfConstruction() {
+        return yearOfConstruction;
+    }
+
+    public void setYearOfConstruction(LocalDate yearOfConstruction) {
+        this.yearOfConstruction = yearOfConstruction;
     }
 }

@@ -1,23 +1,24 @@
 package com.daria.realestate.domain;
 
 import com.daria.realestate.domain.enums.EstateStatus;
-import com.daria.realestate.domain.enums.PaymentType;
+import com.daria.realestate.domain.enums.PaymentTransactionType;
 
 import java.time.LocalDate;
 
-public abstract class Estate {
+public class Estate {
     private Long id;
-    private PaymentType paymentType;
     private int squareMeters;
     private Address address;
-    private long priceRange;
+    private Price price;
     private User owner;
-    private EstateStatus acquisitionStatus;
     private int numberOfRooms;
     private int numberOfBathRooms;
     private int numberOfFloors;
     private int numberOfGarages;
     private LocalDate yearOfConstruction;
+    private PaymentTransactionType paymentTransactionType;
+    private EstateStatus acquisitionStatus;
+    private TypeOfEstate typeOfEstate;
 
     public Estate() {
     }
@@ -30,12 +31,12 @@ public abstract class Estate {
         this.id = id;
     }
 
-    public PaymentType getPaymentType() {
-        return paymentType;
+    public PaymentTransactionType getPaymentTransactionType() {
+        return paymentTransactionType;
     }
 
-    public void setPaymentType(PaymentType paymentType) {
-        this.paymentType = paymentType;
+    public void setPaymentTransactionType(PaymentTransactionType paymentTransactionType) {
+        this.paymentTransactionType = paymentTransactionType;
     }
 
     public int getSquareMeters() {
@@ -54,12 +55,12 @@ public abstract class Estate {
         this.address = address;
     }
 
-    public long getPriceRange() {
-        return priceRange;
+    public Price getPrice() {
+        return price;
     }
 
-    public void setPriceRange(long priceRange) {
-        this.priceRange = priceRange;
+    public void setPrice(Price price) {
+        this.price = price;
     }
 
     public User getOwner() {
@@ -116,5 +117,13 @@ public abstract class Estate {
 
     public void setYearOfConstruction(LocalDate yearOfConstruction) {
         this.yearOfConstruction = yearOfConstruction;
+    }
+
+    public TypeOfEstate getTypeOfEstate() {
+        return typeOfEstate;
+    }
+
+    public void setTypeOfEstate(TypeOfEstate typeOfEstate) {
+        this.typeOfEstate = typeOfEstate;
     }
 }

@@ -5,12 +5,24 @@ import com.daria.realestate.domain.enums.TypeOfEstate;
 import java.time.LocalDate;
 
 public class EstateDetails {
+    private int squareMeters;
     private int numberOfRooms;
     private int numberOfBathRooms;
     private int[] floorNumbers;
     private int numberOfGarages;
     private LocalDate yearOfConstruction;
     private TypeOfEstate typeOfEstate;
+
+    public EstateDetails() {
+    }
+
+    public int getSquareMeters() {
+        return squareMeters;
+    }
+
+    public void setSquareMeters(int squareMeters) {
+        this.squareMeters = squareMeters;
+    }
 
     public int getNumberOfRooms() {
         return numberOfRooms;

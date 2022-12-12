@@ -6,12 +6,12 @@ import com.daria.realestate.domain.enums.PaymentTransactionType;
 
 public class Estate {
     private Long id;
-    private int squareMeters;
     private Address address;
     private Price price;
     private User owner;
     private PaymentTransactionType paymentTransactionType;
     private EstateStatus acquisitionStatus;
+    private EstateDetails estateDetails;
 
     public Estate() {
     }
@@ -30,14 +30,6 @@ public class Estate {
 
     public void setPaymentTransactionType(PaymentTransactionType paymentTransactionType) {
         this.paymentTransactionType = paymentTransactionType;
-    }
-
-    public int getSquareMeters() {
-        return squareMeters;
-    }
-
-    public void setSquareMeters(int squareMeters) {
-        this.squareMeters = squareMeters;
     }
 
     public Address getAddress() {
@@ -72,4 +64,11 @@ public class Estate {
         this.acquisitionStatus = acquisitionStatus;
     }
 
+    public EstateDetails getEstateDetails() {
+        return estateDetails;
+    }
+
+    public void setEstateDetails(EstateDetails estateDetails) {
+        this.estateDetails = estateDetails;
+    }
 }

@@ -1,13 +1,13 @@
 package com.daria.realestate.domain;
 
-import java.util.Set;
+import java.util.List;
 
 public class User {
     private Long id;
     private Profile profile;
     private String email;
     private String password;
-    private Set<Appointment> appointment;
+    private List<Appointment> appointment;
 
     public Long getId() {
         return id;
@@ -41,11 +41,11 @@ public class User {
         this.password = password;
     }
 
-    public Set<Appointment> getAppointment() {
+    public List<Appointment> getAppointment() {
         return appointment;
     }
 
-    public void setAppointment(Set<Appointment> appointment) {
+    public void setAppointment(List<Appointment> appointment) {
         this.appointment = appointment;
     }
 }

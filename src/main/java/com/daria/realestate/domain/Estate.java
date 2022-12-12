@@ -2,9 +2,7 @@ package com.daria.realestate.domain;
 
 import com.daria.realestate.domain.enums.EstateStatus;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
-import com.daria.realestate.domain.enums.TypeOfEstate;
 
-import java.time.LocalDate;
 
 public class Estate {
     private Long id;
@@ -12,14 +10,8 @@ public class Estate {
     private Address address;
     private Price price;
     private User owner;
-    private int numberOfRooms;
-    private int numberOfBathRooms;
-    private int[] floorNumbers;
-    private int numberOfGarages;
-    private LocalDate yearOfConstruction;
     private PaymentTransactionType paymentTransactionType;
     private EstateStatus acquisitionStatus;
-    private TypeOfEstate typeOfEstate;
 
     public Estate() {
     }
@@ -80,51 +72,4 @@ public class Estate {
         this.acquisitionStatus = acquisitionStatus;
     }
 
-    public int getNumberOfRooms() {
-        return numberOfRooms;
-    }
-
-    public void setNumberOfRooms(int numberOfRooms) {
-        this.numberOfRooms = numberOfRooms;
-    }
-
-    public int getNumberOfBathRooms() {
-        return numberOfBathRooms;
-    }
-
-    public void setNumberOfBathRooms(int numberOfBathRooms) {
-        this.numberOfBathRooms = numberOfBathRooms;
-    }
-
-    public int getNumberOfGarages() {
-        return numberOfGarages;
-    }
-
-    public void setNumberOfGarages(int numberOfGarages) {
-        this.numberOfGarages = numberOfGarages;
-    }
-
-    public LocalDate getYearOfConstruction() {
-        return yearOfConstruction;
-    }
-
-    public void setYearOfConstruction(LocalDate yearOfConstruction) {
-        this.yearOfConstruction = yearOfConstruction;
-    }
-
-    public TypeOfEstate getTypeOfEstate() {
-        return typeOfEstate;
-    }
-
-    public void setTypeOfEstate(TypeOfEstate typeOfEstate) {
-        this.typeOfEstate = typeOfEstate;
-    }
-
-    public int[] getFloorNumbers() {
-        return floorNumbers;
-    }
-
-    public void setFloorNumbers(int[] floorNumbers) {
-        this.floorNumbers = floorNumbers;
-    }
 }

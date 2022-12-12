@@ -6,7 +6,7 @@ public class Price {
     private Long id;
     private Estate estate;
     private Long price;
-    private LocalDate dateOfUpdate;
+    private LocalDate lastUpdatedAt;
     private String currency;
 
     public Price() {
@@ -36,12 +36,12 @@ public class Price {
         this.price = price;
     }
 
-    public LocalDate getDateOfUpdate() {
-        return dateOfUpdate;
+    public LocalDate getLastUpdatedAt() {
+        return lastUpdatedAt;
     }
 
-    public void setDateOfUpdate(LocalDate dateOfUpdate) {
-        this.dateOfUpdate = dateOfUpdate;
+    public void setLastUpdatedAt(LocalDate lastUpdatedAt) {
+        this.lastUpdatedAt = lastUpdatedAt;
     }
 
     public String getCurrency() {

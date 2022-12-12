@@ -5,7 +5,6 @@ import com.daria.realestate.domain.enums.PaymentTransactionType;
 import com.daria.realestate.domain.enums.TypeOfEstate;
 
 import java.time.LocalDate;
-import java.util.Map;
 
 public class Estate {
     private Long id;
@@ -15,13 +14,7 @@ public class Estate {
     private User owner;
     private int numberOfRooms;
     private int numberOfBathRooms;
-
-    /**
-     * if it's an apartment the value of the map needs to be specified
-     * if it's a commercial space the same
-     * if it's a house - not mandatory
-     */
-    private Map<Integer, Integer> totalFloorsAndFloorNumber;
+    private int[] floorNumbers;
     private int numberOfGarages;
     private LocalDate yearOfConstruction;
     private PaymentTransactionType paymentTransactionType;
@@ -127,11 +120,11 @@ public class Estate {
         this.typeOfEstate = typeOfEstate;
     }
 
-    public Map<Integer, Integer> getTotalFloorsAndFloorNumber() {
-        return totalFloorsAndFloorNumber;
+    public int[] getFloorNumbers() {
+        return floorNumbers;
     }
 
-    public void setTotalFloorsAndFloorNumber(Map<Integer, Integer> totalFloorsAndFloorNumber) {
-        this.totalFloorsAndFloorNumber = totalFloorsAndFloorNumber;
+    public void setFloorNumbers(int[] floorNumbers) {
+        this.floorNumbers = floorNumbers;
     }
 }

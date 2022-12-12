@@ -2,6 +2,7 @@ package com.daria.realestate.domain;
 
 import com.daria.realestate.domain.enums.EstateStatus;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
+import com.daria.realestate.domain.enums.TypeOfEstate;
 
 import java.time.LocalDate;
 import java.util.Map;

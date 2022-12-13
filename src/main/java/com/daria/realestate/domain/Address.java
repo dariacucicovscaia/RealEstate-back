@@ -2,7 +2,7 @@ package com.daria.realestate.domain;
 
 public class Address {
     private Long id;
-    private String streetNumber;
+    private String fullAddress;
     private String city;
     private String country;
 
@@ -17,12 +17,12 @@ public class Address {
         this.id = id;
     }
 
-    public String getStreetNumber() {
-        return streetNumber;
+    public String getFullAddress() {
+        return fullAddress;
     }
 
-    public void setStreetNumber(String streetNumber) {
-        this.streetNumber = streetNumber;
+    public void setFullAddress(String fullAddress) {
+        this.fullAddress = fullAddress;
     }
 
     public String getCity() {

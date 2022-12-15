@@ -5,7 +5,9 @@ public class Profile {
     private String firstName;
     private String lastName;
     private String phoneNr;
+
     private Address address;
+    private User user;
 
     public Profile() {
     }
@@ -48,5 +50,13 @@ public class Profile {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

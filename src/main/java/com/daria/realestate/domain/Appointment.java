@@ -3,15 +3,17 @@ package com.daria.realestate.domain;
 import com.daria.realestate.domain.enums.AppointmentStatus;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Appointment {
     private Long id;
     private LocalDateTime madeAt;
     private LocalDateTime start;
     private LocalDateTime end;
-    private User user;
-    private Estate estate;
     private AppointmentStatus appointmentStatus;
+
+    private Estate estate;
+    private List<User> users;
 
     public Appointment() {
     }
@@ -48,14 +50,6 @@ public class Appointment {
         this.end = end;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public Estate getEstate() {
         return estate;
     }
@@ -70,5 +64,13 @@ public class Appointment {
 
     public void setAppointmentStatus(AppointmentStatus appointmentStatus) {
         this.appointmentStatus = appointmentStatus;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }

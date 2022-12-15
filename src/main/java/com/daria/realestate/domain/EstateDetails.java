@@ -13,6 +13,8 @@ public class EstateDetails {
     private LocalDate yearOfConstruction;
     private TypeOfEstate typeOfEstate;
 
+    private Estate estate;
+
     public EstateDetails() {
     }
 
@@ -70,5 +72,13 @@ public class EstateDetails {
 
     public void setTypeOfEstate(TypeOfEstate typeOfEstate) {
         this.typeOfEstate = typeOfEstate;
+    }
+
+    public Estate getEstate() {
+        return estate;
+    }
+
+    public void setEstate(Estate estate) {
+        this.estate = estate;
     }
 }

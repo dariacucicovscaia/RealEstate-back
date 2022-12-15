@@ -4,10 +4,11 @@ import java.time.LocalDate;
 
 public class Price {
     private Long id;
-    private Estate estate;
     private Long price;
     private LocalDate lastUpdatedAt;
     private String currency;
+
+    private Estate estate;
 
     public Price() {
     }

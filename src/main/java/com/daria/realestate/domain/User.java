@@ -4,10 +4,10 @@ import java.util.List;
 
 public class User {
     private Long id;
-    private Profile profile;
     private String email;
     private String password;
-    private List<Appointment> appointment;
+
+    private List<Appointment> appointment;// separate table
 
     public Long getId() {
         return id;
@@ -15,14 +15,6 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Profile getProfile() {
-        return profile;
-    }
-
-    public void setProfile(Profile profile) {
-        this.profile = profile;
     }
 
     public String getEmail() {

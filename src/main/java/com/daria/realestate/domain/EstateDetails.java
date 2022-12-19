@@ -3,6 +3,7 @@ package com.daria.realestate.domain;
 import com.daria.realestate.domain.enums.TypeOfEstate;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 
 public class EstateDetails {
     private int squareMeters;
@@ -80,5 +81,19 @@ public class EstateDetails {
 
     public void setEstate(Estate estate) {
         this.estate = estate;
+    }
+
+    @Override
+    public String toString() {
+        return "EstateDetails{" +
+                "squareMeters=" + squareMeters +
+                ", numberOfRooms=" + numberOfRooms +
+                ", numberOfBathRooms=" + numberOfBathRooms +
+                ", floorNumbers=" + Arrays.toString(floorNumbers) +
+                ", numberOfGarages=" + numberOfGarages +
+                ", yearOfConstruction=" + yearOfConstruction +
+                ", typeOfEstate=" + typeOfEstate +
+                ", estate=" + estate +
+                '}';
     }
 }

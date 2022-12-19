@@ -55,4 +55,14 @@ public class Estate {
         this.acquisitionStatus = acquisitionStatus;
     }
 
-   }
+    @Override
+    public String toString() {
+        return "Estate{" +
+                "id=" + id +
+                ", paymentTransactionType=" + paymentTransactionType +
+                ", acquisitionStatus=" + acquisitionStatus +
+                ", address=" + address +
+                ", owner=" + owner +
+                '}';
+    }
+}

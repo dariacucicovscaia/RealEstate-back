@@ -73,4 +73,17 @@ public class Appointment {
     public void setUsers(List<User> users) {
         this.users = users;
     }
+
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "id=" + id +
+                ", madeAt=" + madeAt +
+                ", start=" + start +
+                ", end=" + end +
+                ", appointmentStatus=" + appointmentStatus +
+                ", estate=" + estate +
+                ", users=" + users +
+                '}';
+    }
 }

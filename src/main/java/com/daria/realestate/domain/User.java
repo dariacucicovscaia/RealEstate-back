@@ -40,4 +40,14 @@ public class User {
     public void setAppointment(List<Appointment> appointment) {
         this.appointment = appointment;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", appointment=" + appointment +
+                '}';
+    }
 }

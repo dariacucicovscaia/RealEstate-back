@@ -59,4 +59,16 @@ public class Profile {
     public void setUser(User user) {
         this.user = user;
     }
+
+    @Override
+    public String toString() {
+        return "Profile{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phoneNr='" + phoneNr + '\'' +
+                ", address=" + address +
+                ", user=" + user +
+                '}';
+    }
 }

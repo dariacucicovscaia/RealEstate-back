@@ -15,6 +15,34 @@ public class Estate {
     public Estate() {
     }
 
+    public Estate(Long id, String paymentTransactionType, String acquisitionStatus) {
+        this.id = id;
+        this.paymentTransactionType = PaymentTransactionType.valueOf(paymentTransactionType);
+        this.acquisitionStatus = EstateStatus.valueOf(acquisitionStatus);
+    }
+    public Estate( String paymentTransactionType, String acquisitionStatus) {
+        this.paymentTransactionType = PaymentTransactionType.valueOf(paymentTransactionType);
+        this.acquisitionStatus = EstateStatus.valueOf(acquisitionStatus);
+    }
+
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
     public Long getId() {
         return id;
     }
@@ -31,21 +59,6 @@ public class Estate {
         this.paymentTransactionType = paymentTransactionType;
     }
 
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public User getOwner() {
-        return owner;
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
-    }
 
     public EstateStatus getAcquisitionStatus() {
         return acquisitionStatus;
@@ -61,8 +74,6 @@ public class Estate {
                 "id=" + id +
                 ", paymentTransactionType=" + paymentTransactionType +
                 ", acquisitionStatus=" + acquisitionStatus +
-                ", address=" + address +
-                ", owner=" + owner +
                 '}';
     }
 }

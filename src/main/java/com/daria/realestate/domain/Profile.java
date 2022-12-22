@@ -4,10 +4,10 @@ public class Profile {
     private Long id;
     private String firstName;
     private String lastName;
-    private String phoneNr;
+    private String phoneNumber;
 
-    private Address address;
-    private User user;
+//    private Address address;
+//    private User user;
 
     public Profile() {
     }
@@ -36,29 +36,15 @@ public class Profile {
         this.lastName = lastName;
     }
 
-    public String getPhoneNr() {
-        return phoneNr;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhoneNr(String phoneNr) {
-        this.phoneNr = phoneNr;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public Address getAddress() {
-        return address;
-    }
 
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     @Override
     public String toString() {
@@ -66,9 +52,7 @@ public class Profile {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", phoneNr='" + phoneNr + '\'' +
-                ", address=" + address +
-                ", user=" + user +
+                ", phoneNr='" + phoneNumber + '\'' +
                 '}';
     }
 }

@@ -3,13 +3,11 @@ package com.daria.realestate.domain;
 import com.daria.realestate.domain.enums.TypeOfEstate;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 
 public class EstateDetails {
     private int squareMeters;
     private int numberOfRooms;
     private int numberOfBathRooms;
-    private int[] floorNumbers;
     private int numberOfGarages;
     private LocalDate yearOfConstruction;
     private TypeOfEstate typeOfEstate;
@@ -43,13 +41,6 @@ public class EstateDetails {
         this.numberOfBathRooms = numberOfBathRooms;
     }
 
-    public int[] getFloorNumbers() {
-        return floorNumbers;
-    }
-
-    public void setFloorNumbers(int[] floorNumbers) {
-        this.floorNumbers = floorNumbers;
-    }
 
     public int getNumberOfGarages() {
         return numberOfGarages;
@@ -89,7 +80,6 @@ public class EstateDetails {
                 "squareMeters=" + squareMeters +
                 ", numberOfRooms=" + numberOfRooms +
                 ", numberOfBathRooms=" + numberOfBathRooms +
-                ", floorNumbers=" + Arrays.toString(floorNumbers) +
                 ", numberOfGarages=" + numberOfGarages +
                 ", yearOfConstruction=" + yearOfConstruction +
                 ", typeOfEstate=" + typeOfEstate +

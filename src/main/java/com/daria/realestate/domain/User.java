@@ -1,13 +1,27 @@
 package com.daria.realestate.domain;
 
-import java.util.List;
+
 
 public class User {
     private Long id;
     private String email;
     private String password;
+    //private List<Appointment> appointment;
 
-    private List<Appointment> appointment;// separate table
+    public User(Long id, String email, String password) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    public User() {
+    }
+
 
     public Long getId() {
         return id;
@@ -33,13 +47,6 @@ public class User {
         this.password = password;
     }
 
-    public List<Appointment> getAppointment() {
-        return appointment;
-    }
-
-    public void setAppointment(List<Appointment> appointment) {
-        this.appointment = appointment;
-    }
 
     @Override
     public String toString() {
@@ -47,7 +54,7 @@ public class User {
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", appointment=" + appointment +
+
                 '}';
     }
 }

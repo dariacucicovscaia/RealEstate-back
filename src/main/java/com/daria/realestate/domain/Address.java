@@ -9,6 +9,13 @@ public class Address {
     public Address() {
     }
 
+    public Address(Long id, String fullAddress, String city, String country) {
+        this.id = id;
+        this.fullAddress = fullAddress;
+        this.city = city;
+        this.country = country;
+    }
+
     public Long getId() {
         return id;
     }

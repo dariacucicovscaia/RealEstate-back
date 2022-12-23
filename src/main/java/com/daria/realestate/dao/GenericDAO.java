@@ -44,5 +44,12 @@ public interface GenericDAO<T> {
      */
     long removeById(long id);
 
-    List<T> paginate(PaginationFilter paginationFilter);
+    /**
+     * Paginates a filtered query
+     *
+     * @param selectSql        first part of the sql where we do the filtering and selection
+     * @param paginationFilter filter for using pagination
+     * @returnList paginated list of all filtered entities
+     */
+    List<T> paginateGivenQuery(String selectSql, PaginationFilter paginationFilter);
 }

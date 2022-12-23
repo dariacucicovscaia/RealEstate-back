@@ -9,6 +9,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class UserDAOImplTest {
@@ -40,7 +42,7 @@ public class UserDAOImplTest {
 
     @Test
     public void testInsertUser() {
-        User userToInsert = new User("userToInsert@mail.com", "123456qweasd");
+        User userToInsert = new User("userToInsert@mail.com", "123456qweasd", LocalDateTime.now());
 
         long createdUserId = userDAO.create(userToInsert);
 
@@ -57,7 +59,7 @@ public class UserDAOImplTest {
         String newPassword = "123456";
         User initialUser = userDAO.getById(1);
 
-        User updatedUser = userDAO.update(new User(1L, newEmail, newPassword), 1);
+        User updatedUser = userDAO.update(new User(1L, newEmail, newPassword, initialUser.getCreatedAt()), 1);
 
         Assert.assertEquals(newEmail, updatedUser.getEmail());
         Assert.assertEquals(newPassword, updatedUser.getPassword());
@@ -67,18 +69,35 @@ public class UserDAOImplTest {
 
     @Test
     public void testPageableUsersFetchByASCOrder() {
-        List<User> users = userDAO.paginate(new PaginationFilter(1, 5, "id", OrderBy.ASC));
+        String sqlStart = "select * from realestate.user ";
+        List<User> users = userDAO.paginateGivenQuery(sqlStart, new PaginationFilter(1, 5, "id", OrderBy.ASC));
 
         Assert.assertTrue(users.get(0).getId() < users.get(1).getId());
-        Assert.assertTrue(users.size() == 5);
+        Assert.assertTrue(users.size() <= 5);
     }
 
     @Test
     public void testPageableUsersFetchByDESCOrder() {
-        List<User> users = userDAO.paginate(new PaginationFilter(1, 5, "id", OrderBy.DESC));
+        String sqlStart = "select * from realestate.user ";
+        List<User> users = userDAO.paginateGivenQuery(sqlStart, new PaginationFilter(1, 5, "id", OrderBy.DESC));
 
         Assert.assertTrue(users.get(0).getId() > users.get(1).getId());
-        Assert.assertTrue(users.size() == 5);
+        Assert.assertTrue(users.size() <= 6);
+    }
+
+    @Test
+    public void testGetUsersCreatedBetweenTwoTimeSlots() {
+        LocalDateTime timeFrom = LocalDateTime.of(2019, 12, 24, 14, 33, 48, 123456789);
+        LocalDateTime timeTo = LocalDateTime.of(2021, 04, 24, 14, 33, 48, 123456789);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        List<User> users = userDAO.getUsersCreatedBetweenTwoTimeSlots(timeFrom.format(formatter),
+                                                             timeTo.format(formatter),
+                                                             new PaginationFilter(1, 5, "id", OrderBy.ASC));
+        for (User user : users) {
+            Assert.assertTrue(user.getCreatedAt().isAfter(timeFrom) && user.getCreatedAt().isBefore(timeTo));
+        }
+        Assert.assertTrue(users.size() <= 5);
+        Assert.assertTrue(users.get(0).getId() < users.get(1).getId() );
     }
 
 }

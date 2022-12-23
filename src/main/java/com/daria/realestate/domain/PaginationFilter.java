@@ -7,15 +7,7 @@ public class PaginationFilter {
     private int nrOfElementsWeWantDisplayed;
     private String columnWeWantOrdered;
     private OrderBy orderBy;
-    private String criteria;
 
-    public PaginationFilter(int pageNumber, int nrOfElementsWeWantDisplayed, String columnWeWantOrdered, OrderBy orderBy, String criteria) {
-        this.pageNumber = pageNumber;
-        this.nrOfElementsWeWantDisplayed = nrOfElementsWeWantDisplayed;
-        this.columnWeWantOrdered = columnWeWantOrdered;
-        this.orderBy = orderBy;
-        this.criteria = criteria;
-    }
 
     public PaginationFilter(int pageNumber, int nrOfElementsWeWantDisplayed, String columnWeWantOrdered, OrderBy orderBy) {
         this.pageNumber = pageNumber;
@@ -56,11 +48,5 @@ public class PaginationFilter {
         this.orderBy = orderBy;
     }
 
-    public String getCriteria() {
-        return criteria;
-    }
 
-    public void setCriteria(String criteria) {
-        this.criteria = criteria;
-    }
 }

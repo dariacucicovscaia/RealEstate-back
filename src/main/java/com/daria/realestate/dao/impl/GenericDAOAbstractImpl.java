@@ -45,7 +45,7 @@ public abstract class GenericDAOAbstractImpl<T> implements GenericDAO<T> {
                     field.setAccessible(true);
                     Object value = field.get(entity);
                     if (field.getType().getName().equals("int") || field.getType().getName().equals("Long") || field.getType().getName().equals("boolean")) {
-                        resultToBeUpdated +=  field.getName() + " = " + value + ",";
+                        resultToBeUpdated += field.getName() + " = " + value + ",";
                     } else {
                         resultToBeUpdated += "`" + field.getName() + "` = '" + value + "',";
                     }
@@ -110,23 +110,14 @@ public abstract class GenericDAOAbstractImpl<T> implements GenericDAO<T> {
     }
 
     @Override
-    public List<T> paginate(PaginationFilter paginationFilter) {
-        if (paginationFilter.getCriteria() == null) {
-            String sql = "select * from " + getTableName()
-                    + " order by " + paginationFilter.getColumnWeWantOrdered() + " " + paginationFilter.getOrderBy().name()
-                    + " limit " + paginationFilter.getNrOfElementsWeWantDisplayed()
-                    + " offset " + getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed()) + ";";
-            return setEntityValues(sql);
+    public List<T> paginateGivenQuery(String selectSql, PaginationFilter paginationFilter) {
 
-        } else {
-            String sql = "select * from " + getTableName() + " where \""
-                    + paginationFilter.getCriteria() + "\" in " + getColumns() + " "
-                    + " order by " + paginationFilter.getColumnWeWantOrdered() + " " + paginationFilter.getOrderBy().name()
-                    + " limit " + paginationFilter.getNrOfElementsWeWantDisplayed()
-                    + " offset " + getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed()) + ";";
+        String sql = selectSql
+                + " order by " + paginationFilter.getColumnWeWantOrdered() + " " + paginationFilter.getOrderBy().name()
+                + " limit " + paginationFilter.getNrOfElementsWeWantDisplayed()
+                + " offset " + getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed()) + ";";
 
-            return setEntityValues(sql);
-        }
+        return setEntityValues(sql);
     }
 
     private int getOffset(int pageNumber, int nrOfElementsWeWantDisplayed) {
@@ -144,7 +135,6 @@ public abstract class GenericDAOAbstractImpl<T> implements GenericDAO<T> {
         }
         columns = columns.substring(0, columns.length() - 1);
         columns += ")";
-        // (id,name,address,email)
         return columns;
     }
 
@@ -170,7 +160,6 @@ public abstract class GenericDAOAbstractImpl<T> implements GenericDAO<T> {
         }
         values = values.substring(0, values.length() - 1);
         values += ") ";
-        // VALUES (0,'Anton','mariaBiesu str 34','anton33@gmail.com', 1, 2)
         return values;
     }
 
@@ -187,7 +176,7 @@ public abstract class GenericDAOAbstractImpl<T> implements GenericDAO<T> {
                 for (Field field : fields) {
                     field.setAccessible(true);
                     String fieldName = field.getName();
-                    if (!field.getType().getName().matches("com.daria.realestate.domain." + field.getType().getSimpleName())){
+                    if (!field.getType().getName().matches("com.daria.realestate.domain." + field.getType().getSimpleName())) {
                         Object fieldValue = result.getObject(fieldName);
                         if (field.getType().isEnum()) {
                             Method valueOf = field.getType().getMethod("valueOf", String.class);

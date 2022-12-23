@@ -1,10 +1,10 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.EstateDAO;
-import com.daria.realestate.domain.enums.OrderBy;
-import com.daria.realestate.domain.PaginationFilter;
 import com.daria.realestate.domain.Estate;
+import com.daria.realestate.domain.PaginationFilter;
 import com.daria.realestate.domain.enums.EstateStatus;
+import com.daria.realestate.domain.enums.OrderBy;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
 import com.daria.realestate.util.DataBaseConnection;
 import org.junit.Assert;
@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
+
 
 public class EstateDAOImplTest {
     private EstateDAO<Estate> estateDAO;
@@ -23,10 +24,19 @@ public class EstateDAOImplTest {
 
     @Test
     public void shouldGetAllEstatesFilteredByPaymentTransactionType() {
+        int nrOfElementsWeWantDisplayed = 5;
         PaymentTransactionType paymentTransactionType = PaymentTransactionType.LEASE;
-        List<Estate> estateList = estateDAO.getAllEstatesFilteredByPaymentTransactionType(paymentTransactionType);
+        List<Estate> estateList = estateDAO.getAllEstatesFilteredByPaymentTransactionType(PaymentTransactionType.LEASE,
+                new PaginationFilter(1, nrOfElementsWeWantDisplayed, "id", OrderBy.ASC)
+        );
 
-        Assert.assertTrue(estateList.get(0).getPaymentTransactionType().equals(paymentTransactionType));
+        Assert.assertTrue(estateList.size() <= nrOfElementsWeWantDisplayed);
+        Assert.assertTrue(estateList.get(0).getId() < estateList.get(2).getId() );
+
+        for (Estate estate : estateList) {
+            Assert.assertTrue(estate.getPaymentTransactionType().equals(paymentTransactionType));
+        }
+
     }
 
     @Test(expected = NullPointerException.class)
@@ -77,20 +87,21 @@ public class EstateDAOImplTest {
         estateDAO.update(initialEstate, 1);
     }
 
+
     @Test
     public void testPageableEstateFetchByASCOrder() {
-        List<Estate> estates = estateDAO.paginate(new PaginationFilter(1, 5, "id", OrderBy.ASC, "SALE"));
-        for (Estate estate : estates) {
-            Assert.assertTrue(estate.getPaymentTransactionType().equals(PaymentTransactionType.SALE));
-        }
+        String sqlStart = "select * from realestate.estate ";
+        List<Estate> estates = estateDAO.paginateGivenQuery(sqlStart, new PaginationFilter(1, 5, "id", OrderBy.ASC));
+        Assert.assertTrue(estates.get(0).getId() < estates.get(1).getId());
+        Assert.assertTrue(estates.size() <= 5);
     }
 
     @Test
     public void testPageableEstateFetchByDESCOrder() {
-        List<Estate> estates = estateDAO.paginate(new PaginationFilter(1, 5, "id", OrderBy.DESC));
-
+        String sqlStart = "select * from realestate.estate ";
+        List<Estate> estates = estateDAO.paginateGivenQuery(sqlStart, new PaginationFilter(1, 5, "id", OrderBy.DESC));
         Assert.assertTrue(estates.get(0).getId() > estates.get(1).getId());
-        Assert.assertTrue(estates.size() == 5);
+        Assert.assertTrue(estates.size() <= 5);
     }
 
 }

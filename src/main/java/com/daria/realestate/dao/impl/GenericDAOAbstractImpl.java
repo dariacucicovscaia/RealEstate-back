@@ -3,6 +3,8 @@ package com.daria.realestate.dao.impl;
 import com.daria.realestate.dao.GenericDAO;
 import com.daria.realestate.domain.PaginationFilter;
 import com.daria.realestate.util.DataBaseConnection;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -13,11 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class GenericDAOAbstractImpl<T> implements GenericDAO<T> {
+    private static final Logger logger = LogManager.getLogger(GenericDAOAbstractImpl.class);
+
     private Class<T> entityClazz;
 
     private DataBaseConnection dataBaseConnection;
 
     protected GenericDAOAbstractImpl(DataBaseConnection dataBaseConnection, final Class<T> clazzToSet) {
+
         this.dataBaseConnection = dataBaseConnection;
         entityClazz = clazzToSet;
     }
@@ -61,9 +66,10 @@ public abstract class GenericDAOAbstractImpl<T> implements GenericDAO<T> {
 
         try (Statement statement = getConnection().createStatement()) {
             statement.executeUpdate(update);
+            logger.info("Entity updated");
             return entity;
-        } catch (
-                SQLException e) {
+        } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
 
@@ -71,16 +77,18 @@ public abstract class GenericDAOAbstractImpl<T> implements GenericDAO<T> {
 
     @Override
     public long create(T entity) {
-        String insert = "INSERT INTO " + getTableName() + "\r\n" + getColumns() + "\r\n" + getValuesToInsert(entity);
+        String insert = "INSERT INTO " + getTableName() + "  " + getColumns() + " VALUES (" + getValuesToInsert(entity) + " );";
 
         try (PreparedStatement preparedStatement = getConnection().prepareStatement(insert, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.executeUpdate();
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
             if (generatedKeys.next()) {
+                logger.info("Created entity, with generated id of: " + generatedKeys.getLong(generatedKeys.getRow()));
                 return generatedKeys.getLong(generatedKeys.getRow());
             } else return 0;
 
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
     }
@@ -90,10 +98,12 @@ public abstract class GenericDAOAbstractImpl<T> implements GenericDAO<T> {
         String sql = "SELECT *  FROM " + getTableName() + " WHERE id=" + id + " ;";
         List<T> entity = setEntityValues(sql);
 
-        if (entity.size() < 1) {
-            throw new NullPointerException();
-        } else {
+        if (!(entity.size() < 1)) {
+            logger.info("Entity "+ entity.get(0) + " extracted");
             return entity.get(0);
+        } else {
+            logger.error("No entity with the specified Id found!");
+            throw new NullPointerException();
         }
     }
 
@@ -105,12 +115,13 @@ public abstract class GenericDAOAbstractImpl<T> implements GenericDAO<T> {
             preparedStatement.executeUpdate(sql);
             return id;
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public List<T> paginateGivenQuery(String selectSql, PaginationFilter paginationFilter) {
+    public List<T> getAllPaginated(String selectSql, PaginationFilter paginationFilter) {
 
         String sql = selectSql
                 + " order by " + paginationFilter.getColumnWeWantOrdered() + " " + paginationFilter.getOrderBy().name()
@@ -140,7 +151,7 @@ public abstract class GenericDAOAbstractImpl<T> implements GenericDAO<T> {
 
     private String getValuesToInsert(T entity) {
         Field fields[] = entityClazz.getDeclaredFields();
-        String values = "VALUES (";
+        String values = "";
         for (Field field : fields) {
 
             if (!field.getName().equals("id") && !field.getType().getName().matches("com.daria.realestate.domain." + field.getType().getSimpleName())) {
@@ -159,7 +170,7 @@ public abstract class GenericDAOAbstractImpl<T> implements GenericDAO<T> {
             }
         }
         values = values.substring(0, values.length() - 1);
-        values += ") ";
+        logger.info("The values to be added to the table are: " + values);
         return values;
     }
 
@@ -167,7 +178,6 @@ public abstract class GenericDAOAbstractImpl<T> implements GenericDAO<T> {
         Field fields[] = entityClazz.getDeclaredFields();
         try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql);
              ResultSet result = preparedStatement.executeQuery()) {
-
             List<T> entityList = new ArrayList<>();
 
             while (result.next()) {
@@ -191,10 +201,11 @@ public abstract class GenericDAOAbstractImpl<T> implements GenericDAO<T> {
                 }
                 entityList.add(t);
             }
-
+            logger.info("Entity list contains " + entityList.size() + " elements");
             return entityList;
         } catch (SQLException | InstantiationException | IllegalAccessException | IllegalArgumentException |
                  InvocationTargetException | NoSuchMethodException | SecurityException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
     }

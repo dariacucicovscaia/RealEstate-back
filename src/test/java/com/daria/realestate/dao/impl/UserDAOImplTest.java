@@ -70,7 +70,7 @@ public class UserDAOImplTest {
     @Test
     public void testPageableUsersFetchByASCOrder() {
         String sqlStart = "select * from realestate.user ";
-        List<User> users = userDAO.paginateGivenQuery(sqlStart, new PaginationFilter(1, 5, "id", OrderBy.ASC));
+        List<User> users = userDAO.getAllPaginated(sqlStart, new PaginationFilter(1, 5, "id", OrderBy.ASC));
 
         Assert.assertTrue(users.get(0).getId() < users.get(1).getId());
         Assert.assertTrue(users.size() <= 5);
@@ -79,7 +79,7 @@ public class UserDAOImplTest {
     @Test
     public void testPageableUsersFetchByDESCOrder() {
         String sqlStart = "select * from realestate.user ";
-        List<User> users = userDAO.paginateGivenQuery(sqlStart, new PaginationFilter(1, 5, "id", OrderBy.DESC));
+        List<User> users = userDAO.getAllPaginated(sqlStart, new PaginationFilter(1, 5, "id", OrderBy.DESC));
 
         Assert.assertTrue(users.get(0).getId() > users.get(1).getId());
         Assert.assertTrue(users.size() <= 6);

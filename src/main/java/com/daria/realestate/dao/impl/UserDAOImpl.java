@@ -23,6 +23,6 @@ public class UserDAOImpl extends GenericDAOAbstractImpl<User> implements UserDAO
     public List<User> getUsersCreatedBetweenTwoTimeSlots(String startingDateTime, String endingDateTime,  PaginationFilter paginationFilter) {
         String sql = "select * from " + getTableName() + " where `createdAt` between \""
                 + startingDateTime + "\" and \"" + endingDateTime +"\"";
-        return paginateGivenQuery(sql, paginationFilter);
+        return getAllPaginated(sql, paginationFilter);
     }
 }

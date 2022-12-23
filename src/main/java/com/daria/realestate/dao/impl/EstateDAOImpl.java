@@ -17,7 +17,7 @@ public class EstateDAOImpl extends GenericDAOAbstractImpl<Estate> implements Est
     public List<Estate> getAllEstatesFilteredByPaymentTransactionType(PaymentTransactionType paymentTransactionType, PaginationFilter paginationfilter) {
         String sql = " SELECT * FROM realestate.estate WHERE paymentTransactionType = '" + paymentTransactionType.name() + "'" ;
 
-        return paginateGivenQuery(sql, paginationfilter);
+        return getAllPaginated(sql, paginationfilter);
     }
 
 

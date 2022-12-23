@@ -51,5 +51,5 @@ public interface GenericDAO<T> {
      * @param paginationFilter filter for using pagination
      * @returnList paginated list of all filtered entities
      */
-    List<T> paginateGivenQuery(String selectSql, PaginationFilter paginationFilter);
+    List<T> getAllPaginated(String selectSql, PaginationFilter paginationFilter);
 }

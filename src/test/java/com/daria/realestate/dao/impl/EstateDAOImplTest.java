@@ -91,7 +91,7 @@ public class EstateDAOImplTest {
     @Test
     public void testPageableEstateFetchByASCOrder() {
         String sqlStart = "select * from realestate.estate ";
-        List<Estate> estates = estateDAO.paginateGivenQuery(sqlStart, new PaginationFilter(1, 5, "id", OrderBy.ASC));
+        List<Estate> estates = estateDAO.getAllPaginated(sqlStart, new PaginationFilter(1, 5, "id", OrderBy.ASC));
         Assert.assertTrue(estates.get(0).getId() < estates.get(1).getId());
         Assert.assertTrue(estates.size() <= 5);
     }
@@ -99,7 +99,7 @@ public class EstateDAOImplTest {
     @Test
     public void testPageableEstateFetchByDESCOrder() {
         String sqlStart = "select * from realestate.estate ";
-        List<Estate> estates = estateDAO.paginateGivenQuery(sqlStart, new PaginationFilter(1, 5, "id", OrderBy.DESC));
+        List<Estate> estates = estateDAO.getAllPaginated(sqlStart, new PaginationFilter(1, 5, "id", OrderBy.DESC));
         Assert.assertTrue(estates.get(0).getId() > estates.get(1).getId());
         Assert.assertTrue(estates.size() <= 5);
     }

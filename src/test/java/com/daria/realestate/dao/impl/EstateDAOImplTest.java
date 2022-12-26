@@ -1,8 +1,7 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.EstateDAO;
-import com.daria.realestate.domain.Estate;
-import com.daria.realestate.domain.PaginationFilter;
+import com.daria.realestate.domain.*;
 import com.daria.realestate.domain.enums.EstateStatus;
 import com.daria.realestate.domain.enums.OrderBy;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
@@ -11,11 +10,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
 public class EstateDAOImplTest {
-    private EstateDAO<Estate> estateDAO;
+    private EstateDAO estateDAO;
 
     @Before
     public void init() {
@@ -23,85 +23,64 @@ public class EstateDAOImplTest {
     }
 
     @Test
-    public void shouldGetAllEstatesFilteredByPaymentTransactionType() {
+    public void testCreationOfEstate() {
+        Address address = new Address(11L, "Strada 31 August 1989", "Sangera", "Moldova");
+        User user = new User(6L, "dariacucicovscaia@email.com", "123456789");
+        Estate estate = new Estate("SALE", "OPEN", LocalDate.now(), LocalDate.now());
+        estate.setAddress(address);
+        estate.setOwner(user);
+
+        Estate createdEstate = estateDAO.createEstate(estate);
+
+        Assert.assertEquals(address.getId(), createdEstate.getAddress().getId());
+        Assert.assertEquals(user.getId(), createdEstate.getOwner().getId());
+
+        Assert.assertEquals(estate.getCreatedAt(), createdEstate.getCreatedAt());
+        Assert.assertEquals(estate.getPaymentTransactionType(), createdEstate.getPaymentTransactionType());
+        Assert.assertEquals(estate.getAcquisitionStatus(), createdEstate.getAcquisitionStatus());
+        Assert.assertEquals(estate.getLastUpdatedAt(), createdEstate.getLastUpdatedAt());
+        estateDAO.removeEstateById(createdEstate.getId());
+    }
+
+
+    @Test
+    public void shouldGetAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus() {
         int nrOfElementsWeWantDisplayed = 5;
         PaymentTransactionType paymentTransactionType = PaymentTransactionType.LEASE;
-        List<Estate> estateList = estateDAO.getAllEstatesFilteredByPaymentTransactionType(PaymentTransactionType.LEASE,
-                new PaginationFilter(1, nrOfElementsWeWantDisplayed, "id", OrderBy.ASC)
-        );
+        EstateStatus acquisitionStatus = EstateStatus.OPEN;
+        List<Estate> estateList = estateDAO.getAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(PaymentTransactionType.LEASE, EstateStatus.OPEN, new PaginationFilter(1, nrOfElementsWeWantDisplayed, "id", OrderBy.ASC));
 
         Assert.assertTrue(estateList.size() <= nrOfElementsWeWantDisplayed);
-        Assert.assertTrue(estateList.get(0).getId() < estateList.get(2).getId() );
+        Assert.assertTrue(estateList.get(0).getId() < estateList.get(2).getId());
 
         for (Estate estate : estateList) {
             Assert.assertTrue(estate.getPaymentTransactionType().equals(paymentTransactionType));
+            Assert.assertTrue(estate.getAcquisitionStatus().equals(acquisitionStatus));
         }
-
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void testGetUserByIdExpectNullPointerException() {
-        long id = 0;
-        estateDAO.getById(id);
     }
 
     @Test
-    public void testGetEstateByIdExpectEstateFound() {
-        Estate estate = estateDAO.getById(1);
-        Assert.assertNotNull(estate);
-        Assert.assertEquals(EstateStatus.ON_HOLD, estate.getAcquisitionStatus());
-        Assert.assertEquals(PaymentTransactionType.RENT, estate.getPaymentTransactionType());
-    }
+    public void shouldUpdateEstateAcquisitionStatus() {
+        Estate estate = estateDAO.getEstateById(1);
 
-    @Test
-    public void testGetAllEstates() {
-        Assert.assertNotNull(estateDAO.getAll());
-    }
+        EstateStatus previousStatus = estate.getAcquisitionStatus();
+        EstateStatus newStatus = EstateStatus.SOLD;
 
-    @Test
-    public void testInsertEstate() {
-        Estate estateToInsert = new Estate(1L, "RENT", "ON_HOLD");
-
-        long createdEstateId = estateDAO.create(estateToInsert);
-
-        Estate createdEstate = estateDAO.getById(createdEstateId);
-        Assert.assertEquals(estateToInsert.getPaymentTransactionType(), createdEstate.getPaymentTransactionType());
-        Assert.assertEquals(estateToInsert.getAcquisitionStatus(), createdEstate.getAcquisitionStatus());
-
-        estateDAO.removeById(createdEstateId);
-    }
-
-    @Test
-    public void testUpdateEstate() {
-        Estate initialEstate = estateDAO.getById(1);
-        EstateStatus oldStatus = initialEstate.getAcquisitionStatus();
-        EstateStatus newStatus = EstateStatus.OPEN;
-
-        initialEstate.setAcquisitionStatus(newStatus);
-        Estate updatedEstate = estateDAO.update(initialEstate, 1);
+        Estate updatedEstate = estateDAO.updateEstateAcquisitionStatus(estate.getId(), newStatus);
 
         Assert.assertEquals(newStatus, updatedEstate.getAcquisitionStatus());
+        Assert.assertEquals(estate.getPaymentTransactionType(), updatedEstate.getPaymentTransactionType());
+        Assert.assertEquals(estate.getId(), updatedEstate.getId());
+        Assert.assertEquals(estate.getCreatedAt(), updatedEstate.getCreatedAt());
+        Assert.assertEquals(estate.getLastUpdatedAt(), updatedEstate.getLastUpdatedAt());
 
-
-        initialEstate.setAcquisitionStatus(oldStatus);
-        estateDAO.update(initialEstate, 1);
+        estateDAO.updateEstateAcquisitionStatus(estate.getId(), previousStatus);
     }
-
-
     @Test
-    public void testPageableEstateFetchByASCOrder() {
-        String sqlStart = "select * from realestate.estate ";
-        List<Estate> estates = estateDAO.getAllPaginated(sqlStart, new PaginationFilter(1, 5, "id", OrderBy.ASC));
-        Assert.assertTrue(estates.get(0).getId() < estates.get(1).getId());
-        Assert.assertTrue(estates.size() <= 5);
-    }
+    public void shouldBeNullWhileTryingToUpdateEstateAcquisitionStatus() {
+        EstateStatus newStatus = EstateStatus.SOLD;
 
-    @Test
-    public void testPageableEstateFetchByDESCOrder() {
-        String sqlStart = "select * from realestate.estate ";
-        List<Estate> estates = estateDAO.getAllPaginated(sqlStart, new PaginationFilter(1, 5, "id", OrderBy.DESC));
-        Assert.assertTrue(estates.get(0).getId() > estates.get(1).getId());
-        Assert.assertTrue(estates.size() <= 5);
-    }
+        Assert.assertNull(estateDAO.updateEstateAcquisitionStatus(0, newStatus));
 
+    }
 }

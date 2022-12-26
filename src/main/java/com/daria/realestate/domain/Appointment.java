@@ -18,6 +18,24 @@ public class Appointment {
     public Appointment() {
     }
 
+    public Appointment(LocalDateTime madeAt, LocalDateTime start, LocalDateTime end, AppointmentStatus appointmentStatus, long estateId) {
+        this.madeAt = madeAt;
+        this.start = start;
+        this.end = end;
+        this.appointmentStatus = appointmentStatus;
+        setEstateId(estateId);
+    }
+
+    public Appointment(Long id, LocalDateTime madeAt, LocalDateTime start, LocalDateTime end, String appointmentStatus, long estateId) {
+        this.id = id;
+        ;
+        this.madeAt = madeAt;
+        this.start = start;
+        this.end = end;
+        this.appointmentStatus = AppointmentStatus.valueOf(appointmentStatus);
+        setEstateId(estateId);
+    }
+
     public Long getId() {
         return id;
     }
@@ -50,20 +68,25 @@ public class Appointment {
         this.end = end;
     }
 
-    public Estate getEstate() {
-        return estate;
-    }
-
-    public void setEstate(Estate estate) {
-        this.estate = estate;
-    }
-
     public AppointmentStatus getAppointmentStatus() {
         return appointmentStatus;
     }
 
     public void setAppointmentStatus(AppointmentStatus appointmentStatus) {
         this.appointmentStatus = appointmentStatus;
+    }
+
+    public Estate getEstate() {
+        return estate;
+    }
+
+    public void setEstateId(long id) {
+        this.estate = new Estate();
+        this.estate.setId(id);
+    }
+
+    public void setEstate(Estate estate) {
+        this.estate = estate;
     }
 
     public List<User> getUsers() {

@@ -3,26 +3,35 @@ package com.daria.realestate.domain;
 import com.daria.realestate.domain.enums.EstateStatus;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
 
+import java.time.LocalDate;
+
 
 public class Estate {
     private Long id;
     private PaymentTransactionType paymentTransactionType;
     private EstateStatus acquisitionStatus;
+    private LocalDate createdAt;
+    private LocalDate lastUpdatedAt;
 
     private Address address;
     private User owner;
 
+
     public Estate() {
     }
 
-    public Estate(Long id, String paymentTransactionType, String acquisitionStatus) {
+    public Estate(Long id, String paymentTransactionType, String acquisitionStatus, LocalDate createdAt, LocalDate lastUpdatedAt) {
         this.id = id;
         this.paymentTransactionType = PaymentTransactionType.valueOf(paymentTransactionType);
         this.acquisitionStatus = EstateStatus.valueOf(acquisitionStatus);
+        this.createdAt =createdAt;
+        this.lastUpdatedAt = lastUpdatedAt;
     }
-    public Estate( String paymentTransactionType, String acquisitionStatus) {
+    public Estate( String paymentTransactionType, String acquisitionStatus, LocalDate createdAt,LocalDate lastUpdatedAt) {
         this.paymentTransactionType = PaymentTransactionType.valueOf(paymentTransactionType);
         this.acquisitionStatus = EstateStatus.valueOf(acquisitionStatus);
+        this.createdAt =createdAt;
+        this.lastUpdatedAt = lastUpdatedAt;
     }
 
 
@@ -59,6 +68,21 @@ public class Estate {
         this.paymentTransactionType = paymentTransactionType;
     }
 
+    public LocalDate getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDate getLastUpdatedAt() {
+        return lastUpdatedAt;
+    }
+
+    public void setLastUpdatedAt(LocalDate lastUpdatedAt) {
+        this.lastUpdatedAt = lastUpdatedAt;
+    }
 
     public EstateStatus getAcquisitionStatus() {
         return acquisitionStatus;

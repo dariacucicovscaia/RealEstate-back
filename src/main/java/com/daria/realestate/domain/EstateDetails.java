@@ -11,10 +11,29 @@ public class EstateDetails {
     private int numberOfGarages;
     private LocalDate yearOfConstruction;
     private TypeOfEstate typeOfEstate;
-
     private Estate estate;
 
     public EstateDetails() {
+        this.estate = new Estate();
+    }
+
+    public EstateDetails(int squareMeters, int numberOfRooms, int numberOfBathRooms, int numberOfGarages, LocalDate yearOfConstruction, TypeOfEstate typeOfEstate) {
+        this.squareMeters = squareMeters;
+        this.numberOfRooms = numberOfRooms;
+        this.numberOfBathRooms = numberOfBathRooms;
+        this.numberOfGarages = numberOfGarages;
+        this.yearOfConstruction = yearOfConstruction;
+        this.typeOfEstate = typeOfEstate;
+    }
+
+    public EstateDetails(int squareMeters, int numberOfRooms, int numberOfBathRooms, int numberOfGarages, LocalDate yearOfConstruction, String typeOfEstate, Long estateId) {
+        this.squareMeters = squareMeters;
+        this.numberOfRooms = numberOfRooms;
+        this.numberOfBathRooms = numberOfBathRooms;
+        this.numberOfGarages = numberOfGarages;
+        this.yearOfConstruction = yearOfConstruction;
+        this.typeOfEstate = TypeOfEstate.valueOf(typeOfEstate);
+        setEstateId(estateId);
     }
 
     public int getSquareMeters() {
@@ -41,6 +60,18 @@ public class EstateDetails {
         this.numberOfBathRooms = numberOfBathRooms;
     }
 
+    public Estate getEstate() {
+        return estate;
+    }
+
+    public void setEstate(Estate estate) {
+        this.estate = estate;
+    }
+
+    public void setEstateId(long id) {
+        this.estate = new Estate();
+        this.estate.setId(id);
+    }
 
     public int getNumberOfGarages() {
         return numberOfGarages;
@@ -66,13 +97,6 @@ public class EstateDetails {
         this.typeOfEstate = typeOfEstate;
     }
 
-    public Estate getEstate() {
-        return estate;
-    }
-
-    public void setEstate(Estate estate) {
-        this.estate = estate;
-    }
 
     @Override
     public String toString() {
@@ -83,7 +107,6 @@ public class EstateDetails {
                 ", numberOfGarages=" + numberOfGarages +
                 ", yearOfConstruction=" + yearOfConstruction +
                 ", typeOfEstate=" + typeOfEstate +
-                ", estate=" + estate +
                 '}';
     }
 }

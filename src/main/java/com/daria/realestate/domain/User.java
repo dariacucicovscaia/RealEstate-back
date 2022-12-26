@@ -2,19 +2,18 @@ package com.daria.realestate.domain;
 
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class User {
     private Long id;
     private String email;
     private String password;
-    private LocalDateTime createdAt;
-    //private List<Appointment> appointment;
+    private List<Appointment> appointment;
 
-    public User(Long id, String email, String password, LocalDateTime createdAt) {
+    public User(Long id, String email, String password) {
         this.id = id;
         this.email = email;
         this.password = password;
-        this.createdAt = createdAt;
     }
 
     public User(String email, String password) {
@@ -28,7 +27,6 @@ public class User {
     public User(String email, String password, LocalDateTime createdAt) {
         this.email = email;
         this.password = password;
-        this.createdAt = createdAt;
     }
 
     public Long getId() {
@@ -55,13 +53,6 @@ public class User {
         this.password = password;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
 
     @Override
     public String toString() {

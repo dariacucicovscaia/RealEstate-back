@@ -1,14 +1,19 @@
 package com.daria.realestate.domain;
 
 
-import java.time.LocalDateTime;
+import com.daria.realestate.domain.enums.Roles;
+
+
 import java.util.List;
+import java.util.Set;
+//todo add role
 
 public class User {
     private Long id;
     private String email;
     private String password;
     private List<Appointment> appointment;
+    private Set<Roles> roles;
 
     public User(Long id, String email, String password) {
         this.id = id;
@@ -24,10 +29,6 @@ public class User {
     public User() {
     }
 
-    public User(String email, String password, LocalDateTime createdAt) {
-        this.email = email;
-        this.password = password;
-    }
 
     public Long getId() {
         return id;

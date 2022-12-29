@@ -24,20 +24,21 @@ public class EstateDetailsDAOImplTest {
 
     @Test
     public void testGetFilteredEstateDetailsByAllParameters() {
-        List<EstateDetails> estateDetails = estateDetailsDAO.getFilteredEstateDetailsByAllParameters(25, 3, 2, 1, LocalDate.parse("2003-12-02"), "OFFICE",
+        List<EstateDetails> estateDetailsList = estateDetailsDAO.getFilteredEstateDetailsByAllParameters(25, 3, 2, 1, LocalDate.parse("2003-12-02"), "OFFICE",
                 new PaginationFilter(1, 5, "estate_id", OrderBy.DESC));
-        //todo finish writing test
+        Assert.assertTrue(estateDetailsList.size() <= 5);
+        Assert.assertNotNull(estateDetailsList);
 
     }
 
-//todo fix estate id - unique key constraint
+
     @Test
     public void testCreationOfEstateDetails() {
         Estate estate = new Estate(99999L, "SALE", "OPEN", LocalDate.now(), LocalDate.now());
 
         EstateDetails estateDetails = new EstateDetails(25, 3, 2, 2, LocalDate.now(), TypeOfEstate.TOWNHOUSE);
         estateDetails.setEstate(estate);
-        EstateDetails createdEstateDetails = estateDetailsDAO.createEstateDetails(estateDetails);
+        EstateDetails createdEstateDetails = estateDetailsDAO.create(estateDetails);
 
         Assert.assertEquals(estate.getId(), createdEstateDetails.getEstate().getId());
         Assert.assertEquals(estateDetails.getSquareMeters(), createdEstateDetails.getSquareMeters());
@@ -47,6 +48,6 @@ public class EstateDetailsDAOImplTest {
         Assert.assertEquals(estateDetails.getNumberOfGarages(), createdEstateDetails.getNumberOfGarages());
         Assert.assertEquals(estateDetails.getYearOfConstruction(), createdEstateDetails.getYearOfConstruction());
 
-        estateDetailsDAO.removeEstateDetailsById(createdEstateDetails.getEstate().getId());
+        estateDetailsDAO.removeById(createdEstateDetails.getEstate().getId());
     }
 }

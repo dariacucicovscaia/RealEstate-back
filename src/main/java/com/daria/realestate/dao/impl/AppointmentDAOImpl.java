@@ -1,8 +1,7 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.AppointmentDAO;
-import com.daria.realestate.domain.Appointment;
-import com.daria.realestate.domain.User;
+import com.daria.realestate.domain.*;
 import com.daria.realestate.domain.enums.AppointmentStatus;
 import com.daria.realestate.util.DataBaseConnection;
 
@@ -19,8 +18,24 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
     private final String TABLE_COLUMN_APPOINTMENT_STATUS = "appointmentStatus";
     private final String TABLE_COLUMN_ESTATE_ID = "estate_id";
 
-    protected AppointmentDAOImpl(DataBaseConnection dataBaseConnection) {
+    public AppointmentDAOImpl(DataBaseConnection dataBaseConnection) {
         super(dataBaseConnection);
+    }
+
+    @Override
+    public List<Appointment> usersAppointmentsByAppointmentStatus(User user, AppointmentStatus appointmentStatus) {
+        String sql = "select a.* from user_appointment as ua " +
+                "inner join user as u on ua.user_id = u.id  " +
+                "inner join appointment as a on ua.appointment_id = a.id " +
+                "where u.id = " + user.getId() + " and appointmentStatus= \"" + appointmentStatus.name() + "\"";
+
+        try (PreparedStatement preparedStatement = DataBaseConnection.getConnection().prepareStatement(sql)) {
+
+            return setValuesFromResultSetIntoEntityList(preparedStatement.executeQuery());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @Override
@@ -33,8 +48,7 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
                         resultSet.getTimestamp(TABLE_COLUMN_MADE_AT).toLocalDateTime(),
                         resultSet.getTimestamp(TABLE_COLUMN_START).toLocalDateTime(),
                         resultSet.getTimestamp(TABLE_COLUMN_END).toLocalDateTime(),
-                        resultSet.getString(TABLE_COLUMN_APPOINTMENT_STATUS),
-                        resultSet.getLong(TABLE_COLUMN_ESTATE_ID)
+                        resultSet.getString(TABLE_COLUMN_APPOINTMENT_STATUS)
                 ));
             }
         } catch (SQLException e) {
@@ -44,25 +58,10 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
     }
 
     @Override
-    public Appointment createAppointment( Appointment appointment) {
-        StringBuilder sql = new StringBuilder("INSERT INTO ");
-        sql.append(TABLE_NAME);
-        sql.append(" (");
-        sql.append(TABLE_COLUMN_MADE_AT);
-        sql.append(", ");
-        sql.append(TABLE_COLUMN_START);
-        sql.append(", ");
-        sql.append(TABLE_COLUMN_END);
-        sql.append(", ");
-        sql.append(TABLE_COLUMN_APPOINTMENT_STATUS);
-        sql.append(", ");
-        sql.append(TABLE_COLUMN_ESTATE_ID);
-        sql.append(") ");
-        sql.append("VALUES(?,?,?,?,?);");
+    public Appointment create(Appointment appointment) {
+        String sql = "INSERT INTO " + TABLE_NAME + " (" + TABLE_COLUMN_MADE_AT + ", " + TABLE_COLUMN_START + ", " + TABLE_COLUMN_END + ", " + TABLE_COLUMN_APPOINTMENT_STATUS + ", " + TABLE_COLUMN_ESTATE_ID + ") " + "VALUES(?,?,?,?,?);";
 
-        try (PreparedStatement preparedStatement = DataBaseConnection
-                .getConnection()
-                .prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);) {
+        try (PreparedStatement preparedStatement = DataBaseConnection.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
 
             preparedStatement.setTimestamp(1, Timestamp.valueOf(appointment.getMadeAt()));
             preparedStatement.setTimestamp(2, Timestamp.valueOf(appointment.getStart()));
@@ -80,37 +79,13 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
         }
         return appointment;
     }
-//todo think about returning type
-    public long assignUserToAppointment(long userId, long appointmentId) {
-        StringBuilder userAppointmentSqlInsert = new StringBuilder("INSERT INTO user_appointment (user_id, appointment_id) VALUES(?,?) ");
-        try (PreparedStatement preparedStatement = DataBaseConnection
-                .getConnection()
-                .prepareStatement(userAppointmentSqlInsert.toString(), Statement.RETURN_GENERATED_KEYS)) {
 
-            preparedStatement.setLong(1,userId);
-            preparedStatement.setLong(2,appointmentId);
-
-
-            preparedStatement.executeUpdate();
-
-            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                return generatedKeys.getLong(1);
-            }
-            return 0;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
 
     @Override
-    public long removeAppointmentById(long id) {
-        StringBuilder sql = new StringBuilder("DELETE FROM ");
-        sql.append(TABLE_NAME);
-        sql.append(" WHERE id = ?;");
+    public long removeById(long id) {
+        String sql = "DELETE FROM " + TABLE_NAME + " WHERE id = ?;";
 
-        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql.toString())) {
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
 
@@ -121,39 +96,41 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
     }
 
     @Override
-    public Appointment updateAppointmentStatus(long id, AppointmentStatus newAppointmentStatus) {
-        StringBuilder sql = new StringBuilder("UPDATE ");
-        sql.append(TABLE_NAME);
-        sql.append(" SET appointmentStatus = ? WHERE id = ");
-        sql.append(id);
-        sql.append(";");
+    public Appointment update(Appointment appointment) {
+        String sql = "UPDATE " + TABLE_NAME + " SET appointmentStatus = ? WHERE id = " + appointment.getId() + ";";
 
-        try (PreparedStatement preparedStatement = DataBaseConnection.getConnection().prepareStatement(sql.toString())) {
-            preparedStatement.setString(1, String.valueOf(newAppointmentStatus));
+        try (PreparedStatement preparedStatement = DataBaseConnection.getConnection().prepareStatement(sql)) {
+            preparedStatement.setString(1, String.valueOf(appointment.getAppointmentStatus()));
+            preparedStatement.executeUpdate();
 
-            int updated = preparedStatement.executeUpdate();
-            if (updated == 1) {
-                return getAppointmentById(id);
-            } else {
-                return null;
-            }
+            return getById(appointment.getId());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public Appointment getAppointmentById(long id) {
+    public Appointment getById(long id) {
         try (Statement statement = DataBaseConnection.getConnection().createStatement()) {
-            StringBuilder sql = new StringBuilder("SELECT * FROM ");
-            sql.append(TABLE_NAME);
-            sql.append(" WHERE id = ");
-            sql.append(id);
-            sql.append(";");
-            ResultSet resultSet = statement.executeQuery(sql.toString());
+            String sql = "SELECT * FROM " + TABLE_NAME + " WHERE id = " + id + ";";
+            ResultSet resultSet = statement.executeQuery(sql);
 
             List<Appointment> estates = setValuesFromResultSetIntoEntityList(resultSet);
             return estates.get(0);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Appointment> getAppointmentsOfAnEstate(Estate estate, PaginationFilter paginationFilter) {
+        String sql = " select a.* from estate as e " +
+                " inner join appointment as a on a.estate_id = e.id " +
+                " where e.id = " + estate.getId() + "  limit " + paginationFilter.getNrOfElementsWeWantDisplayed() + " offset " +
+                                getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed()) + " ;";
+
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
+            return setValuesFromResultSetIntoEntityList(preparedStatement.executeQuery());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

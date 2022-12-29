@@ -6,8 +6,8 @@ public class Profile {
     private String lastName;
     private String phoneNumber;
 
-//    private Address address;
-//    private User user;
+    private Address address;
+    private User user;
 
     public Profile() {
     }

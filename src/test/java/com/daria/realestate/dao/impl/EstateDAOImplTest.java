@@ -26,11 +26,12 @@ public class EstateDAOImplTest {
     public void testCreationOfEstate() {
         Address address = new Address(11L, "Strada 31 August 1989", "Sangera", "Moldova");
         User user = new User(6L, "dariacucicovscaia@email.com", "123456789");
+
         Estate estate = new Estate("SALE", "OPEN", LocalDate.now(), LocalDate.now());
         estate.setAddress(address);
         estate.setOwner(user);
 
-        Estate createdEstate = estateDAO.createEstate(estate);
+        Estate createdEstate = estateDAO.create(estate);
 
         Assert.assertEquals(address.getId(), createdEstate.getAddress().getId());
         Assert.assertEquals(user.getId(), createdEstate.getOwner().getId());
@@ -39,7 +40,7 @@ public class EstateDAOImplTest {
         Assert.assertEquals(estate.getPaymentTransactionType(), createdEstate.getPaymentTransactionType());
         Assert.assertEquals(estate.getAcquisitionStatus(), createdEstate.getAcquisitionStatus());
         Assert.assertEquals(estate.getLastUpdatedAt(), createdEstate.getLastUpdatedAt());
-        estateDAO.removeEstateById(createdEstate.getId());
+        estateDAO.removeById(createdEstate.getId());
     }
 
 
@@ -61,12 +62,13 @@ public class EstateDAOImplTest {
 
     @Test
     public void shouldUpdateEstateAcquisitionStatus() {
-        Estate estate = estateDAO.getEstateById(1);
+        Estate estate = estateDAO.getById(1);
 
         EstateStatus previousStatus = estate.getAcquisitionStatus();
         EstateStatus newStatus = EstateStatus.SOLD;
 
-        Estate updatedEstate = estateDAO.updateEstateAcquisitionStatus(estate.getId(), newStatus);
+        estate.setAcquisitionStatus(newStatus);
+        Estate updatedEstate = estateDAO.update(estate);
 
         Assert.assertEquals(newStatus, updatedEstate.getAcquisitionStatus());
         Assert.assertEquals(estate.getPaymentTransactionType(), updatedEstate.getPaymentTransactionType());
@@ -74,13 +76,28 @@ public class EstateDAOImplTest {
         Assert.assertEquals(estate.getCreatedAt(), updatedEstate.getCreatedAt());
         Assert.assertEquals(estate.getLastUpdatedAt(), updatedEstate.getLastUpdatedAt());
 
-        estateDAO.updateEstateAcquisitionStatus(estate.getId(), previousStatus);
+        estate.setAcquisitionStatus(previousStatus);
+        estateDAO.update(estate);
+    }
+
+    @Test
+    public void shouldGetEstateAddress() {
+        Estate estate = estateDAO.getById(1);
+
+        Address estateAddress = estateDAO.getEstateAddress(estate);
+        Assert.assertNotNull(estateAddress);
+        Assert.assertEquals("29 Strada Sfatul Țării" , estateAddress.getFullAddress());
+        Assert.assertEquals("Chisinau" , estateAddress.getCity());
+        Assert.assertEquals("Moldova" , estateAddress.getCountry());
     }
     @Test
-    public void shouldBeNullWhileTryingToUpdateEstateAcquisitionStatus() {
-        EstateStatus newStatus = EstateStatus.SOLD;
+    public void shouldGetEstateOwner() {
+        Estate estate = estateDAO.getById(1);
 
-        Assert.assertNull(estateDAO.updateEstateAcquisitionStatus(0, newStatus));
+        User estateOwner = estateDAO.getEstateOwner(estate);
+        Assert.assertNotNull(estateOwner);
 
+        Assert.assertEquals("vlad@example.com" , estateOwner.getEmail());
+        Assert.assertEquals("123456qweasd" , estateOwner.getPassword());
     }
 }

@@ -2,13 +2,21 @@ package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.AppointmentDAO;
 import com.daria.realestate.domain.Appointment;
+import com.daria.realestate.domain.Estate;
+import com.daria.realestate.domain.PaginationFilter;
+import com.daria.realestate.domain.User;
 import com.daria.realestate.domain.enums.AppointmentStatus;
+import com.daria.realestate.domain.enums.EstateStatus;
+import com.daria.realestate.domain.enums.OrderBy;
+import com.daria.realestate.domain.enums.PaymentTransactionType;
 import com.daria.realestate.util.DataBaseConnection;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class AppointmentDAOImplTest {
 
@@ -25,39 +33,53 @@ public class AppointmentDAOImplTest {
         Appointment appointment = new Appointment(LocalDateTime.now(),
                 LocalDateTime.of(2022, 12, 27, 12, 10, 0),
                 LocalDateTime.of(2022, 12, 27, 13, 40, 0),
-                AppointmentStatus.CONFIRMED,
-                1L);
+                AppointmentStatus.CONFIRMED, new Estate(1L, PaymentTransactionType.LEASE.name(), EstateStatus.OPEN.name(), LocalDate.now(), LocalDate.now())
+        );
 
-        Appointment madeAppointment = appointmentDAO.createAppointment(appointment);
+        Appointment madeAppointment = appointmentDAO.create(appointment);
 
         Assert.assertEquals(appointment.getMadeAt(), madeAppointment.getMadeAt());
         Assert.assertEquals(appointment.getStart(), madeAppointment.getStart());
         Assert.assertEquals(appointment.getEnd(), madeAppointment.getEnd());
         Assert.assertEquals(appointment.getAppointmentStatus(), madeAppointment.getAppointmentStatus());
 
-        appointmentDAO.removeAppointmentById(madeAppointment.getId());
+        appointmentDAO.removeById(madeAppointment.getId());
     }
 
     @Test
     public void testAppointmentStatusUpdate() {
-        Appointment appointment = appointmentDAO.getAppointmentById(1);
+        Appointment appointment = appointmentDAO.getById(1);
+
         AppointmentStatus previousStatus = appointment.getAppointmentStatus();
         AppointmentStatus newStatus = AppointmentStatus.CONFIRMED;
-
-        Appointment updatedAppointment = appointmentDAO.updateAppointmentStatus(appointment.getId(), newStatus);
+        appointment.setAppointmentStatus(newStatus);
+        Appointment updatedAppointment = appointmentDAO.update(appointment);
 
         Assert.assertEquals(newStatus, updatedAppointment.getAppointmentStatus());
-        updatedAppointment = appointmentDAO.updateAppointmentStatus(appointment.getId(), previousStatus);
+        appointment.setAppointmentStatus(previousStatus);
+        updatedAppointment = appointmentDAO.update(appointment);
         Assert.assertEquals(previousStatus, updatedAppointment.getAppointmentStatus());
     }
+
     @Test
-    public void testAssignUserToAnAppointment(){
-       long generatedKey =  appointmentDAO.assignUserToAppointment(1L, 1L);
-       Assert.assertTrue(generatedKey != 0);
+    public void testGetUsersAppointmentsByAppointmentStatus() {
+        List<Appointment> appointments = appointmentDAO.usersAppointmentsByAppointmentStatus(new User(1L, "mariana@example.com", "123456"), AppointmentStatus.CANCELED);
+
+        appointments.forEach(System.out::println);
     }
+
     @Test
-    public void shouldReturnNullWhileTryingToUpdateAppointmentStatus(){
-        AppointmentStatus newStatus = AppointmentStatus.CONFIRMED;
-        Assert.assertNull(appointmentDAO.updateAppointmentStatus(0, newStatus));
+    public void shouldGetAllAppointmentsOfAnEstatePaginated(){
+        List<Appointment> appointments = appointmentDAO.getAppointmentsOfAnEstate(
+                new Estate(1L, PaymentTransactionType.LEASE.name(), EstateStatus.OPEN.name(), LocalDate.now(), LocalDate.now()),
+                new PaginationFilter(1, 5 , "id", OrderBy.ASC)
+        );
+
+        Assert.assertTrue(appointments.size() <= 5);
+
+       //todo add get
     }
+
+
+
 }

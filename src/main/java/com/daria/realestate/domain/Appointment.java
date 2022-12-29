@@ -18,22 +18,21 @@ public class Appointment {
     public Appointment() {
     }
 
-    public Appointment(LocalDateTime madeAt, LocalDateTime start, LocalDateTime end, AppointmentStatus appointmentStatus, long estateId) {
+    public Appointment(LocalDateTime madeAt, LocalDateTime start, LocalDateTime end, AppointmentStatus appointmentStatus, Estate estate) {
         this.madeAt = madeAt;
         this.start = start;
         this.end = end;
         this.appointmentStatus = appointmentStatus;
-        setEstateId(estateId);
+        this.estate = estate;
     }
 
-    public Appointment(Long id, LocalDateTime madeAt, LocalDateTime start, LocalDateTime end, String appointmentStatus, long estateId) {
+    public Appointment(Long id, LocalDateTime madeAt, LocalDateTime start, LocalDateTime end, String appointmentStatus) {
         this.id = id;
-        ;
         this.madeAt = madeAt;
         this.start = start;
         this.end = end;
         this.appointmentStatus = AppointmentStatus.valueOf(appointmentStatus);
-        setEstateId(estateId);
+
     }
 
     public Long getId() {
@@ -105,8 +104,6 @@ public class Appointment {
                 ", start=" + start +
                 ", end=" + end +
                 ", appointmentStatus=" + appointmentStatus +
-                ", estate=" + estate +
-                ", users=" + users +
                 '}';
     }
 }

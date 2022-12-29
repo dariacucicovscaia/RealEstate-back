@@ -1,13 +1,15 @@
 package com.daria.realestate.dao;
 
+import com.daria.realestate.domain.Address;
 import com.daria.realestate.domain.Estate;
 import com.daria.realestate.domain.PaginationFilter;
+import com.daria.realestate.domain.User;
 import com.daria.realestate.domain.enums.EstateStatus;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
 
 import java.util.List;
 
-public interface EstateDAO extends AbstractDAO<Estate> {
+public interface EstateDAO extends DAO<Estate> {
 
     /**
      * gets all the Estates by the specified type and paginates them
@@ -18,18 +20,13 @@ public interface EstateDAO extends AbstractDAO<Estate> {
      */
     List<Estate> getAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(PaymentTransactionType paymentTransactionType, EstateStatus acquisitionStatus, PaginationFilter paginationFilter);
 
-     Estate updateEstateAcquisitionStatus(long id, EstateStatus acquisitionStatus);
-
     /**
-     * Creates an estate
-     *
-     * @param estate that we want to create
-     * @return created estate with the generated id
+     * Update estate
+     * @param estate to be updated with the new Values set
+     * @return
      */
-    Estate createEstate(Estate estate);
-
-
-    Estate getEstateById(long id);
-
-    long removeEstateById(long id);
+    Estate update(Estate estate);
+    //todo add comments
+    User getEstateOwner(Estate estate);
+    Address getEstateAddress(Estate estate);
 }

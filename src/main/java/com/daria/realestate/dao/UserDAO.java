@@ -1,24 +1,16 @@
 package com.daria.realestate.dao;
 
-import com.daria.realestate.domain.Appointment;
 import com.daria.realestate.domain.User;
 
-public interface UserDAO extends AbstractDAO<User> {
-    /**
-     * Inserts a user into the db
-     *
-     * @param user to be inserted
-     * @return user with the generated id
-     */
-    User insertUser(User user);
+public interface UserDAO extends DAO<User> {
 
     /**
-     * Updates the user
+     * Method used for entity update
      *
-     * @param user to be updated, with the new fields
-     * @return updated User
+     * @param user to be updated
+     * @return updated user
      */
-    User updateUser(User user);
+    User update(User user);
 
     /**
      * Gets the user by email
@@ -30,8 +22,11 @@ public interface UserDAO extends AbstractDAO<User> {
 
     /**
      * Removes user by email
+     *
      * @param email email to be used by removing
      * @return id of the removed User
      */
     long removeByEmail(String email);
+
+
 }

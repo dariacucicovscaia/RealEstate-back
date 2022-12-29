@@ -28,9 +28,9 @@ public class UserDAOImplTest {
 
     @Test
     public void testInsertUser() {
-        User userToInsert = new User("userToInsert@mail.com", "123456qweasd");
+        User userToInsert = new User("userToInsertAndRemoveByEmail@mail.com", "123456qweasd");
 
-        User createdUser = userDAO.insertUser(userToInsert);
+        User createdUser = userDAO.create(userToInsert);
 
         Assert.assertEquals(userToInsert.getEmail(), createdUser.getEmail());
         Assert.assertEquals(userToInsert.getPassword(), createdUser.getPassword());
@@ -39,17 +39,29 @@ public class UserDAOImplTest {
     }
 
     @Test
+    public void testInsertUserAndRemoveById() {
+        User userToInsert = new User("userToInsertAndRemoveById@mail.com", "123456qweasd");
+
+        User createdUser = userDAO.create(userToInsert);
+
+        Assert.assertEquals(userToInsert.getEmail(), createdUser.getEmail());
+        Assert.assertEquals(userToInsert.getPassword(), createdUser.getPassword());
+
+        userDAO.removeById(createdUser.getId());
+    }
+
+    @Test
     public void testUpdateUser() {
         String newEmail = "updatedEmail@example.com";
         String newPassword = "123456";
         User initialUser = userDAO.getUserByEmail("mariana@example.com");
 
-        User updatedUser = userDAO.updateUser(new User(1L, newEmail, newPassword));
+        User updatedUser = userDAO.update(new User(1L, newEmail, newPassword));
 
         Assert.assertEquals(newEmail, updatedUser.getEmail());
         Assert.assertEquals(newPassword, updatedUser.getPassword());
 
-        userDAO.updateUser(initialUser);
+        userDAO.update(initialUser);
     }
 
     @Test
@@ -57,6 +69,13 @@ public class UserDAOImplTest {
         String newEmail = "updatedEmail@example.com";
         String newPassword = "123456";
 
-        Assert.assertNull(userDAO.updateUser(new User(0L, newEmail, newPassword)));
+        Assert.assertNull(userDAO.update(new User(0L, newEmail, newPassword)));
+    }
+
+    @Test
+    public void testGetById() {
+        long id = 1;
+        long idOfTheUserById = userDAO.getById(id).getId();
+        Assert.assertEquals(id, idOfTheUserById);
     }
 }

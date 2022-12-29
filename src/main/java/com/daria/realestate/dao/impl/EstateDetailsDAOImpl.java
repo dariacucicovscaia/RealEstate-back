@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EstateDetailsDAOImpl extends AbstractDAOImpl<EstateDetails> implements EstateDetailsDAO {
-
     private final String TABLE_NAME = "realestate.estate_details";
     private final String TABLE_COLUMN_SQUARE_METERS = "squareMeters";
     private final String TABLE_COLUMN_NUMBER_OF_ROOMS = "numberOfRooms";
@@ -36,8 +35,7 @@ public class EstateDetailsDAOImpl extends AbstractDAOImpl<EstateDetails> impleme
                         resultSet.getInt(TABLE_COLUMN_NUMBER_OF_BATHROOMS),
                         resultSet.getInt(TABLE_COLUMN_NUMBER_OF_GARAGES),
                         resultSet.getDate(TABLE_COLUMN_YEAR_OF_CONSTRUCTION).toLocalDate(),
-                        resultSet.getString(TABLE_COLUMN_TYPE_OF_ESTATE),
-                        resultSet.getLong(TABLE_COLUMN_ESTATE_ID)
+                        resultSet.getString(TABLE_COLUMN_TYPE_OF_ESTATE)
                 ));
             }
         } catch (SQLException e) {
@@ -46,23 +44,10 @@ public class EstateDetailsDAOImpl extends AbstractDAOImpl<EstateDetails> impleme
         return estateDetails;
     }
 
-    public EstateDetails createEstateDetails(EstateDetails estateDetails) {
-        StringBuilder sql = new StringBuilder("INSERT INTO ");
-        sql.append(TABLE_NAME);
-        sql.append(" (");
-        sql.append(TABLE_COLUMN_SQUARE_METERS); sql.append(", ");
-        sql.append(TABLE_COLUMN_NUMBER_OF_ROOMS); sql.append(", ");
-        sql.append(TABLE_COLUMN_NUMBER_OF_BATHROOMS); sql.append(", ");
-        sql.append(TABLE_COLUMN_NUMBER_OF_GARAGES); sql.append(", ");
-        sql.append(TABLE_COLUMN_YEAR_OF_CONSTRUCTION); sql.append(", ");
-        sql.append(TABLE_COLUMN_TYPE_OF_ESTATE); sql.append(", ");
-        sql.append(TABLE_COLUMN_ESTATE_ID); sql.append(") ");
-        sql.append("VALUES(?,?,?,?,?,?,?);");
+    public EstateDetails create(EstateDetails estateDetails) {
+        String sql = "INSERT INTO " + TABLE_NAME + " (" + TABLE_COLUMN_SQUARE_METERS + ", " + TABLE_COLUMN_NUMBER_OF_ROOMS + ", " + TABLE_COLUMN_NUMBER_OF_BATHROOMS + ", " + TABLE_COLUMN_NUMBER_OF_GARAGES + ", " + TABLE_COLUMN_YEAR_OF_CONSTRUCTION + ", " + TABLE_COLUMN_TYPE_OF_ESTATE + ", " + TABLE_COLUMN_ESTATE_ID + ") " + "VALUES(?,?,?,?,?,?,?);";
 
-        try (PreparedStatement preparedStatement = DataBaseConnection
-                .getConnection()
-                .prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);) {
-
+        try (PreparedStatement preparedStatement = DataBaseConnection.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
             preparedStatement.setInt(1, estateDetails.getSquareMeters());
             preparedStatement.setInt(2, estateDetails.getNumberOfRooms());
             preparedStatement.setInt(3, estateDetails.getNumberOfBathRooms());
@@ -72,7 +57,6 @@ public class EstateDetailsDAOImpl extends AbstractDAOImpl<EstateDetails> impleme
             preparedStatement.setLong(7, estateDetails.getEstate().getId());
 
             preparedStatement.executeUpdate();
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -80,26 +64,21 @@ public class EstateDetailsDAOImpl extends AbstractDAOImpl<EstateDetails> impleme
     }
 
     public List<EstateDetails> getFilteredEstateDetailsByAllParameters(int squareMeters, int numberOfRooms, int numberOfBathRooms, int numberOfGarages, LocalDate yearOfConstruction, String typeOfEstate, PaginationFilter paginationFilter) {
-        StringBuilder sql = new StringBuilder("select * from ");
-        sql.append(TABLE_NAME);
-        sql.append(" where squareMeters = "); sql.append(squareMeters);
-        sql.append(" and numberOfRooms = "); sql.append(numberOfRooms);
-        sql.append(" and numberOfBathRooms="); sql.append(numberOfBathRooms);
-        sql.append(" and numberOfGarages="); sql.append(numberOfGarages);
-        sql.append(" and yearOfConstruction=\""); sql.append(Date.valueOf(yearOfConstruction));
-        sql.append("\" and typeOfEstate like '%"); sql.append(typeOfEstate);
-        sql.append("%'");
+        String sql = "select * from " + TABLE_NAME + " where squareMeters = " + squareMeters + " and numberOfRooms = " + numberOfRooms + " and numberOfBathRooms=" + numberOfBathRooms + " and numberOfGarages=" + numberOfGarages + " and yearOfConstruction=\"" + Date.valueOf(yearOfConstruction) + "\" and typeOfEstate like '%" + typeOfEstate + "%'" + "  limit " + paginationFilter.getNrOfElementsWeWantDisplayed() + " offset " + getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed()) + ";";
 
-        return getAllPaginated(sql.toString(), paginationFilter);
-
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
+            return setValuesFromResultSetIntoEntityList(preparedStatement.executeQuery());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
-    @Override
-    public long removeEstateDetailsById(long id) {
-        StringBuilder sql = new StringBuilder("DELETE FROM ");
-        sql.append(TABLE_NAME);
-        sql.append(" WHERE estate_id = ?;");
 
-        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql.toString())) {
+
+    @Override
+    public long removeById(long id) {
+        String sql = "DELETE FROM " + TABLE_NAME + " WHERE estate_id = ?;";
+
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
 
@@ -107,5 +86,19 @@ public class EstateDetailsDAOImpl extends AbstractDAOImpl<EstateDetails> impleme
             throw new RuntimeException(e);
         }
         return id;
+    }
+
+
+    @Override
+    public EstateDetails getById(long id) {
+        try (Statement statement = DataBaseConnection.getConnection().createStatement()) {
+            String sql = "SELECT * FROM " + TABLE_NAME + " WHERE id = " + id + ";";
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            List<EstateDetails> estateDetails = setValuesFromResultSetIntoEntityList(resultSet);
+            return estateDetails.get(0);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

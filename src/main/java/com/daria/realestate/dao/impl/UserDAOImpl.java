@@ -16,26 +16,17 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
 
     private final String TABLE_NAME = "realestate.user";
     private final String TABLE_COLUMN_ID = "id";
-    private final String TABLE_COLUMN_EMAIL = "email";
-    private final String TABLE_COLUMN_PASSWORD = "password";
 
     public UserDAOImpl(DataBaseConnection dataBaseConnection) {
         super(dataBaseConnection);
     }
 
-    @Override
-    public User insertUser(User user) {
-        StringBuilder sql = new StringBuilder("INSERT INTO ");
-        sql.append(TABLE_NAME);
-        sql.append(" (");
-        sql.append(TABLE_COLUMN_EMAIL);
-        sql.append(", ");
-        sql.append(TABLE_COLUMN_PASSWORD);
-        sql.append(") VALUES(?,?);");
 
-        try (PreparedStatement preparedStatement = DataBaseConnection
-                .getConnection()
-                .prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS)) {
+    @Override
+    public User create(User user) {
+        String sql = "INSERT INTO " + TABLE_NAME + " (email, password) VALUES(?,?);";
+
+        try (PreparedStatement preparedStatement = DataBaseConnection.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             preparedStatement.setString(1, user.getEmail());
             preparedStatement.setString(2, user.getPassword());
@@ -45,18 +36,17 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
             if (generatedKeys.next()) {
                 user.setId(generatedKeys.getLong(1));
             }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
         return user;
     }
 
     @Override
-    public User updateUser(User user) {
-        String sql = "UPDATE " + TABLE_NAME + " SET  "
-                + TABLE_COLUMN_EMAIL + " = ?, "
-                + TABLE_COLUMN_PASSWORD + " = ? " +
-                " WHERE id = " + user.getId() + ";";
+    public User update(User user) {
+        String sql = "UPDATE " + TABLE_NAME + " SET  email = ?, password  = ? WHERE id = " + user.getId() + ";";
         try (PreparedStatement preparedStatement = DataBaseConnection.getConnection().prepareStatement(sql)) {
             preparedStatement.setString(1, user.getEmail());
             preparedStatement.setString(2, user.getPassword());
@@ -64,7 +54,7 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
             int updated = preparedStatement.executeUpdate();
             if (updated == 1) {
                 return user;
-            }else{
+            } else {
                 return null;
             }
         } catch (SQLException e) {
@@ -74,14 +64,10 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
 
     @Override
     public User getUserByEmail(String email) {
-        StringBuilder sql = new StringBuilder("SELECT * FROM ");
-        sql.append(TABLE_NAME);
-        sql.append(" WHERE email = '");
-        sql.append(email);
-        sql.append("';");
+        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE email = '" + email + "';";
 
         try (Statement statement = DataBaseConnection.getConnection().createStatement()) {
-            ResultSet resultSet = statement.executeQuery(sql.toString());
+            ResultSet resultSet = statement.executeQuery(sql);
 
             return setValuesFromResultSetIntoEntityList(resultSet).get(0);
         } catch (SQLException e) {
@@ -92,13 +78,12 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
 
     @Override
     public long removeByEmail(String email) {
-        StringBuilder sql = new StringBuilder("DELETE FROM ");
-        sql.append(TABLE_NAME);
-        sql.append(" WHERE email = ?;");
+        String sql = "DELETE FROM " + TABLE_NAME + " WHERE email = ?;";
         long idOfTheUser = getUserByEmail(email).getId();
-        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql.toString())) {
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
             preparedStatement.setString(1, email);
             preparedStatement.executeUpdate();
+            logger.info("User with the email = " + email + " has been removed");
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -106,21 +91,47 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
         return idOfTheUser;
     }
 
+    @Override
+    public User getById(long id) {
+        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE id = '" + id + "';";
+
+        try (Statement statement = DataBaseConnection.getConnection().createStatement()) {
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            return setValuesFromResultSetIntoEntityList(resultSet).get(0);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @Override
+    public long removeById(long id) {
+        String sql = "DELETE FROM " + TABLE_NAME + " WHERE id = ? ;";
+
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
+            preparedStatement.setLong(1, id);
+            preparedStatement.executeUpdate();
+            logger.info("User with the id = " + id + " has been removed");
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return id;
+    }
 
     @Override
     protected List<User> setValuesFromResultSetIntoEntityList(ResultSet resultSet) {
         List<User> users = new ArrayList<>();
         try {
             while (resultSet.next()) {
-                users.add(new User(
-                        resultSet.getLong(TABLE_COLUMN_ID),
-                        resultSet.getString(TABLE_COLUMN_EMAIL),
-                        resultSet.getString(TABLE_COLUMN_PASSWORD)
-                ));
+                users.add(new User(resultSet.getLong(TABLE_COLUMN_ID), resultSet.getString("email"), resultSet.getString("password")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return users;
     }
+
+
 }

@@ -14,7 +14,6 @@ public class EstateDetails {
     private Estate estate;
 
     public EstateDetails() {
-        this.estate = new Estate();
     }
 
     public EstateDetails(int squareMeters, int numberOfRooms, int numberOfBathRooms, int numberOfGarages, LocalDate yearOfConstruction, TypeOfEstate typeOfEstate) {
@@ -26,14 +25,13 @@ public class EstateDetails {
         this.typeOfEstate = typeOfEstate;
     }
 
-    public EstateDetails(int squareMeters, int numberOfRooms, int numberOfBathRooms, int numberOfGarages, LocalDate yearOfConstruction, String typeOfEstate, Long estateId) {
+    public EstateDetails(int squareMeters, int numberOfRooms, int numberOfBathRooms, int numberOfGarages, LocalDate yearOfConstruction, String typeOfEstate) {
         this.squareMeters = squareMeters;
         this.numberOfRooms = numberOfRooms;
         this.numberOfBathRooms = numberOfBathRooms;
         this.numberOfGarages = numberOfGarages;
         this.yearOfConstruction = yearOfConstruction;
         this.typeOfEstate = TypeOfEstate.valueOf(typeOfEstate);
-        setEstateId(estateId);
     }
 
     public int getSquareMeters() {
@@ -66,11 +64,6 @@ public class EstateDetails {
 
     public void setEstate(Estate estate) {
         this.estate = estate;
-    }
-
-    public void setEstateId(long id) {
-        this.estate = new Estate();
-        this.estate.setId(id);
     }
 
     public int getNumberOfGarages() {

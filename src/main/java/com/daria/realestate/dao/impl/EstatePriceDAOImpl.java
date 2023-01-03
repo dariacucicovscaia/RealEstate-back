@@ -42,7 +42,7 @@ public class EstatePriceDAOImpl extends AbstractDAOImpl<EstatePrice> implements 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return price;
+        return getById(price.getId());
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.AddressDAO;
 import com.daria.realestate.domain.Address;
-import com.daria.realestate.domain.Profile;
 import com.daria.realestate.util.DataBaseConnection;
 
 import java.sql.PreparedStatement;

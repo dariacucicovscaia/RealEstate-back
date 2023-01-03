@@ -79,7 +79,7 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return appointment;
+        return getById(appointment.getId());
     }
 
 

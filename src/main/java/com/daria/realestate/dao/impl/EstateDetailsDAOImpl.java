@@ -64,7 +64,10 @@ public class EstateDetailsDAOImpl extends AbstractDAOImpl<EstateDetails> impleme
     }
 
     public List<EstateDetails> getFilteredEstateDetailsByAllParameters(int squareMeters, int numberOfRooms, int numberOfBathRooms, int numberOfGarages, LocalDate yearOfConstruction, String typeOfEstate, PaginationFilter paginationFilter) {
-        String sql = "select * from " + TABLE_NAME + " where squareMeters = " + squareMeters + " and numberOfRooms = " + numberOfRooms + " and numberOfBathRooms=" + numberOfBathRooms + " and numberOfGarages=" + numberOfGarages + " and yearOfConstruction=\"" + Date.valueOf(yearOfConstruction) + "\" and typeOfEstate like '%" + typeOfEstate + "%'" + "  limit " + paginationFilter.getNrOfElementsWeWantDisplayed() + " offset " + getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed()) + ";";
+        String sql = "select * from " + TABLE_NAME + " where squareMeters = " + squareMeters + " and numberOfRooms = " + numberOfRooms +
+                " and numberOfBathRooms=" + numberOfBathRooms + " and numberOfGarages=" + numberOfGarages + " and yearOfConstruction=\""
+                + Date.valueOf(yearOfConstruction) + "\" and typeOfEstate like '%" + typeOfEstate + "%'"
+                + "  limit " + paginationFilter.getNrOfElementsWeWantDisplayed() + " offset " + getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed()) + ";";
 
         try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
             return setValuesFromResultSetIntoEntityList(preparedStatement.executeQuery());

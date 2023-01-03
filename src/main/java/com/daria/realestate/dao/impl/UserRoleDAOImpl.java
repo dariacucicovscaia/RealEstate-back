@@ -56,7 +56,7 @@ public class UserRoleDAOImpl extends AbstractDAOImpl<UserRole> implements UserRo
             throw new RuntimeException(e);
         }
 
-        return userRole;
+        return getById(userRole.getId());
     }
 
     @Override

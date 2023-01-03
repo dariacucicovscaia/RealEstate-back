@@ -135,7 +135,7 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return estate;
+        return getById(estate.getId());
     }
 
     @Override

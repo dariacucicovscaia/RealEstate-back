@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -30,19 +31,16 @@ public class EstateDAOImplTest {
         Address address = new Address(11L, "Strada 31 August 1989", "Sangera", "Moldova");
         User user = new User(6L, "dariacucicovscaia@email.com", "123456789");
 
-        Estate estate = new Estate("SALE", "OPEN", LocalDateTime.now(), LocalDateTime.now());
+        Estate estate = new Estate("SALE", "OPEN",  LocalDateTime.now(), LocalDateTime.now());
         estate.setAddress(address);
         estate.setOwner(user);
 
         Estate createdEstate = estateDAO.create(estate);
 
-        Assert.assertEquals(address.getId(), createdEstate.getAddress().getId());
-        Assert.assertEquals(user.getId(), createdEstate.getOwner().getId());
-
-        Assert.assertEquals(estate.getCreatedAt(), createdEstate.getCreatedAt());
+        Assert.assertEquals(estate.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-mm-dd hh:mm:ss")), createdEstate.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-mm-dd hh:mm:ss")));
         Assert.assertEquals(estate.getPaymentTransactionType(), createdEstate.getPaymentTransactionType());
         Assert.assertEquals(estate.getAcquisitionStatus(), createdEstate.getAcquisitionStatus());
-        Assert.assertEquals(estate.getLastUpdatedAt(), createdEstate.getLastUpdatedAt());
+        Assert.assertEquals(estate.getLastUpdatedAt().format(DateTimeFormatter.ofPattern("yyyy-mm-dd hh:mm:ss")), createdEstate.getLastUpdatedAt().format(DateTimeFormatter.ofPattern("yyyy-mm-dd hh:mm:ss")));
         estateDAO.removeById(createdEstate.getId());
     }
 

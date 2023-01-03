@@ -29,7 +29,7 @@ public class AppointmentDAOImplTest {
 
     @Test
     public void testCreationOfAppointment() {
-        Appointment appointment = new Appointment(LocalDateTime.now(),
+        Appointment appointment = new Appointment( LocalDateTime.of(2022, 12, 27, 12, 10, 0),
                 LocalDateTime.of(2022, 12, 27, 12, 10, 0),
                 LocalDateTime.of(2022, 12, 27, 13, 40, 0),
                 AppointmentStatus.CONFIRMED, new Estate(1L, PaymentTransactionType.LEASE.name(), AcquisitionStatus.OPEN.name(), LocalDateTime.now(), LocalDateTime.now())

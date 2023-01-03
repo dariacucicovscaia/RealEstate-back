@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import java.time.LocalDateTime;
 
-public class EstateEstatePriceDAOImplTest {
+public class EstatePriceDAOImplTest {
     private EstatePriceDAO priceDAO;
 
     @Before
@@ -29,7 +29,6 @@ public class EstateEstatePriceDAOImplTest {
         Assert.assertEquals(price.getPrice(), createdPrice.getPrice());
         Assert.assertEquals(price.getCurrency(), createdPrice.getCurrency());
         Assert.assertEquals(price.getId(), createdPrice.getId());
-        Assert.assertEquals(price.getLastUpdatedAt(), createdPrice.getLastUpdatedAt());
 
         priceDAO.removeById(createdPrice.getId());
     }

@@ -21,8 +21,6 @@ public class UserAppointmentDAOImpl extends AbstractDAOImpl<UserAppointment> imp
         super(dataBaseConnection);
     }
 
-    // todo add service
-    // todo remove StringBuilder
     @Override
     public UserAppointment create(UserAppointment userAppointment) {
         String userAppointmentSqlInsert = "INSERT INTO user_appointment (user_id, appointment_id) VALUES(?,?) ";
@@ -43,7 +41,7 @@ public class UserAppointmentDAOImpl extends AbstractDAOImpl<UserAppointment> imp
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return userAppointment;
+        return getById(userAppointment.getId());
     }
 
     @Override

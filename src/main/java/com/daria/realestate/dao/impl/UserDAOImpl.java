@@ -41,7 +41,7 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
             throw new RuntimeException(e);
         }
 
-        return user;
+        return getById(user.getId());
     }
 
     @Override

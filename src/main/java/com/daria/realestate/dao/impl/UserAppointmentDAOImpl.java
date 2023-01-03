@@ -75,6 +75,7 @@ public class UserAppointmentDAOImpl extends AbstractDAOImpl<UserAppointment> imp
     @Override
     protected List<UserAppointment> setValuesFromResultSetIntoEntityList(ResultSet resultSet) {
         List<UserAppointment> userAppointments = new ArrayList<>();
+
         try {
             //todo think about this
             while (resultSet.next()) {

@@ -1,9 +1,8 @@
 package com.daria.realestate.domain;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class Price {
+public class EstatePrice {
     private Long id;
     private Long price;
     private LocalDateTime lastUpdatedAt;
@@ -11,17 +10,17 @@ public class Price {
 
     private Estate estate;
 
-    public Price() {
+    public EstatePrice() {
     }
 
-    public Price(Long id, Long price, LocalDateTime lastUpdatedAt, String currency) {
+    public EstatePrice(Long id, Long price, LocalDateTime lastUpdatedAt, String currency) {
         this.id = id;
         this.price = price;
         this.lastUpdatedAt = lastUpdatedAt;
         this.currency = currency;
     }
 
-    public Price(Long price, LocalDateTime lastUpdatedAt, String currency, Estate estate) {
+    public EstatePrice(Long price, LocalDateTime lastUpdatedAt, String currency, Estate estate) {
         this.price = price;
         this.lastUpdatedAt = lastUpdatedAt;
         this.currency = currency;
@@ -70,7 +69,7 @@ public class Price {
 
     @Override
     public String toString() {
-        return "Price{" +
+        return "EstatePrice{" +
                 "id=" + id +
                 ", price=" + price +
                 ", lastUpdatedAt=" + lastUpdatedAt +

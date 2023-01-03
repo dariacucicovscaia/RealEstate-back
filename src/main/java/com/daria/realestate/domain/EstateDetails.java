@@ -34,6 +34,16 @@ public class EstateDetails {
         this.typeOfEstate = TypeOfEstate.valueOf(typeOfEstate);
     }
 
+    public EstateDetails(int squareMeters, int numberOfRooms, int numberOfBathRooms, int numberOfGarages, LocalDate yearOfConstruction, TypeOfEstate typeOfEstate, Estate estate) {
+        this.squareMeters = squareMeters;
+        this.numberOfRooms = numberOfRooms;
+        this.numberOfBathRooms = numberOfBathRooms;
+        this.numberOfGarages = numberOfGarages;
+        this.yearOfConstruction = yearOfConstruction;
+        this.typeOfEstate = typeOfEstate;
+        this.estate = estate;
+    }
+
     public int getSquareMeters() {
         return squareMeters;
     }

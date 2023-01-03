@@ -5,7 +5,6 @@ import com.daria.realestate.dao.impl.*;
 import com.daria.realestate.domain.Appointment;
 import com.daria.realestate.domain.User;
 import com.daria.realestate.domain.UserAppointment;
-import com.daria.realestate.util.DataBaseConnection;
 
 public class UserAppointmentServiceImpl {
 
@@ -13,14 +12,14 @@ public class UserAppointmentServiceImpl {
     private final AppointmentDAO appointmentDAO;
     private final UserAppointmentDAO userAppointmentDAO;
 
-    public UserAppointmentServiceImpl() {
-        this.userDAO = new UserDAOImpl(DataBaseConnection.getInstance());
-        this.appointmentDAO = new AppointmentDAOImpl(DataBaseConnection.getInstance());
-        this.userAppointmentDAO = new UserAppointmentDAOImpl(DataBaseConnection.getInstance());
+    public UserAppointmentServiceImpl(UserDAOImpl userDAO, AppointmentDAOImpl appointmentDAO, UserAppointmentDAOImpl userAppointmentDAO) {
+        this.userDAO = userDAO;
+        this.appointmentDAO = appointmentDAO;
+        this.userAppointmentDAO = userAppointmentDAO;
 
     }
 
-    //todo revise return type
+    //todo return type into appointmentDTO
 
     public String createAppointment(Appointment appointment, User user) {
         if(userDAO.getUserByEmail(user.getEmail()) != null ){

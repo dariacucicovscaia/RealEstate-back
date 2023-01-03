@@ -23,11 +23,13 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
     }
 
     @Override
-    public List<Appointment> usersAppointmentsByAppointmentStatus(User user, AppointmentStatus appointmentStatus) {
-        String sql = "select a.* from user_appointment as ua " +
-                "inner join user as u on ua.user_id = u.id  " +
-                "inner join appointment as a on ua.appointment_id = a.id " +
-                "where u.id = " + user.getId() + " and appointmentStatus= \"" + appointmentStatus.name() + "\"";
+    public List<Appointment> usersAppointmentsByAppointmentStatus(User user, AppointmentStatus appointmentStatus, PaginationFilter paginationFilter) {
+        String sql = " select a.* from user_appointment as ua " +
+                " inner join user as u on ua.user_id = u.id  " +
+                " inner join appointment as a on ua.appointment_id = a.id " +
+                " where u.id = " + user.getId() + " and appointmentStatus= \"" + appointmentStatus.name() + "\"" +
+                "  limit " + paginationFilter.getNrOfElementsWeWantDisplayed() + " offset " +
+                getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed()) ;
 
         try (PreparedStatement preparedStatement = DataBaseConnection.getConnection().prepareStatement(sql)) {
 
@@ -126,8 +128,9 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
     public List<Appointment> getAppointmentsOfAnEstate(Estate estate, PaginationFilter paginationFilter) {
         String sql = " select a.* from estate as e " +
                 " inner join appointment as a on a.estate_id = e.id " +
-                " where e.id = " + estate.getId() + "  limit " + paginationFilter.getNrOfElementsWeWantDisplayed() + " offset " +
-                                getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed()) + " ;";
+                " where e.id = " + estate.getId()
+                + "  limit " + paginationFilter.getNrOfElementsWeWantDisplayed() + " offset " +
+                                getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed()) ;
 
         try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
             return setValuesFromResultSetIntoEntityList(preparedStatement.executeQuery());

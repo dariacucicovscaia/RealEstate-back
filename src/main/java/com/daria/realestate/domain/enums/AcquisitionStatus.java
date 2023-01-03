@@ -1,6 +1,6 @@
 package com.daria.realestate.domain.enums;
 
-public enum EstateStatus {
+public enum AcquisitionStatus {
     /**
      * The estate is open for buyers
      */

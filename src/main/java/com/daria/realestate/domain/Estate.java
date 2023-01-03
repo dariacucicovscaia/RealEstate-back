@@ -1,17 +1,17 @@
 package com.daria.realestate.domain;
 
-import com.daria.realestate.domain.enums.EstateStatus;
+import com.daria.realestate.domain.enums.AcquisitionStatus;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 public class Estate {
     private Long id;
     private PaymentTransactionType paymentTransactionType;
-    private EstateStatus acquisitionStatus;
-    private LocalDate createdAt;
-    private LocalDate lastUpdatedAt;
+    private AcquisitionStatus acquisitionStatus;
+    private LocalDateTime createdAt;
+    private LocalDateTime lastUpdatedAt;
 
     private Address address;
     private User owner;
@@ -20,16 +20,26 @@ public class Estate {
     public Estate() {
     }
 
-    public Estate(Long id, String paymentTransactionType, String acquisitionStatus, LocalDate createdAt, LocalDate lastUpdatedAt) {
+    public Estate(Long id, String paymentTransactionType, String acquisitionStatus, LocalDateTime createdAt, LocalDateTime lastUpdatedAt) {
         this.id = id;
         this.paymentTransactionType = PaymentTransactionType.valueOf(paymentTransactionType);
-        this.acquisitionStatus = EstateStatus.valueOf(acquisitionStatus);
+        this.acquisitionStatus = AcquisitionStatus.valueOf(acquisitionStatus);
         this.createdAt =createdAt;
         this.lastUpdatedAt = lastUpdatedAt;
     }
-    public Estate( String paymentTransactionType, String acquisitionStatus, LocalDate createdAt,LocalDate lastUpdatedAt) {
+
+    public Estate(PaymentTransactionType paymentTransactionType, AcquisitionStatus acquisitionStatus, LocalDateTime createdAt, LocalDateTime lastUpdatedAt, Address address, User owner) {
+        this.paymentTransactionType = paymentTransactionType;
+        this.acquisitionStatus = acquisitionStatus;
+        this.createdAt = createdAt;
+        this.lastUpdatedAt = lastUpdatedAt;
+        this.address = address;
+        this.owner = owner;
+    }
+
+    public Estate(String paymentTransactionType, String acquisitionStatus, LocalDateTime createdAt, LocalDateTime lastUpdatedAt) {
         this.paymentTransactionType = PaymentTransactionType.valueOf(paymentTransactionType);
-        this.acquisitionStatus = EstateStatus.valueOf(acquisitionStatus);
+        this.acquisitionStatus = AcquisitionStatus.valueOf(acquisitionStatus);
         this.createdAt =createdAt;
         this.lastUpdatedAt = lastUpdatedAt;
     }
@@ -68,27 +78,27 @@ public class Estate {
         this.paymentTransactionType = paymentTransactionType;
     }
 
-    public LocalDate getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDate getLastUpdatedAt() {
+    public LocalDateTime getLastUpdatedAt() {
         return lastUpdatedAt;
     }
 
-    public void setLastUpdatedAt(LocalDate lastUpdatedAt) {
+    public void setLastUpdatedAt(LocalDateTime lastUpdatedAt) {
         this.lastUpdatedAt = lastUpdatedAt;
     }
 
-    public EstateStatus getAcquisitionStatus() {
+    public AcquisitionStatus getAcquisitionStatus() {
         return acquisitionStatus;
     }
 
-    public void setAcquisitionStatus(EstateStatus acquisitionStatus) {
+    public void setAcquisitionStatus(AcquisitionStatus acquisitionStatus) {
         this.acquisitionStatus = acquisitionStatus;
     }
 

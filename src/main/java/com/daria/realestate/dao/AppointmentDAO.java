@@ -10,10 +10,22 @@ import java.util.List;
 
 
 public interface AppointmentDAO extends DAO<Appointment> {
-    //todo add comments javaDoc
+    /**
+     * Update appointment
+     *
+     * @param appointment - appointment to be updated
+     * @return updated appointment
+     */
     Appointment update(Appointment appointment);
 
-    List<Appointment> usersAppointmentsByAppointmentStatus(User user, AppointmentStatus appointmentStatus);
+    /**
+     * Gets all users appointments
+     * @param user
+     * @param appointmentStatus
+     * @return
+     */
+
+    List<Appointment> usersAppointmentsByAppointmentStatus(User user, AppointmentStatus appointmentStatus, PaginationFilter paginationFilter);
 
     List<Appointment> getAppointmentsOfAnEstate(Estate estate, PaginationFilter paginationFilter);
 }

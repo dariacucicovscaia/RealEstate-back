@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class EstateDetailsDAOImplTest {
@@ -34,7 +35,7 @@ public class EstateDetailsDAOImplTest {
 
     @Test
     public void testCreationOfEstateDetails() {
-        Estate estate = new Estate(99999L, "SALE", "OPEN", LocalDate.now(), LocalDate.now());
+        Estate estate = new Estate(99999L, "SALE", "OPEN", LocalDateTime.now(), LocalDateTime.now());
 
         EstateDetails estateDetails = new EstateDetails(25, 3, 2, 2, LocalDate.now(), TypeOfEstate.TOWNHOUSE);
         estateDetails.setEstate(estate);

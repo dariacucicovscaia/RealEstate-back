@@ -6,7 +6,7 @@ import com.daria.realestate.domain.Estate;
 import com.daria.realestate.domain.PaginationFilter;
 import com.daria.realestate.domain.User;
 import com.daria.realestate.domain.enums.AppointmentStatus;
-import com.daria.realestate.domain.enums.EstateStatus;
+import com.daria.realestate.domain.enums.AcquisitionStatus;
 import com.daria.realestate.domain.enums.OrderBy;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
 import com.daria.realestate.util.DataBaseConnection;
@@ -14,7 +14,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -33,7 +32,7 @@ public class AppointmentDAOImplTest {
         Appointment appointment = new Appointment(LocalDateTime.now(),
                 LocalDateTime.of(2022, 12, 27, 12, 10, 0),
                 LocalDateTime.of(2022, 12, 27, 13, 40, 0),
-                AppointmentStatus.CONFIRMED, new Estate(1L, PaymentTransactionType.LEASE.name(), EstateStatus.OPEN.name(), LocalDate.now(), LocalDate.now())
+                AppointmentStatus.CONFIRMED, new Estate(1L, PaymentTransactionType.LEASE.name(), AcquisitionStatus.OPEN.name(), LocalDateTime.now(), LocalDateTime.now())
         );
 
         Appointment madeAppointment = appointmentDAO.create(appointment);
@@ -63,15 +62,19 @@ public class AppointmentDAOImplTest {
 
     @Test
     public void testGetUsersAppointmentsByAppointmentStatus() {
-        List<Appointment> appointments = appointmentDAO.usersAppointmentsByAppointmentStatus(new User(1L, "mariana@example.com", "123456"), AppointmentStatus.CANCELED);
+        List<Appointment> appointments = appointmentDAO.usersAppointmentsByAppointmentStatus(new User(1L, "mariana@example.com", "123456")
+                ,AppointmentStatus.SCHEDULED,   new PaginationFilter(1, 5 , "id", OrderBy.ASC));
 
-        appointments.forEach(System.out::println);
+        Assert.assertTrue(appointments.size() <= 5);
+        for(Appointment appointment :appointments){
+            Assert.assertEquals(AppointmentStatus.SCHEDULED ,appointment.getAppointmentStatus());
+        }
     }
 
     @Test
     public void shouldGetAllAppointmentsOfAnEstatePaginated(){
         List<Appointment> appointments = appointmentDAO.getAppointmentsOfAnEstate(
-                new Estate(1L, PaymentTransactionType.LEASE.name(), EstateStatus.OPEN.name(), LocalDate.now(), LocalDate.now()),
+                new Estate(1L, PaymentTransactionType.LEASE.name(), AcquisitionStatus.OPEN.name(), LocalDateTime.now(), LocalDateTime.now()),
                 new PaginationFilter(1, 5 , "id", OrderBy.ASC)
         );
 

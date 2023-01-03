@@ -1,12 +1,12 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.EstateDAO;
-import com.daria.realestate.domain.Address;
 import com.daria.realestate.domain.Estate;
 import com.daria.realestate.domain.PaginationFilter;
-import com.daria.realestate.domain.User;
-import com.daria.realestate.domain.enums.EstateStatus;
+import com.daria.realestate.domain.enums.AcquisitionStatus;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
+import com.daria.realestate.domain.enums.TypeOfEstate;
+import com.daria.realestate.dto.EstateDTO;
 import com.daria.realestate.util.DataBaseConnection;
 
 import java.sql.*;
@@ -28,7 +28,7 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
     private final String TABLE_COLUMN_OWNER_ID = "owner_id";
 
     @Override
-    public List<Estate> getAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(PaymentTransactionType paymentTransactionType, EstateStatus acquisitionStatus, PaginationFilter paginationFilter) {
+    public List<Estate> getAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(PaymentTransactionType paymentTransactionType, AcquisitionStatus acquisitionStatus, PaginationFilter paginationFilter) {
         String sql = " SELECT * FROM realestate.estate WHERE paymentTransactionType = '"
                 + paymentTransactionType.name() + "' and acquisitionStatus = '" + acquisitionStatus
                 + "'  limit " + paginationFilter.getNrOfElementsWeWantDisplayed() + " offset " +
@@ -42,37 +42,56 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
         }
     }
 
+    //todo is unuseful because we can select estate with user and address in another way and maybe add objects with are in relations one to one with estate
+    //todo parameter only id
+    //todo single responsibility
     @Override
-    public User getEstateOwner(Estate estate) {
-        String sql = " select u.* from user as u "
-                + " inner join estate as e on u.id = e.owner_id "
-                + " where e.id = " + estate.getId() + " ;";
+    public EstateDTO getAllEstateDetails(long id) {
+        EstateDTO estateDTO = new EstateDTO();
+        String sql = " select  " +
+                " e.paymentTransactionType, e.acquisitionStatus, e.createdAt, e.lastUpdatedAt, " +
+                " ed.squareMeters, ed.numberOfRooms, ed.numberOfBathrooms, ed.numberOfGarages, ed.yearOfConstruction, ed.typeOfEstate, " +
+                " a.fullAddress, a.city, a.country, " +
+                " u.email , p.firstName, p.lastName, p.phoneNumber," +
+                " price.price, price.lastUpdatedAt as lastPriceUpdate, price,concurrency " +
+                " from estate as e  " +
+                " inner join user as u on u.id = e.owner_id " +
+                " inner join profile as p on p.user_id = u.id " +
+                " inner join estate_details as ed on e.id = ed.estate_id " +
+                " inner join address as a on e.address_id = a.id " +
+                " inner join price on price.estate_id = e.id " +
 
-        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            User user = null;
+                " where e.id = " + id + " ;";
+
+        try (Statement statement = getConnection().createStatement()) {
+            ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
-                user = new User(resultSet.getLong("id"), resultSet.getString("email"), resultSet.getString("password"));
-            }
-            return user;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+                estateDTO.setPaymentTransactionType(PaymentTransactionType.valueOf(resultSet.getString("paymentTransactionType")));
+                estateDTO.setAcquisitionStatus(AcquisitionStatus.valueOf(resultSet.getString("acquisitionStatus")));
+                estateDTO.setCreatedAt(resultSet.getTimestamp("createdAt").toLocalDateTime());
+                estateDTO.setLastUpdatedAt(resultSet.getTimestamp("lastUpdatedAt").toLocalDateTime());
 
-    @Override
-    public Address getEstateAddress(Estate estate) {
-        String sql = " select a.* from address as a "
-                + " inner join estate as e on a.id = e.address_id "
-                + " where e.id = " + estate.getId() + " ;";
+                estateDTO.setSquareMeters(resultSet.getInt("squareMeters"));
+                estateDTO.setNumberOfRooms(resultSet.getInt("numberOfRooms"));
+                estateDTO.setNumberOfBathRooms(resultSet.getInt("numberOfBathRooms"));
+                estateDTO.setNumberOfGarages(resultSet.getInt("numberOfGarages"));
+                estateDTO.setYearOfConstruction(resultSet.getDate("yearOfConstruction").toLocalDate());
+                estateDTO.setTypeOfEstate(TypeOfEstate.valueOf(resultSet.getString("typeOfEstate")));
 
-        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            Address address = null;
-            while (resultSet.next()) {
-                address = new Address(resultSet.getLong(TABLE_COLUMN_ID), resultSet.getString("fullAddress"), resultSet.getString("city"), resultSet.getString("country"));
+                estateDTO.setFullAddress(resultSet.getString("fullAddress"));
+                estateDTO.setCity(resultSet.getString("city"));
+                estateDTO.setCountry(resultSet.getString("country"));
+
+                estateDTO.setEmail(resultSet.getString("email"));
+                estateDTO.setFirstName(resultSet.getString("firstName"));
+                estateDTO.setLastName(resultSet.getString("lastName"));
+                estateDTO.setPhoneNumber(resultSet.getString("phoneNumber"));
+
+                estateDTO.setPrice(resultSet.getLong("price"));
+                estateDTO.setCurrency(resultSet.getString("concurrency"));
+                estateDTO.setLastPriceUpdatedAt(resultSet.getTimestamp("lastPriceUpdate").toLocalDateTime());
             }
-            return address;
+            return estateDTO;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -85,8 +104,8 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
         try (PreparedStatement preparedStatement = DataBaseConnection.getConnection().prepareStatement(sql)) {
             preparedStatement.setString(1, String.valueOf(estate.getAcquisitionStatus()));
             preparedStatement.setString(2, String.valueOf(estate.getPaymentTransactionType()));
-            preparedStatement.setDate(3, Date.valueOf(estate.getCreatedAt()));
-            preparedStatement.setDate(4, Date.valueOf(estate.getLastUpdatedAt()));
+            preparedStatement.setTimestamp(3, Timestamp.valueOf(estate.getCreatedAt()));
+            preparedStatement.setTimestamp(4, Timestamp.valueOf(estate.getLastUpdatedAt()));
 
             preparedStatement.executeUpdate();
 
@@ -102,8 +121,8 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
         try (PreparedStatement preparedStatement = DataBaseConnection.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, estate.getPaymentTransactionType().name());
             preparedStatement.setString(2, estate.getAcquisitionStatus().name());
-            preparedStatement.setDate(3, Date.valueOf(estate.getCreatedAt()));
-            preparedStatement.setDate(4, Date.valueOf(estate.getLastUpdatedAt()));
+            preparedStatement.setTimestamp(3, Timestamp.valueOf(estate.getCreatedAt()));
+            preparedStatement.setTimestamp(4, Timestamp.valueOf(estate.getLastUpdatedAt()));
             preparedStatement.setLong(5, estate.getAddress().getId());
             preparedStatement.setLong(6, estate.getOwner().getId());
 
@@ -128,8 +147,8 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
                         resultSet.getLong(TABLE_COLUMN_ID),
                         resultSet.getString(TABLE_COLUMN_PAYMENT_TRANSACTION_TYPE),
                         resultSet.getString(TABLE_COLUMN_ACQUISITION_STATUS),
-                        resultSet.getDate(TABLE_COLUMN_CREATED_AT).toLocalDate(),
-                        resultSet.getDate(TABLE_COLUMN_LAST_UPDATED_AT).toLocalDate()));
+                        resultSet.getTimestamp(TABLE_COLUMN_CREATED_AT).toLocalDateTime(),
+                        resultSet.getTimestamp(TABLE_COLUMN_LAST_UPDATED_AT).toLocalDateTime()));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

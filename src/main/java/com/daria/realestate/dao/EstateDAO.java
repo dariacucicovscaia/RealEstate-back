@@ -1,11 +1,10 @@
 package com.daria.realestate.dao;
 
-import com.daria.realestate.domain.Address;
 import com.daria.realestate.domain.Estate;
 import com.daria.realestate.domain.PaginationFilter;
-import com.daria.realestate.domain.User;
-import com.daria.realestate.domain.enums.EstateStatus;
+import com.daria.realestate.domain.enums.AcquisitionStatus;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
+import com.daria.realestate.dto.EstateDTO;
 
 import java.util.List;
 
@@ -18,15 +17,20 @@ public interface EstateDAO extends DAO<Estate> {
      * @param paginationFilter       filter for using pagination
      * @return List of all the paginated estates
      */
-    List<Estate> getAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(PaymentTransactionType paymentTransactionType, EstateStatus acquisitionStatus, PaginationFilter paginationFilter);
-
+    List<Estate> getAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(PaymentTransactionType paymentTransactionType, AcquisitionStatus acquisitionStatus, PaginationFilter paginationFilter);
     /**
      * Update estate
+     *
      * @param estate to be updated with the new Values set
      * @return
      */
     Estate update(Estate estate);
-    //todo add comments
-    User getEstateOwner(Estate estate);
-    Address getEstateAddress(Estate estate);
+
+    /**
+     * Gets all the details of an estate
+     *
+     * @param id - the id of the estate to fetch
+     * @return estateDTO - object that contains all the info to an estate
+     */
+    EstateDTO getAllEstateDetails(long id);
 }

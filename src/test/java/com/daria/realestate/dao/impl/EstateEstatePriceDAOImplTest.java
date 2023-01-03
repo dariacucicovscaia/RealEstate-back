@@ -1,31 +1,30 @@
 package com.daria.realestate.dao.impl;
 
-import com.daria.realestate.dao.PriceDAO;
+import com.daria.realestate.dao.EstatePriceDAO;
 import com.daria.realestate.domain.Estate;
-import com.daria.realestate.domain.Price;
-import com.daria.realestate.domain.enums.EstateStatus;
+import com.daria.realestate.domain.EstatePrice;
+import com.daria.realestate.domain.enums.AcquisitionStatus;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
 import com.daria.realestate.util.DataBaseConnection;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class PriceDAOImplTest {
-    private PriceDAO priceDAO;
+public class EstateEstatePriceDAOImplTest {
+    private EstatePriceDAO priceDAO;
 
     @Before
     public void init() {
-        this.priceDAO = new PriceDAOImpl(DataBaseConnection.getInstance());
+        this.priceDAO = new EstatePriceDAOImpl(DataBaseConnection.getInstance());
     }
 
     @Test
     public void testCreationOfPrice() {
-         Price price = new Price(10000L, LocalDateTime.now(), "EUR", new Estate(1L, PaymentTransactionType.LEASE.name(), EstateStatus.OPEN.name(), LocalDate.now(), LocalDate.now()));
+         EstatePrice price = new EstatePrice(10000L, LocalDateTime.now(), "EUR", new Estate(1L, PaymentTransactionType.LEASE.name(), AcquisitionStatus.OPEN.name(), LocalDateTime.now(), LocalDateTime.now()));
 
-        Price createdPrice = priceDAO.create(price);
+        EstatePrice createdPrice = priceDAO.create(price);
 
         Assert.assertEquals(price.getPrice(), createdPrice.getPrice());
         Assert.assertEquals(price.getCurrency(), createdPrice.getCurrency());
@@ -36,7 +35,7 @@ public class PriceDAOImplTest {
     }
     @Test
     public void testGetById() {
-       Price price = priceDAO.getById(1);
+       EstatePrice price = priceDAO.getById(1);
         Assert.assertEquals("EUR", price.getCurrency());
         Assert.assertEquals("2022-03-12T13:25:10", price.getLastUpdatedAt().toString());
         Assert.assertTrue(price.getPrice() == 50000);

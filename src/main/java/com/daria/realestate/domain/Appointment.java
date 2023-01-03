@@ -79,11 +79,6 @@ public class Appointment {
         return estate;
     }
 
-    public void setEstateId(long id) {
-        this.estate = new Estate();
-        this.estate.setId(id);
-    }
-
     public void setEstate(Estate estate) {
         this.estate = estate;
     }

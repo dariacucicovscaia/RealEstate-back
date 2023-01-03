@@ -1,14 +1,14 @@
 package com.daria.realestate.dao.impl;
 
-import com.daria.realestate.dao.PriceDAO;
-import com.daria.realestate.domain.Price;
+import com.daria.realestate.dao.EstatePriceDAO;
+import com.daria.realestate.domain.EstatePrice;
 import com.daria.realestate.util.DataBaseConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PriceDAOImpl extends AbstractDAOImpl<Price> implements PriceDAO {
+public class EstatePriceDAOImpl extends AbstractDAOImpl<EstatePrice> implements EstatePriceDAO {
     private static final String TABLE_NAME = "realestate.price";
 
     private static final String TABLE_COLUMN_ID = "id";
@@ -17,12 +17,12 @@ public class PriceDAOImpl extends AbstractDAOImpl<Price> implements PriceDAO {
     private static final String TABLE_COLUMN_CONCURRENCY = "concurrency";
     private static final String TABLE_COLUMN_ESTATE_ID = "estate_id";
 
-    protected PriceDAOImpl(DataBaseConnection dataBaseConnection) {
+    protected EstatePriceDAOImpl(DataBaseConnection dataBaseConnection) {
         super(dataBaseConnection);
     }
 
     @Override
-    public Price create(Price price) {
+    public EstatePrice create(EstatePrice price) {
         String sql = "INSERT INTO " + TABLE_NAME + " ("
                 + TABLE_COLUMN_PRICE + ", "
                 + TABLE_COLUMN_LAST_UPDATED_AT + ", "
@@ -60,7 +60,7 @@ public class PriceDAOImpl extends AbstractDAOImpl<Price> implements PriceDAO {
     }
 
     @Override
-    public Price getById(long id) {
+    public EstatePrice getById(long id) {
         try (Statement statement = DataBaseConnection.getConnection().createStatement()) {
             String sql = "SELECT * FROM " + TABLE_NAME + " WHERE id = " + id + ";";
             ResultSet resultSet = statement.executeQuery(sql);
@@ -72,11 +72,11 @@ public class PriceDAOImpl extends AbstractDAOImpl<Price> implements PriceDAO {
     }
 
     @Override
-    protected List<Price> setValuesFromResultSetIntoEntityList(ResultSet resultSet) {
-        List<Price> prices = new ArrayList<>();
+    protected List<EstatePrice> setValuesFromResultSetIntoEntityList(ResultSet resultSet) {
+        List<EstatePrice> prices = new ArrayList<>();
         try {
             while (resultSet.next()) {
-                prices.add(new Price(
+                prices.add(new EstatePrice(
                         resultSet.getLong(TABLE_COLUMN_ID),
                         resultSet.getLong(TABLE_COLUMN_PRICE),
                         resultSet.getTimestamp(TABLE_COLUMN_LAST_UPDATED_AT).toLocalDateTime(),

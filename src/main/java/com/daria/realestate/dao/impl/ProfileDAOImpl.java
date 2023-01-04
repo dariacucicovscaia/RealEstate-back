@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileDAOImpl extends AbstractDAOImpl<Profile> implements ProfileDAO {
-    protected ProfileDAOImpl(DataBaseConnection dataBaseConnection) {
+    public ProfileDAOImpl(DataBaseConnection dataBaseConnection) {
         super(dataBaseConnection);
     }
 
@@ -70,11 +70,31 @@ public class ProfileDAOImpl extends AbstractDAOImpl<Profile> implements ProfileD
         List<Profile> profiles = new ArrayList<>();
         try {
             while (resultSet.next()) {
-                profiles.add(new Profile(resultSet.getLong("id"),resultSet.getString("firstName"), resultSet.getString("lastName"), resultSet.getString("phoneNumber")));
+                profiles.add(new Profile(resultSet.getLong("id"), resultSet.getString("firstName"), resultSet.getString("lastName"), resultSet.getString("phoneNumber")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return profiles;
     }
+
+    @Override
+    public Profile update(Profile profile) {
+        String sql = "UPDATE " + TABLE_NAME + " SET  firstName = ?, lastName  = ?, phoneNumber = ? WHERE id = " + profile.getId() + ";";
+        try (PreparedStatement preparedStatement = DataBaseConnection.getConnection().prepareStatement(sql)) {
+            preparedStatement.setString(1, profile.getFirstName());
+            preparedStatement.setString(2, profile.getLastName());
+            preparedStatement.setString(3, profile.getPhoneNumber());
+
+            int updated = preparedStatement.executeUpdate();
+            if (updated == 1) {
+                return profile;
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
+

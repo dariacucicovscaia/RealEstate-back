@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddressDAOImpl extends AbstractDAOImpl<Address> implements AddressDAO {
-    protected AddressDAOImpl(DataBaseConnection dataBaseConnection) {
+    public AddressDAOImpl(DataBaseConnection dataBaseConnection) {
         super(dataBaseConnection);
     }
 
@@ -77,5 +77,24 @@ public class AddressDAOImpl extends AbstractDAOImpl<Address> implements AddressD
             throw new RuntimeException(e);
         }
         return addresses;
+    }
+
+    @Override
+    public Address update(Address address) {
+        String sql = "UPDATE " + TABLE_NAME + " SET  fullAddress = ?, city  = ?, country = ? WHERE id = " + address.getId() + ";";
+        try (PreparedStatement preparedStatement = DataBaseConnection.getConnection().prepareStatement(sql)) {
+            preparedStatement.setString(1, address.getFullAddress());
+            preparedStatement.setString(2, address.getCity());
+            preparedStatement.setString(3, address.getCountry());
+
+            int updated = preparedStatement.executeUpdate();
+            if (updated == 1) {
+                return address;
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

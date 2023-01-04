@@ -31,7 +31,6 @@ public class ProfileDAOImplTest {
         Assert.assertEquals(profile.getLastName(), createdProfile.getLastName());
         Assert.assertEquals(profile.getPhoneNumber(), createdProfile.getPhoneNumber());
 
-//todo rethink out of bounds exception
         Long removedProfileId = profileDAO.removeById(createdProfile.getId());
         Assert.assertEquals(removedProfileId, createdProfile.getId());
         Assert.assertThrows(IndexOutOfBoundsException.class, ()-> profileDAO.getById(createdProfile.getId()));

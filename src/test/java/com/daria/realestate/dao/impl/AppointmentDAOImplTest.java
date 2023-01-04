@@ -9,6 +9,7 @@ import com.daria.realestate.domain.enums.AppointmentStatus;
 import com.daria.realestate.domain.enums.AcquisitionStatus;
 import com.daria.realestate.domain.enums.OrderBy;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
+import com.daria.realestate.dto.AppointmentDTO;
 import com.daria.realestate.util.DataBaseConnection;
 import org.junit.Assert;
 import org.junit.Before;
@@ -63,26 +64,35 @@ public class AppointmentDAOImplTest {
     @Test
     public void testGetUsersAppointmentsByAppointmentStatus() {
         List<Appointment> appointments = appointmentDAO.usersAppointmentsByAppointmentStatus(new User(1L, "mariana@example.com", "123456")
-                ,AppointmentStatus.SCHEDULED,   new PaginationFilter(1, 5 , "id", OrderBy.ASC));
+                , AppointmentStatus.SCHEDULED, new PaginationFilter(1, 5, "id", OrderBy.ASC));
 
         Assert.assertTrue(appointments.size() <= 5);
-        for(Appointment appointment :appointments){
-            Assert.assertEquals(AppointmentStatus.SCHEDULED ,appointment.getAppointmentStatus());
+        for (Appointment appointment : appointments) {
+            Assert.assertEquals(AppointmentStatus.SCHEDULED, appointment.getAppointmentStatus());
         }
     }
 
     @Test
-    public void shouldGetAllAppointmentsOfAnEstatePaginated(){
+    public void shouldGetAllAppointmentsOfAnEstatePaginated() {
         List<Appointment> appointments = appointmentDAO.getAppointmentsOfAnEstate(
                 new Estate(1L, PaymentTransactionType.LEASE.name(), AcquisitionStatus.OPEN.name(), LocalDateTime.now(), LocalDateTime.now()),
-                new PaginationFilter(1, 5 , "id", OrderBy.ASC)
+                new PaginationFilter(1, 5, "id", OrderBy.ASC)
         );
 
         Assert.assertTrue(appointments.size() <= 5);
-
-       //todo add get
     }
 
+    @Test
+    public void getAllAppointmentsOfAUser() {
+        List<Appointment> appointmentsOfAUser = appointmentDAO.appointmentsOfAUser(new User(1L, "mariana@example.com", "123456"), new PaginationFilter(1, 5));
 
+        Assert.assertNotNull(appointmentsOfAUser);
+        Assert.assertTrue(appointmentsOfAUser.size() <= 5);
+    }
 
+    @Test
+    public void getAppointmentsWithASpecificTimeInterval() {
+        List<AppointmentDTO> appointmentList = appointmentDAO.getAppointmentsWithASpecificTimeInterval(LocalDateTime.now(),LocalDateTime.now().plusDays(10));
+        Assert.assertNotNull(appointmentList);
+    }
 }

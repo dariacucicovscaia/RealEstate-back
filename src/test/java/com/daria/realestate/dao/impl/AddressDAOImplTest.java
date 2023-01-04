@@ -23,7 +23,6 @@ public class AddressDAOImplTest {
         Assert.assertEquals(address.getCity(), createdAddress.getCity());
         Assert.assertEquals(address.getCountry(), createdAddress.getCountry());
 
-//todo rethink out of bounds exception
         Long removedAddressId = addressDAO.removeById(createdAddress.getId());
         Assert.assertEquals(removedAddressId, createdAddress.getId());
         Assert.assertThrows(IndexOutOfBoundsException.class, () -> addressDAO.getById(createdAddress.getId()));

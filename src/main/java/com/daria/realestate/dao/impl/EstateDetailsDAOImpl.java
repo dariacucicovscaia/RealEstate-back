@@ -44,6 +44,7 @@ public class EstateDetailsDAOImpl extends AbstractDAOImpl<EstateDetails> impleme
         return estateDetails;
     }
 
+    @Override
     public EstateDetails create(EstateDetails estateDetails) {
         String sql = "INSERT INTO " + TABLE_NAME + " (" + TABLE_COLUMN_SQUARE_METERS + ", " + TABLE_COLUMN_NUMBER_OF_ROOMS + ", " + TABLE_COLUMN_NUMBER_OF_BATHROOMS + ", " + TABLE_COLUMN_NUMBER_OF_GARAGES + ", " + TABLE_COLUMN_YEAR_OF_CONSTRUCTION + ", " + TABLE_COLUMN_TYPE_OF_ESTATE + ", " + TABLE_COLUMN_ESTATE_ID + ") " + "VALUES(?,?,?,?,?,?,?);";
 
@@ -61,16 +62,6 @@ public class EstateDetailsDAOImpl extends AbstractDAOImpl<EstateDetails> impleme
             throw new RuntimeException(e);
         }
         return estateDetails;
-    }
-
-    public List<EstateDetails> getFilteredEstateDetailsByAllParameters(int squareMeters, int numberOfRooms, int numberOfBathRooms, int numberOfGarages, LocalDate yearOfConstruction, String typeOfEstate, PaginationFilter paginationFilter) {
-        String sql = "select * from " + TABLE_NAME + " where squareMeters = " + squareMeters + " and numberOfRooms = " + numberOfRooms + " and numberOfBathRooms=" + numberOfBathRooms + " and numberOfGarages=" + numberOfGarages + " and yearOfConstruction=\"" + Date.valueOf(yearOfConstruction) + "\" and typeOfEstate like '%" + typeOfEstate + "%'" + "  limit " + paginationFilter.getNrOfElementsWeWantDisplayed() + " offset " + getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed()) + ";";
-
-        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
-            return setValuesFromResultSetIntoEntityList(preparedStatement.executeQuery());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
 

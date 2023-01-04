@@ -3,9 +3,12 @@ package com.daria.realestate.dao.impl;
 import com.daria.realestate.dao.AppointmentDAO;
 import com.daria.realestate.domain.*;
 import com.daria.realestate.domain.enums.AppointmentStatus;
+import com.daria.realestate.dto.AppointmentDTO;
 import com.daria.realestate.util.DataBaseConnection;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +32,25 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
                 " inner join appointment as a on ua.appointment_id = a.id " +
                 " where u.id = " + user.getId() + " and appointmentStatus= \"" + appointmentStatus.name() + "\"" +
                 "  limit " + paginationFilter.getNrOfElementsWeWantDisplayed() + " offset " +
-                getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed()) ;
+                getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed());
+
+        try (PreparedStatement preparedStatement = DataBaseConnection.getConnection().prepareStatement(sql)) {
+
+            return setValuesFromResultSetIntoEntityList(preparedStatement.executeQuery());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @Override
+    public List<Appointment> appointmentsOfAUser(User user, PaginationFilter paginationFilter) {
+        String sql = " select a.* from user_appointment as ua " +
+                " inner join user as u on ua.user_id = u.id  " +
+                " inner join appointment as a on ua.appointment_id = a.id " +
+                " where u.id = " + user.getId() +
+                "  limit " + paginationFilter.getNrOfElementsWeWantDisplayed() + " offset " +
+                getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed());
 
         try (PreparedStatement preparedStatement = DataBaseConnection.getConnection().prepareStatement(sql)) {
 
@@ -130,10 +151,43 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
                 " inner join appointment as a on a.estate_id = e.id " +
                 " where e.id = " + estate.getId()
                 + "  limit " + paginationFilter.getNrOfElementsWeWantDisplayed() + " offset " +
-                                getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed()) ;
+                getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed());
 
         try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
             return setValuesFromResultSetIntoEntityList(preparedStatement.executeQuery());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<AppointmentDTO> getAppointmentsWithASpecificTimeInterval(LocalDateTime from, LocalDateTime to) {
+
+        String sql = " select u.email, p.firstName, p.lastName, p.phoneNumber, a.start, a.end, a.estate_id " +
+                " from realestate.appointment as a " +
+                " inner join realestate.user_appointment as ua on ua.appointment_id = a.id " +
+                " inner join realestate.user as u on u.id = ua.user_id " +
+                " inner join realestate.profile as p on u.id = p.user_id " +
+                " where a.start >= \"" + from + "\" and a.start <= \"" + to + "\" ";
+
+        try (Statement statement = getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery(sql)) {
+
+            List<AppointmentDTO> appointments = new ArrayList<>();
+
+            while(resultSet.next()){
+                appointments.add(new AppointmentDTO(
+                        resultSet.getString("email"),
+                        resultSet.getString("email"),
+                        resultSet.getString("email"),
+                        resultSet.getString("email"),
+                        resultSet.getTimestamp("start").toLocalDateTime(),
+                        resultSet.getTimestamp("end").toLocalDateTime(),
+                        resultSet.getLong("estate_id")
+                ));
+            }
+            return appointments;
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

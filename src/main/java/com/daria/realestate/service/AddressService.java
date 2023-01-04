@@ -1,7 +1,8 @@
-package com.daria.realestate.dao;
+package com.daria.realestate.service;
 
 import com.daria.realestate.domain.Address;
 
-public interface AddressDAO extends DAO<Address>{
+public interface AddressService {
+
     Address update(Address address);
 }

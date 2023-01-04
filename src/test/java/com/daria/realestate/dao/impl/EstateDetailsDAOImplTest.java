@@ -23,14 +23,7 @@ public class EstateDetailsDAOImplTest {
         this.estateDetailsDAO = new EstateDetailsDAOImpl(DataBaseConnection.getInstance());
     }
 
-    @Test
-    public void testGetFilteredEstateDetailsByAllParameters() {
-        List<EstateDetails> estateDetailsList = estateDetailsDAO.getFilteredEstateDetailsByAllParameters(25, 3, 2, 1, LocalDate.parse("2003-12-02"), "OFFICE",
-                new PaginationFilter(1, 5, "estate_id", OrderBy.DESC));
-        Assert.assertTrue(estateDetailsList.size() <= 5);
-        Assert.assertNotNull(estateDetailsList);
 
-    }
 
 
     @Test

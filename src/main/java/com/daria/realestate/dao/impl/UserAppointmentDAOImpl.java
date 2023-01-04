@@ -14,15 +14,11 @@ import java.util.List;
 public class UserAppointmentDAOImpl extends AbstractDAOImpl<UserAppointment> implements UserAppointmentDAO {
     private final String TABLE_NAME = "realestate.user_appointment";
     private final String TABLE_COLUMN_ID = "id";
-    private final String TABLE_COLUMN_USER_ID = "user_id";
-    private final String TABLE_COLUMN_APPOINTMENT_ID = "appointment_id";
 
     public UserAppointmentDAOImpl(DataBaseConnection dataBaseConnection) {
         super(dataBaseConnection);
     }
 
-    // todo add service
-    // todo remove StringBuilder
     @Override
     public UserAppointment create(UserAppointment userAppointment) {
         String userAppointmentSqlInsert = "INSERT INTO user_appointment (user_id, appointment_id) VALUES(?,?) ";
@@ -77,7 +73,6 @@ public class UserAppointmentDAOImpl extends AbstractDAOImpl<UserAppointment> imp
         List<UserAppointment> userAppointments = new ArrayList<>();
 
         try {
-            //todo think about this
             while (resultSet.next()) {
                 userAppointments.add(new UserAppointment(
                         resultSet.getLong(TABLE_COLUMN_ID)

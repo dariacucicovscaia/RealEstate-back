@@ -16,6 +16,11 @@ public class PaginationFilter {
         this.orderBy = orderBy;
     }
 
+    public PaginationFilter(int pageNumber, int nrOfElementsWeWantDisplayed) {
+        this.pageNumber = pageNumber;
+        this.nrOfElementsWeWantDisplayed = nrOfElementsWeWantDisplayed;
+    }
+
     public int getPageNumber() {
         return pageNumber;
     }

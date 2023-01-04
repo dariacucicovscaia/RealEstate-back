@@ -60,7 +60,6 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
                 " inner join estate_details as ed on e.id = ed.estate_id " +
                 " inner join address as a on e.address_id = a.id " +
                 " inner join price on price.estate_id = e.id " +
-
                 " where e.id = " + id + " ;";
 
         try (Statement statement = getConnection().createStatement()) {

@@ -6,7 +6,6 @@ import com.daria.realestate.domain.enums.Roles;
 
 import java.util.List;
 import java.util.Set;
-//todo add role
 
 public class User {
     private Long id;
@@ -29,6 +28,13 @@ public class User {
     public User() {
     }
 
+    public Set<Roles> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Roles> roles) {
+        this.roles = roles;
+    }
 
     public Long getId() {
         return id;

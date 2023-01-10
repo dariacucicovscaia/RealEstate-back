@@ -13,7 +13,7 @@ public abstract class AbstractDAOImpl<T> implements DAO<T> {
 
     protected static final Logger logger = LogManager.getLogger(AbstractDAOImpl.class);
 
-    private DataBaseConnection dataBaseConnection;
+    private final DataBaseConnection dataBaseConnection;
 
     protected AbstractDAOImpl(DataBaseConnection dataBaseConnection) {
         this.dataBaseConnection = dataBaseConnection;

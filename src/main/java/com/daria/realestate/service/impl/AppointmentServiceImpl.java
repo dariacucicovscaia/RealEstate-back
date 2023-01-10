@@ -21,9 +21,11 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public Appointment createAppointment(Appointment appointment, User user) {
         Appointment createdAppointment = appointmentDAO.create(appointment);
-        UserAppointment userAppointment = userAppointmentDAO.create(new UserAppointment(user, createdAppointment));
+        Boolean userAppointment = userAppointmentDAO.create(user, createdAppointment);
 
-        return createdAppointment;
+        if (userAppointment) {
+            return createdAppointment;
+        } else return null;
     }
 
     @Override
@@ -32,8 +34,8 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<Appointment> getAppointmentsOfAUser(User user, PaginationFilter paginationFilter) {
-        return appointmentDAO.appointmentsOfAUser(user, paginationFilter);
+    public List<Appointment> getAppointmentsOfAUser(User user) {
+        return appointmentDAO.appointmentsOfAUser(user);
     }
 
     @Override

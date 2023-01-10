@@ -34,11 +34,13 @@ public class AppointmentServiceImplTest {
     @Before
     public void setupService() {
         appointmentArgumentsCaptor = ArgumentCaptor.forClass(Appointment.class);
+
         appointmentDAO = mock(AppointmentDAOImpl.class);
         userAppointmentDAO = mock(UserAppointmentDAOImpl.class);
+
         serviceUnderTests = new AppointmentServiceImpl((AppointmentDAOImpl) appointmentDAO, (UserAppointmentDAOImpl) userAppointmentDAO);
     }
-
+//TODO refactor , check how many times is called method, both methods
     @Test
     public void createAppointment() {
         Appointment appointment = getSampleCreatedAppointment();
@@ -75,15 +77,14 @@ public class AppointmentServiceImplTest {
     @Test
     public void getAppointmentsOfAUser() {
         User user = new User(1L, "email", "password");
-        PaginationFilter paginationFilter = new PaginationFilter(1, 5);
-        when(appointmentDAO.appointmentsOfAUser(user, paginationFilter)).thenReturn(
+        when(appointmentDAO.appointmentsOfAUser(user)).thenReturn(
                 new ArrayList<>(
                         Arrays.asList(getSampleCreatedAppointment(), getSampleCreatedAppointment(), getSampleCreatedAppointment())
                 )
         );
-        List<Appointment> fetchedAppointments = serviceUnderTests.getAppointmentsOfAUser(user, paginationFilter);
+        List<Appointment> fetchedAppointments = serviceUnderTests.getAppointmentsOfAUser(user);
 
-        Assert.assertTrue(fetchedAppointments.size() <= paginationFilter.getNrOfElementsWeWantDisplayed());
+        Assert.assertNotNull(fetchedAppointments);
     }
 
 
@@ -91,15 +92,16 @@ public class AppointmentServiceImplTest {
     public void usersAppointmentsByAppointmentStatus() {
         User user = new User(1L, "email", "password");
         PaginationFilter paginationFilter = new PaginationFilter(1, 5);
-        when(appointmentDAO.usersAppointmentsByAppointmentStatus(user,AppointmentStatus.CONFIRMED, paginationFilter))
+        when(appointmentDAO.usersAppointmentsByAppointmentStatus(user, AppointmentStatus.CONFIRMED, paginationFilter))
                 .thenReturn(
                         new ArrayList<>(
                                 Arrays.asList(getSampleCreatedAppointment(), getSampleCreatedAppointment(), getSampleCreatedAppointment())
                         )
-                ); new ArrayList<>(
+                );
+        new ArrayList<>(
                 Arrays.asList(getSampleCreatedAppointment(), getSampleCreatedAppointment(), getSampleCreatedAppointment())
         );
-        List<Appointment> fetchedAppointments = serviceUnderTests.usersAppointmentsByAppointmentStatus(user,AppointmentStatus.CONFIRMED, paginationFilter);
+        List<Appointment> fetchedAppointments = serviceUnderTests.usersAppointmentsByAppointmentStatus(user, AppointmentStatus.CONFIRMED, paginationFilter);
 
         Assert.assertTrue(fetchedAppointments.size() <= paginationFilter.getNrOfElementsWeWantDisplayed());
         fetchedAppointments.forEach(appointment -> Assert.assertEquals(appointment.getAppointmentStatus(), AppointmentStatus.CONFIRMED));

@@ -133,5 +133,15 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
         return users;
     }
 
+    @Override
+    public List<User> getAllUsersThatHaveAppointments() {
+        String sql = " select distinct u.* from realestate.user as u " +
+                " inner join realestate.user_appointment as ua on ua.user_id = u.id ";
 
+        try(Statement statement = getConnection().createStatement()) {
+           return  setValuesFromResultSetIntoEntityList(statement.executeQuery(sql));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

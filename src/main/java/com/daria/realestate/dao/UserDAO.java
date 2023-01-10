@@ -2,6 +2,8 @@ package com.daria.realestate.dao;
 
 import com.daria.realestate.domain.User;
 
+import java.util.List;
+
 public interface UserDAO extends DAO<User> {
 
     /**
@@ -28,5 +30,6 @@ public interface UserDAO extends DAO<User> {
      */
     long removeByEmail(String email);
 
+    List<User> getAllUsersThatHaveAppointments();
 
 }

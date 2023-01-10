@@ -33,111 +33,95 @@ public class EstateDTO  {
     private LocalDateTime lastPriceUpdatedAt;
     private String currency;
 
-
+    public EstateDTO(PaymentTransactionType paymentTransactionType, AcquisitionStatus acquisitionStatus, LocalDateTime createdAt, LocalDateTime lastUpdatedAt, int squareMeters, int numberOfRooms, int numberOfBathRooms, int numberOfGarages, LocalDate yearOfConstruction, TypeOfEstate typeOfEstate, String fullAddress, String city, String country, String email, String firstName, String lastName, String phoneNumber, Long price, LocalDateTime lastPriceUpdatedAt, String currency) {
+        this.paymentTransactionType = paymentTransactionType;
+        this.acquisitionStatus = acquisitionStatus;
+        this.createdAt = createdAt;
+        this.lastUpdatedAt = lastUpdatedAt;
+        this.squareMeters = squareMeters;
+        this.numberOfRooms = numberOfRooms;
+        this.numberOfBathRooms = numberOfBathRooms;
+        this.numberOfGarages = numberOfGarages;
+        this.yearOfConstruction = yearOfConstruction;
+        this.typeOfEstate = typeOfEstate;
+        this.fullAddress = fullAddress;
+        this.city = city;
+        this.country = country;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.price = price;
+        this.lastPriceUpdatedAt = lastPriceUpdatedAt;
+        this.currency = currency;
+    }
 
     public PaymentTransactionType getPaymentTransactionType() {
         return paymentTransactionType;
     }
 
-    public void setPaymentTransactionType(PaymentTransactionType paymentTransactionType) {
-        this.paymentTransactionType = paymentTransactionType;
-    }
+
 
     public AcquisitionStatus getAcquisitionStatus() {
         return acquisitionStatus;
     }
 
-    public void setAcquisitionStatus(AcquisitionStatus acquisitionStatus) {
-        this.acquisitionStatus = acquisitionStatus;
-    }
+
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
 
     public LocalDateTime getLastUpdatedAt() {
         return lastUpdatedAt;
     }
 
-    public void setLastUpdatedAt(LocalDateTime lastUpdatedAt) {
-        this.lastUpdatedAt = lastUpdatedAt;
-    }
 
     public int getSquareMeters() {
         return squareMeters;
     }
 
-    public void setSquareMeters(int squareMeters) {
-        this.squareMeters = squareMeters;
-    }
 
     public int getNumberOfRooms() {
         return numberOfRooms;
     }
 
-    public void setNumberOfRooms(int numberOfRooms) {
-        this.numberOfRooms = numberOfRooms;
-    }
 
     public int getNumberOfBathRooms() {
         return numberOfBathRooms;
     }
 
-    public void setNumberOfBathRooms(int numberOfBathRooms) {
-        this.numberOfBathRooms = numberOfBathRooms;
-    }
 
     public int getNumberOfGarages() {
         return numberOfGarages;
     }
 
-    public void setNumberOfGarages(int numberOfGarages) {
-        this.numberOfGarages = numberOfGarages;
-    }
 
     public LocalDate getYearOfConstruction() {
         return yearOfConstruction;
     }
 
-    public void setYearOfConstruction(LocalDate yearOfConstruction) {
-        this.yearOfConstruction = yearOfConstruction;
-    }
 
     public TypeOfEstate getTypeOfEstate() {
         return typeOfEstate;
     }
 
-    public void setTypeOfEstate(TypeOfEstate typeOfEstate) {
-        this.typeOfEstate = typeOfEstate;
-    }
 
     public String getFullAddress() {
         return fullAddress;
     }
 
-    public void setFullAddress(String fullAddress) {
-        this.fullAddress = fullAddress;
-    }
 
     public String getCity() {
         return city;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
 
     public String getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
 
     public String getEmail() {
         return email;
@@ -151,47 +135,55 @@ public class EstateDTO  {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
 
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
 
     public Long getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
-        this.price = price;
-    }
 
     public LocalDateTime getLastPriceUpdatedAt() {
         return lastPriceUpdatedAt;
     }
 
-    public void setLastPriceUpdatedAt(LocalDateTime lastPriceUpdatedAt) {
-        this.lastPriceUpdatedAt = lastPriceUpdatedAt;
-    }
+
 
     public String getCurrency() {
         return currency;
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
+    @Override
+    public String toString() {
+        return "EstateDTO{" +
+                "paymentTransactionType=" + paymentTransactionType +
+                ", acquisitionStatus=" + acquisitionStatus +
+                ", createdAt=" + createdAt +
+                ", lastUpdatedAt=" + lastUpdatedAt +
+                ", squareMeters=" + squareMeters +
+                ", numberOfRooms=" + numberOfRooms +
+                ", numberOfBathRooms=" + numberOfBathRooms +
+                ", numberOfGarages=" + numberOfGarages +
+                ", yearOfConstruction=" + yearOfConstruction +
+                ", typeOfEstate=" + typeOfEstate +
+                ", fullAddress='" + fullAddress + '\'' +
+                ", city='" + city + '\'' +
+                ", country='" + country + '\'' +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", price=" + price +
+                ", lastPriceUpdatedAt=" + lastPriceUpdatedAt +
+                ", currency='" + currency + '\'' +
+                '}';
     }
 }

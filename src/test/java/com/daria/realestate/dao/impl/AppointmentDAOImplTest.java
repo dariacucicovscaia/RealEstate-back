@@ -84,15 +84,14 @@ public class AppointmentDAOImplTest {
 
     @Test
     public void getAllAppointmentsOfAUser() {
-        List<Appointment> appointmentsOfAUser = appointmentDAO.appointmentsOfAUser(new User(1L, "mariana@example.com", "123456"), new PaginationFilter(1, 5));
+        List<Appointment> appointmentsOfAUser = appointmentDAO.appointmentsOfAUser(new User(1L, "mariana@example.com", "123456"));
 
         Assert.assertNotNull(appointmentsOfAUser);
-        Assert.assertTrue(appointmentsOfAUser.size() <= 5);
     }
 
     @Test
     public void getAppointmentsWithASpecificTimeInterval() {
-        List<AppointmentDTO> appointmentList = appointmentDAO.getAppointmentsWithASpecificTimeInterval(LocalDateTime.now(),LocalDateTime.now().plusDays(10));
+        List<AppointmentDTO> appointmentList = appointmentDAO.getAppointmentsWithASpecificTimeInterval(LocalDateTime.now(),LocalDateTime.now().plusDays(10),  "mariana@example.com");
         Assert.assertNotNull(appointmentList);
     }
 }

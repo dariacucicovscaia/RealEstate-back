@@ -89,8 +89,8 @@ public class EstateDAOImplTest {
 
         Assert.assertEquals(PaymentTransactionType.LEASE, estateDTO.getPaymentTransactionType());
         Assert.assertEquals(AcquisitionStatus.OPEN, estateDTO.getAcquisitionStatus());
-        Assert.assertEquals(LocalDateTime.of(2003, 12, 02, 23, 03, 12), estateDTO.getCreatedAt());
-        Assert.assertEquals(LocalDateTime.of(2022, 12, 26, 11, 43, 52), estateDTO.getLastUpdatedAt());
+        Assert.assertEquals(LocalDateTime.of(2003, 12, 2, 23, 3, 12), estateDTO.getCreatedAt());
+        Assert.assertEquals(LocalDateTime.of(2023, 1, 9, 14, 9, 57), estateDTO.getLastUpdatedAt());
 
         Assert.assertEquals(30, estateDTO.getSquareMeters());
         Assert.assertEquals(3, estateDTO.getNumberOfRooms());
@@ -103,9 +103,9 @@ public class EstateDAOImplTest {
         Assert.assertEquals("Chisinau", estateDTO.getCity());
         Assert.assertEquals("Moldova", estateDTO.getCountry());
 
-        Assert.assertEquals("mariana@example.com", estateDTO.getEmail());
-        Assert.assertEquals("mariana", estateDTO.getFirstName());
-        Assert.assertEquals("smith", estateDTO.getLastName());
+        Assert.assertEquals("vlad@example.com", estateDTO.getEmail());
+        Assert.assertEquals("vlad", estateDTO.getFirstName());
+        Assert.assertEquals("pass", estateDTO.getLastName());
         Assert.assertEquals("+1354788541", estateDTO.getPhoneNumber());
 
         Assert.assertEquals((Long) 200000L, estateDTO.getPrice());

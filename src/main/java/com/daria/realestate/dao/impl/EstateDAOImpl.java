@@ -47,7 +47,7 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
     //todo single responsibility
     @Override
     public EstateDTO getAllEstateDetails(long id) {
-        EstateDTO estateDTO = new EstateDTO();
+
         String sql = " select  " +
                 " e.paymentTransactionType, e.acquisitionStatus, e.createdAt, e.lastUpdatedAt, " +
                 " ed.squareMeters, ed.numberOfRooms, ed.numberOfBathrooms, ed.numberOfGarages, ed.yearOfConstruction, ed.typeOfEstate, " +
@@ -62,33 +62,36 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
                 " inner join price on price.estate_id = e.id " +
                 " where e.id = " + id + " ;";
 
+        EstateDTO estateDTO = null;
         try (Statement statement = getConnection().createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
-                estateDTO.setPaymentTransactionType(PaymentTransactionType.valueOf(resultSet.getString("paymentTransactionType")));
-                estateDTO.setAcquisitionStatus(AcquisitionStatus.valueOf(resultSet.getString("acquisitionStatus")));
-                estateDTO.setCreatedAt(resultSet.getTimestamp("createdAt").toLocalDateTime());
-                estateDTO.setLastUpdatedAt(resultSet.getTimestamp("lastUpdatedAt").toLocalDateTime());
+                estateDTO = new EstateDTO(
+                        PaymentTransactionType.valueOf(resultSet.getString("paymentTransactionType")),
+                        AcquisitionStatus.valueOf(resultSet.getString("acquisitionStatus")),
+                        resultSet.getTimestamp("createdAt").toLocalDateTime(),
+                        resultSet.getTimestamp("lastUpdatedAt").toLocalDateTime(),
 
-                estateDTO.setSquareMeters(resultSet.getInt("squareMeters"));
-                estateDTO.setNumberOfRooms(resultSet.getInt("numberOfRooms"));
-                estateDTO.setNumberOfBathRooms(resultSet.getInt("numberOfBathRooms"));
-                estateDTO.setNumberOfGarages(resultSet.getInt("numberOfGarages"));
-                estateDTO.setYearOfConstruction(resultSet.getDate("yearOfConstruction").toLocalDate());
-                estateDTO.setTypeOfEstate(TypeOfEstate.valueOf(resultSet.getString("typeOfEstate")));
+                        resultSet.getInt("squareMeters"),
+                        resultSet.getInt("numberOfRooms"),
+                        resultSet.getInt("numberOfBathRooms"),
+                        resultSet.getInt("numberOfGarages"),
+                        resultSet.getDate("yearOfConstruction").toLocalDate(),
+                        TypeOfEstate.valueOf(resultSet.getString("typeOfEstate")),
 
-                estateDTO.setFullAddress(resultSet.getString("fullAddress"));
-                estateDTO.setCity(resultSet.getString("city"));
-                estateDTO.setCountry(resultSet.getString("country"));
+                        resultSet.getString("fullAddress"),
+                        resultSet.getString("city"),
+                        resultSet.getString("country"),
 
-                estateDTO.setEmail(resultSet.getString("email"));
-                estateDTO.setFirstName(resultSet.getString("firstName"));
-                estateDTO.setLastName(resultSet.getString("lastName"));
-                estateDTO.setPhoneNumber(resultSet.getString("phoneNumber"));
+                        resultSet.getString("email"),
+                        resultSet.getString("firstName"),
+                        resultSet.getString("lastName"),
+                        resultSet.getString("phoneNumber"),
 
-                estateDTO.setPrice(resultSet.getLong("price"));
-                estateDTO.setCurrency(resultSet.getString("concurrency"));
-                estateDTO.setLastPriceUpdatedAt(resultSet.getTimestamp("lastPriceUpdate").toLocalDateTime());
+                        resultSet.getLong("price"),
+                        resultSet.getTimestamp("lastPriceUpdate").toLocalDateTime()
+                        ,resultSet.getString("concurrency")
+                );
             }
             return estateDTO;
         } catch (SQLException e) {

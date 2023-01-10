@@ -28,8 +28,8 @@ public interface AppointmentDAO extends DAO<Appointment> {
      */
 
     List<Appointment> usersAppointmentsByAppointmentStatus(User user, AppointmentStatus appointmentStatus, PaginationFilter paginationFilter);
-    List<Appointment> appointmentsOfAUser(User user, PaginationFilter paginationFilter);
+    List<Appointment> appointmentsOfAUser(User user);
     List<Appointment> getAppointmentsOfAnEstate(Estate estate, PaginationFilter paginationFilter);
 
-    List<AppointmentDTO> getAppointmentsWithASpecificTimeInterval(LocalDateTime from, LocalDateTime to);
+    List<AppointmentDTO> getAppointmentsWithASpecificTimeInterval(LocalDateTime from, LocalDateTime to, String email);
 }

@@ -44,13 +44,11 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
     }
 
     @Override
-    public List<Appointment> appointmentsOfAUser(User user, PaginationFilter paginationFilter) {
+    public List<Appointment> appointmentsOfAUser(User user) {
         String sql = " select a.* from user_appointment as ua " +
                 " inner join user as u on ua.user_id = u.id  " +
                 " inner join appointment as a on ua.appointment_id = a.id " +
-                " where u.id = " + user.getId() +
-                "  limit " + paginationFilter.getNrOfElementsWeWantDisplayed() + " offset " +
-                getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed());
+                " where u.id = " + user.getId() ;
 
         try (PreparedStatement preparedStatement = DataBaseConnection.getConnection().prepareStatement(sql)) {
 
@@ -161,14 +159,15 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
     }
 
     @Override
-    public List<AppointmentDTO> getAppointmentsWithASpecificTimeInterval(LocalDateTime from, LocalDateTime to) {
+    public List<AppointmentDTO> getAppointmentsWithASpecificTimeInterval(LocalDateTime from, LocalDateTime to, String email) {
 
-        String sql = " select u.email, p.firstName, p.lastName, p.phoneNumber, a.start, a.end, a.estate_id " +
-                " from realestate.appointment as a " +
-                " inner join realestate.user_appointment as ua on ua.appointment_id = a.id " +
-                " inner join realestate.user as u on u.id = ua.user_id " +
-                " inner join realestate.profile as p on u.id = p.user_id " +
-                " where a.start >= \"" + from + "\" and a.start <= \"" + to + "\" ";
+        String sql = " select distinct o.email,p.firstName, p.lastName, p.phoneNumber, a.start, a.end, a.estate_id  from realestate.appointment as a  " +
+                " inner join realestate.user_appointment as ua on ua.appointment_id = a.id   " +
+                " inner join realestate.user as u on u.id = ua.user_id   " +
+                " inner join realestate.estate as e on  e.id = a.estate_id " +
+                " inner join realestate.user as o on o.id = e.owner_id  " +
+                " inner join realestate.profile as p on o.id = p.user_id  "+
+                " where a.start >= \"" + from + "\" and a.start <= \"" + to + "\" and u.email = \"" +email +"\"";
 
         try (Statement statement = getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(sql)) {
@@ -178,9 +177,9 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
             while(resultSet.next()){
                 appointments.add(new AppointmentDTO(
                         resultSet.getString("email"),
-                        resultSet.getString("email"),
-                        resultSet.getString("email"),
-                        resultSet.getString("email"),
+                        resultSet.getString("firstName"),
+                        resultSet.getString("lastName"),
+                        resultSet.getString("phoneNumber"),
                         resultSet.getTimestamp("start").toLocalDateTime(),
                         resultSet.getTimestamp("end").toLocalDateTime(),
                         resultSet.getLong("estate_id")

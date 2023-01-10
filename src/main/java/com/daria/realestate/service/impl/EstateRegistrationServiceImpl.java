@@ -25,8 +25,6 @@ public class EstateRegistrationServiceImpl implements EstateRegistrationService 
         this.estateDetailsDAO = estateDetailsDAO;
     }
 
-
-    //TODO finish writing method
     @Override
     public EstateDTO createEstate(EstateDTO estateDTO, User owner) {
         Address address = addressDAO.create(new Address(estateDTO.getFullAddress(), estateDTO.getCity(), estateDTO.getCountry()));
@@ -34,8 +32,27 @@ public class EstateRegistrationServiceImpl implements EstateRegistrationService 
         EstatePrice price = priceDAO.create(new EstatePrice(estateDTO.getPrice(), estateDTO.getLastPriceUpdatedAt(), estateDTO.getCurrency(), estate));
         EstateDetails estateDetails = estateDetailsDAO.create(new EstateDetails(estateDTO.getSquareMeters(), estateDTO.getNumberOfRooms(), estateDTO.getNumberOfBathRooms(), estateDTO.getNumberOfGarages(), estateDTO.getYearOfConstruction(), estateDTO.getTypeOfEstate(), estate));
 
-
-
-        return estateDTO;
+        return new EstateDTO(
+                estate.getPaymentTransactionType(),
+                estate.getAcquisitionStatus(),
+                estate.getCreatedAt(),
+                estate.getLastUpdatedAt(),
+                estateDetails.getSquareMeters(),
+                estateDetails.getNumberOfRooms(),
+                estateDetails.getNumberOfBathRooms(),
+                estateDTO.getNumberOfGarages(),
+                estateDetails.getYearOfConstruction(),
+                estateDetails.getTypeOfEstate(),
+                address.getFullAddress(),
+                address.getCity(),
+                address.getCountry(),
+                owner.getEmail(),
+                estateDTO.getFirstName(),
+                estateDTO.getLastName(),
+                estateDTO.getPhoneNumber(),
+                price.getPrice(),
+                price.getLastUpdatedAt() ,
+                price.getCurrency()
+        );
     }
 }

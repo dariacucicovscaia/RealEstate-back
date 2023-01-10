@@ -11,7 +11,7 @@ import java.util.List;
 public interface AppointmentService {
     Appointment createAppointment(Appointment appointment, User user);
     List<Appointment> getAppointmentsOfAnEstate(Estate estate, PaginationFilter paginationFilter);
-    List<Appointment> getAppointmentsOfAUser(User user, PaginationFilter paginationFilter);
+    List<Appointment> getAppointmentsOfAUser(User user);
     List<Appointment> usersAppointmentsByAppointmentStatus(User user, AppointmentStatus appointmentStatus, PaginationFilter paginationFilter);
     Appointment getAppointmentById(Long id);
 }

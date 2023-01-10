@@ -20,4 +20,45 @@ public class AppointmentDTO {
         this.end = end;
         this.estateId = estateId;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public LocalDateTime getStart() {
+        return start;
+    }
+
+    public LocalDateTime getEnd() {
+        return end;
+    }
+
+    public Long getEstateId() {
+        return estateId;
+    }
+
+    @Override
+    public String toString() {
+        return "AppointmentDTO{" +
+                "email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", start=" + start +
+                ", end=" + end +
+                ", estateId=" + estateId +
+                '}';
+    }
 }

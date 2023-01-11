@@ -89,10 +89,15 @@ public class AppointmentDAOImplTest {
         Assert.assertNotNull(appointmentsOfAUser);
     }
 
-    //TODO fix
-//    @Test
-//    public void getAppointmentsWithASpecificTimeInterval() {
-//        List<AppointmentReportDTO> appointmentList = appointmentDAO.getAppointmentsWithASpecificTimeIntervalByEstateId(LocalDateTime.now(),LocalDateTime.now().plusDays(10),  "mariana@example.com");
-//        Assert.assertNotNull(appointmentList);
-//    }
+
+    @Test
+    public void getAppointmentsWithASpecificTimeIntervalByEstateOd() {
+        List<AppointmentReportDTO> appointmentList =
+                appointmentDAO.getAppointmentsWithASpecificTimeIntervalByEstateId(
+                        LocalDateTime.parse("2023-01-11T15:30:23.180448500"),
+                        LocalDateTime.parse("2023-01-21T15:30:23.180448500"),
+                        1L);
+
+        Assert.assertNotNull(appointmentList);
+    }
 }

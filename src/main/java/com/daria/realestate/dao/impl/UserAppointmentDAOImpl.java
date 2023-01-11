@@ -4,12 +4,16 @@ import com.daria.realestate.dao.UserAppointmentDAO;
 import com.daria.realestate.domain.Appointment;
 import com.daria.realestate.domain.User;
 import com.daria.realestate.util.DataBaseConnection;
+import com.daria.realestate.util.PropertiesReader;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 
 public class UserAppointmentDAOImpl implements UserAppointmentDAO {
 
     private final DataBaseConnection dataBaseConnection;
+    private static final Logger logger = LogManager.getLogger(UserAppointmentDAOImpl.class);
 
     public UserAppointmentDAOImpl(DataBaseConnection dataBaseConnection) {
         this.dataBaseConnection = dataBaseConnection;
@@ -29,6 +33,7 @@ public class UserAppointmentDAOImpl implements UserAppointmentDAO {
             } else return false;
 
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
 
@@ -47,6 +52,7 @@ public class UserAppointmentDAOImpl implements UserAppointmentDAO {
             } else return false;
 
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
 

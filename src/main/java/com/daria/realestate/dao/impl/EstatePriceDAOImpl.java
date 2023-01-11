@@ -40,6 +40,7 @@ public class EstatePriceDAOImpl extends AbstractDAOImpl<EstatePrice> implements 
                 price.setId(generatedKeys.getLong(1));
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
         return price;
@@ -54,6 +55,7 @@ public class EstatePriceDAOImpl extends AbstractDAOImpl<EstatePrice> implements 
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
         return id;
@@ -67,6 +69,7 @@ public class EstatePriceDAOImpl extends AbstractDAOImpl<EstatePrice> implements 
 
             return setValuesFromResultSetIntoEntityList(resultSet).get(0);
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
     }
@@ -83,6 +86,7 @@ public class EstatePriceDAOImpl extends AbstractDAOImpl<EstatePrice> implements 
                         resultSet.getString(TABLE_COLUMN_CONCURRENCY)));
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
         return prices;

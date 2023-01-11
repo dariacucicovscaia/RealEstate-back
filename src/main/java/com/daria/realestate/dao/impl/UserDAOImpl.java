@@ -38,6 +38,7 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
             }
 
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
 
@@ -58,6 +59,7 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
                 return null;
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
     }
@@ -71,6 +73,7 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
 
             return setValuesFromResultSetIntoEntityList(resultSet).get(0);
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
 
@@ -100,7 +103,7 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
              ResultSet resultSet = statement.executeQuery(sql)) {
             return setValuesFromResultSetIntoEntityList(resultSet).get(0);
         } catch (SQLException e) {
-            //TODO log exceptions
+            logger.error(e);
             throw new RuntimeException(e);
         }
     }
@@ -113,6 +116,7 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
 
             return setValuesFromResultSetIntoEntityList(resultSet).get(0);
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
 
@@ -128,6 +132,7 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
             logger.info("User with the id = " + id + " has been removed");
 
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
         return id;
@@ -141,6 +146,7 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
                 users.add(new User(resultSet.getLong(TABLE_COLUMN_ID), resultSet.getString("email"), resultSet.getString("password")));
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
         return users;
@@ -154,6 +160,7 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
         try (Statement statement = getConnection().createStatement()) {
             return setValuesFromResultSetIntoEntityList(statement.executeQuery(sql));
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
     }

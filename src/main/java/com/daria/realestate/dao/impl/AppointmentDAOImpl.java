@@ -38,6 +38,7 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
              ResultSet resultSet = statement.executeQuery(sql)) {
             return setValuesFromResultSetIntoEntityList(resultSet);
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
     }
@@ -53,6 +54,7 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
              ResultSet resultSet = statement.executeQuery(sql)) {
             return setValuesFromResultSetIntoEntityList(resultSet);
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
 
@@ -73,6 +75,7 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
                 ));
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
         return appointments;
@@ -95,6 +98,7 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
                 appointment.setId(generatedKeys.getLong(1));
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
         return appointment;
@@ -110,6 +114,7 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
         return id;
@@ -125,6 +130,7 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
 
             return getById(appointment.getId());
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
     }
@@ -138,6 +144,7 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
             List<Appointment> estates = setValuesFromResultSetIntoEntityList(resultSet);
             return estates.get(0);
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
     }
@@ -153,6 +160,7 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
         try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
             return setValuesFromResultSetIntoEntityList(preparedStatement.executeQuery());
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
     }
@@ -186,6 +194,7 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
             return appointments;
 
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
     }

@@ -38,13 +38,11 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
         try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
             return setValuesFromResultSetIntoEntityList(preparedStatement.executeQuery());
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
     }
 
-    //todo is unuseful because we can select estate with user and address in another way and maybe add objects with are in relations one to one with estate
-    //todo parameter only id
-    //todo single responsibility
     @Override
     public EstateDTO getAllEstateDetails(long id) {
 
@@ -91,6 +89,7 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
             }
             return estateDTO;
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
     }
@@ -109,6 +108,7 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
 
             return getById(estate.getId());
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
     }
@@ -131,6 +131,7 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
                 estate.setId(generatedKeys.getLong(1));
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
         return estate;
@@ -149,6 +150,7 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
                         resultSet.getTimestamp(TABLE_COLUMN_LAST_UPDATED_AT).toLocalDateTime()));
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
         return estates;
@@ -163,6 +165,7 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
             List<Estate> estates = setValuesFromResultSetIntoEntityList(resultSet);
             return estates.get(0);
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
     }
@@ -177,6 +180,7 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
         return id;

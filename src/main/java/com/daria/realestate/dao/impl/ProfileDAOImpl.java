@@ -33,6 +33,7 @@ public class ProfileDAOImpl extends AbstractDAOImpl<Profile> implements ProfileD
                 profile.setId(generatedKeys.getLong(1));
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
         return getById(profile.getId());
@@ -47,6 +48,7 @@ public class ProfileDAOImpl extends AbstractDAOImpl<Profile> implements ProfileD
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
         return id;
@@ -61,6 +63,7 @@ public class ProfileDAOImpl extends AbstractDAOImpl<Profile> implements ProfileD
             List<Profile> estates = setValuesFromResultSetIntoEntityList(resultSet);
             return estates.get(0);
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
     }
@@ -73,6 +76,7 @@ public class ProfileDAOImpl extends AbstractDAOImpl<Profile> implements ProfileD
                 profiles.add(new Profile(resultSet.getLong("id"), resultSet.getString("firstName"), resultSet.getString("lastName"), resultSet.getString("phoneNumber")));
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
         return profiles;
@@ -93,6 +97,7 @@ public class ProfileDAOImpl extends AbstractDAOImpl<Profile> implements ProfileD
                 return null;
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
     }

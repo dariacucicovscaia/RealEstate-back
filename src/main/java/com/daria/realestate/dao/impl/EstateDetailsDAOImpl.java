@@ -39,6 +39,7 @@ public class EstateDetailsDAOImpl extends AbstractDAOImpl<EstateDetails> impleme
                 ));
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
         return estateDetails;
@@ -59,6 +60,7 @@ public class EstateDetailsDAOImpl extends AbstractDAOImpl<EstateDetails> impleme
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
         return estateDetails;
@@ -74,6 +76,7 @@ public class EstateDetailsDAOImpl extends AbstractDAOImpl<EstateDetails> impleme
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
         return id;
@@ -89,6 +92,7 @@ public class EstateDetailsDAOImpl extends AbstractDAOImpl<EstateDetails> impleme
             List<EstateDetails> estateDetails = setValuesFromResultSetIntoEntityList(resultSet);
             return estateDetails.get(0);
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
     }

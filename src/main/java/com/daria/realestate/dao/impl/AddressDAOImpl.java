@@ -34,6 +34,7 @@ public class AddressDAOImpl extends AbstractDAOImpl<Address> implements AddressD
                 address.setId(generatedKeys.getLong(1));
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
         return getById(address.getId());
@@ -48,6 +49,7 @@ public class AddressDAOImpl extends AbstractDAOImpl<Address> implements AddressD
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
         return id;
@@ -62,6 +64,7 @@ public class AddressDAOImpl extends AbstractDAOImpl<Address> implements AddressD
             List<Address> addresses = setValuesFromResultSetIntoEntityList(resultSet);
             return addresses.get(0);
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
     }
@@ -74,6 +77,7 @@ public class AddressDAOImpl extends AbstractDAOImpl<Address> implements AddressD
                 addresses.add(new Address(resultSet.getLong("id"), resultSet.getString("fullAddress"), resultSet.getString("city"), resultSet.getString("country")));
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
         return addresses;
@@ -94,6 +98,7 @@ public class AddressDAOImpl extends AbstractDAOImpl<Address> implements AddressD
                 return null;
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
     }
@@ -108,6 +113,7 @@ public class AddressDAOImpl extends AbstractDAOImpl<Address> implements AddressD
         ResultSet resultSet = statement.executeQuery(sql)) {
             return setValuesFromResultSetIntoEntityList(resultSet).get(0);
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
     }

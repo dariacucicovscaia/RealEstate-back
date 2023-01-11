@@ -29,6 +29,7 @@ public class UserRoleDAOImpl extends AbstractDAOImpl<UserRole> implements UserRo
                 );
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
 
@@ -53,6 +54,7 @@ public class UserRoleDAOImpl extends AbstractDAOImpl<UserRole> implements UserRo
                 userRole.setId(generatedKeys.getLong(1));
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
 
@@ -83,6 +85,7 @@ public class UserRoleDAOImpl extends AbstractDAOImpl<UserRole> implements UserRo
 
             return setValuesFromResultSetIntoEntityList(resultSet).get(0);
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
     }
@@ -99,6 +102,7 @@ public class UserRoleDAOImpl extends AbstractDAOImpl<UserRole> implements UserRo
                 roles.add(Roles.valueOf(resultSet.getString(1)));
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
         return roles;

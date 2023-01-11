@@ -97,4 +97,18 @@ public class AddressDAOImpl extends AbstractDAOImpl<Address> implements AddressD
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public Address getAddressOfAnEstate(long estateId) {
+        String sql = " select a.* from address as a " +
+                " inner join estate as e on e.address_id = a.id " +
+                " where e.id = " + estateId;
+
+        try(Statement statement = getConnection().createStatement();
+        ResultSet resultSet = statement.executeQuery(sql)) {
+            return setValuesFromResultSetIntoEntityList(resultSet).get(0);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

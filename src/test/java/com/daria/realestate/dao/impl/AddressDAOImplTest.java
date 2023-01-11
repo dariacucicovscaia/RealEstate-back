@@ -38,4 +38,35 @@ public class AddressDAOImplTest {
         Assert.assertEquals("Moldova", address.getCountry());
     }
 
+    @Test
+    public void retrieveCorrectEstateAddress() {
+        Address address = addressDAO.getAddressOfAnEstate(1L);
+
+        Assert.assertEquals("29 Strada Sfatul Țării", address.getFullAddress());
+        Assert.assertEquals("Chisinau", address.getCity());
+        Assert.assertEquals("Moldova", address.getCountry());
+
+    }
+
+    @Test
+    public void updateAddressTest() {
+        Address address = addressDAO.getById(1L);
+
+        String fullAddressBeforeUpdate = address.getFullAddress();
+        String fullAddressAfterUpdate = "fullAddress";
+
+        address.setFullAddress(fullAddressAfterUpdate);
+        Address updatedAddress = addressDAO.update(address);
+
+        Assert.assertEquals(fullAddressAfterUpdate, updatedAddress.getFullAddress());
+        Assert.assertEquals(address.getCity(), updatedAddress.getCity());
+        Assert.assertEquals(address.getCountry(), updatedAddress.getCountry());
+
+        address.setFullAddress(fullAddressBeforeUpdate);
+        updatedAddress = addressDAO.update(address);
+
+        Assert.assertEquals(fullAddressBeforeUpdate, updatedAddress.getFullAddress());
+        Assert.assertEquals(address.getCity(), updatedAddress.getCity());
+        Assert.assertEquals(address.getCountry(), updatedAddress.getCountry());
+    }
 }

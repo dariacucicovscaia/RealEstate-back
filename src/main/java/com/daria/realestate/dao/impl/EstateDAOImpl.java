@@ -52,11 +52,10 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
                 " e.paymentTransactionType, e.acquisitionStatus, e.createdAt, e.lastUpdatedAt, " +
                 " ed.squareMeters, ed.numberOfRooms, ed.numberOfBathrooms, ed.numberOfGarages, ed.yearOfConstruction, ed.typeOfEstate, " +
                 " a.fullAddress, a.city, a.country, " +
-                " u.email , p.firstName, p.lastName, p.phoneNumber," +
+                " u.email," +
                 " price.price, price.lastUpdatedAt as lastPriceUpdate, price,concurrency " +
                 " from estate as e  " +
                 " inner join user as u on u.id = e.owner_id " +
-                " inner join profile as p on p.user_id = u.id " +
                 " inner join estate_details as ed on e.id = ed.estate_id " +
                 " inner join address as a on e.address_id = a.id " +
                 " inner join price on price.estate_id = e.id " +
@@ -84,9 +83,6 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
                         resultSet.getString("country"),
 
                         resultSet.getString("email"),
-                        resultSet.getString("firstName"),
-                        resultSet.getString("lastName"),
-                        resultSet.getString("phoneNumber"),
 
                         resultSet.getLong("price"),
                         resultSet.getTimestamp("lastPriceUpdate").toLocalDateTime()

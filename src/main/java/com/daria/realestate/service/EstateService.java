@@ -14,6 +14,5 @@ public interface EstateService {
     EstateDTO getAllDetailsOfAnEstate(long estateId);
 
     Estate getEstateById(Long id);
-    Long removeEstateById(Long id);
     Estate updateEstate(Estate estate);
 }

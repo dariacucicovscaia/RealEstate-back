@@ -47,9 +47,6 @@ public class EstateRegistrationServiceImpl implements EstateRegistrationService 
                 address.getCity(),
                 address.getCountry(),
                 owner.getEmail(),
-                estateDTO.getFirstName(),
-                estateDTO.getLastName(),
-                estateDTO.getPhoneNumber(),
                 price.getPrice(),
                 price.getLastUpdatedAt() ,
                 price.getCurrency()

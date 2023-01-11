@@ -32,12 +32,6 @@ public class EstateServiceImpl implements EstateService {
         return estateDAO.getById(id);
     }
 
-
-    @Override
-    public Long removeEstateById(Long id) {
-        return estateDAO.removeById(id);
-    }
-
     @Override
     public Estate updateEstate(Estate estate) {
         return estateDAO.update(estate);

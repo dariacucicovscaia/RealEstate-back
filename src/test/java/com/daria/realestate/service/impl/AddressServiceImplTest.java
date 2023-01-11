@@ -10,19 +10,16 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class AddressServiceImplTest {
     @Mock
     private AddressDAO addressDAO;
 
     private AddressService serviceUnderTests;
-    private ArgumentCaptor<Address> addressArgumentsCaptor;
 
     @Before
     public void setupService() {
-        addressArgumentsCaptor = ArgumentCaptor.forClass(Address.class);
         addressDAO = mock(AddressDAOImpl.class);
         serviceUnderTests = new AddressServiceImpl((AddressDAOImpl) addressDAO);
     }
@@ -30,12 +27,10 @@ public class AddressServiceImplTest {
     @Test
     public void update() {
         Address address = new Address(1L, "fullAddress", "city", "country");
+        when(addressDAO.update(address)).thenReturn(address);
+
         serviceUnderTests.update(address);
 
-        verify(addressDAO)
-                .update(addressArgumentsCaptor.capture());
-
-        Address updatedAddress= addressArgumentsCaptor.getValue();
-        Assert.assertEquals(updatedAddress, address);
+        verify(addressDAO).update(address);
     }
 }

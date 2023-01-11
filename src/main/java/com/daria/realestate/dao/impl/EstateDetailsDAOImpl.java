@@ -83,7 +83,7 @@ public class EstateDetailsDAOImpl extends AbstractDAOImpl<EstateDetails> impleme
     @Override
     public EstateDetails getById(long id) {
         try (Statement statement = DataBaseConnection.getConnection().createStatement()) {
-            String sql = "SELECT * FROM " + TABLE_NAME + " WHERE id = " + id + ";";
+            String sql = "SELECT * FROM " + TABLE_NAME + " WHERE estate_id = " + id + ";";
             ResultSet resultSet = statement.executeQuery(sql);
 
             List<EstateDetails> estateDetails = setValuesFromResultSetIntoEntityList(resultSet);

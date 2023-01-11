@@ -92,11 +92,24 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
     }
 
     @Override
+    public User getOwnerOfAnEstate(long estateId) {
+        String sql = " select u.* from user as u " +
+                " inner join estate as e on e.owner_id = u.id " +
+                " where e.id = " + estateId;
+        try (Statement statement = getConnection().createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+            return setValuesFromResultSetIntoEntityList(resultSet).get(0);
+        } catch (SQLException e) {
+            //TODO log exceptions
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public User getById(long id) {
         String sql = "SELECT * FROM " + TABLE_NAME + " WHERE id = '" + id + "';";
-
-        try (Statement statement = DataBaseConnection.getConnection().createStatement()) {
-            ResultSet resultSet = statement.executeQuery(sql);
+        try (Statement statement = DataBaseConnection.getConnection().createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
 
             return setValuesFromResultSetIntoEntityList(resultSet).get(0);
         } catch (SQLException e) {
@@ -138,8 +151,8 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
         String sql = " select distinct u.* from realestate.user as u " +
                 " inner join realestate.user_appointment as ua on ua.user_id = u.id ";
 
-        try(Statement statement = getConnection().createStatement()) {
-           return  setValuesFromResultSetIntoEntityList(statement.executeQuery(sql));
+        try (Statement statement = getConnection().createStatement()) {
+            return setValuesFromResultSetIntoEntityList(statement.executeQuery(sql));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

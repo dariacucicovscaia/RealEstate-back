@@ -8,13 +8,11 @@ import com.daria.realestate.service.EstateDetailsService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 
 import java.time.LocalDate;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class EstateDetailsServiceImplTest {
     @Mock
@@ -32,14 +30,12 @@ public class EstateDetailsServiceImplTest {
 
     @Test
     public void getByEstateId() {
-        when(serviceUnderTests.getByEstateId(1L)).thenReturn(new EstateDetails(25, 3, 2, 2, LocalDate.now(), TypeOfEstate.TOWNHOUSE));
-        EstateDetails estateDetails = serviceUnderTests.getByEstateId(1L);
+        EstateDetails estateDetails = new EstateDetails(25, 3, 2, 2, LocalDate.now(), TypeOfEstate.TOWNHOUSE);
 
-        Assert.assertEquals(estateDetails.getSquareMeters(), 25);
-        Assert.assertEquals(estateDetails.getTypeOfEstate(), TypeOfEstate.TOWNHOUSE);
-        Assert.assertEquals(estateDetails.getNumberOfBathRooms(), 2);
-        Assert.assertEquals(estateDetails.getNumberOfRooms(), 3);
-        Assert.assertEquals(estateDetails.getNumberOfGarages(),2);
-        Assert.assertEquals(estateDetails.getYearOfConstruction(), LocalDate.now());
+        when(estateDetailsDAO.getById(1L)).thenReturn(estateDetails);
+        EstateDetails fetchedEstate = serviceUnderTests.getByEstateId(1L);
+
+        verify(estateDetailsDAO).getById(1L);
+        Assert.assertNotNull(fetchedEstate);
     }
 }

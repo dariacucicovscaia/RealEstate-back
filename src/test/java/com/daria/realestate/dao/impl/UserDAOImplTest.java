@@ -7,6 +7,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 
 public class UserDAOImplTest {
     private UserDAO userDAO;
@@ -77,5 +79,10 @@ public class UserDAOImplTest {
         long id = 1;
         long idOfTheUserById = userDAO.getById(id).getId();
         Assert.assertEquals(id, idOfTheUserById);
+    }
+    @Test
+    public void getUsersThatHaveAppointmentsTest() {
+        List<User> usersThatHaveAppointments = userDAO.getAllUsersThatHaveAppointments();
+        Assert.assertNotNull(usersThatHaveAppointments);
     }
 }

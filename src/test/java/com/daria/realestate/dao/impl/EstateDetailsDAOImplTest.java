@@ -24,8 +24,6 @@ public class EstateDetailsDAOImplTest {
     }
 
 
-
-
     @Test
     public void testCreationOfEstateDetails() {
         Estate estate = new Estate(99999L, "SALE", "OPEN", LocalDateTime.now(), LocalDateTime.now());
@@ -44,4 +42,20 @@ public class EstateDetailsDAOImplTest {
 
         estateDetailsDAO.removeById(createdEstateDetails.getEstate().getId());
     }
+
+
+    @Test
+    public void testRetrievalOfEstateDetails() {
+        EstateDetails fetchedEstateDetails = estateDetailsDAO.getById(1L);
+
+        Assert.assertEquals(25, fetchedEstateDetails.getSquareMeters());
+        Assert.assertEquals(TypeOfEstate.OFFICE, fetchedEstateDetails.getTypeOfEstate());
+        Assert.assertEquals(2, fetchedEstateDetails.getNumberOfBathRooms());
+        Assert.assertEquals(3, fetchedEstateDetails.getNumberOfRooms());
+        Assert.assertEquals(1, fetchedEstateDetails.getNumberOfGarages());
+        Assert.assertEquals(LocalDate.of(2003, 12, 02), fetchedEstateDetails.getYearOfConstruction());
+
+    }
+
+
 }

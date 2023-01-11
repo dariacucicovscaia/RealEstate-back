@@ -5,7 +5,7 @@ import com.daria.realestate.domain.Estate;
 import com.daria.realestate.domain.PaginationFilter;
 import com.daria.realestate.domain.User;
 import com.daria.realestate.domain.enums.AppointmentStatus;
-import com.daria.realestate.dto.AppointmentDTO;
+import com.daria.realestate.dto.AppointmentReportDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,5 +31,5 @@ public interface AppointmentDAO extends DAO<Appointment> {
     List<Appointment> appointmentsOfAUser(User user);
     List<Appointment> getAppointmentsOfAnEstate(Estate estate, PaginationFilter paginationFilter);
 
-    List<AppointmentDTO> getAppointmentsWithASpecificTimeInterval(LocalDateTime from, LocalDateTime to, String email);
+    List<AppointmentReportDTO> getAppointmentsWithASpecificTimeIntervalByEstateId(LocalDateTime from, LocalDateTime to, long estateId);
 }

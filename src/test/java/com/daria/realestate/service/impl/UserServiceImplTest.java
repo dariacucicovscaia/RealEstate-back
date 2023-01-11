@@ -7,7 +7,6 @@ import com.daria.realestate.service.UserService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 
 import static org.mockito.Mockito.*;
@@ -19,46 +18,40 @@ public class UserServiceImplTest {
     private UserDAO userDAO;
 
     private UserService serviceUnderTests;
-    private ArgumentCaptor<User> userArgumentsCaptor;
 
 
     @Before
     public void setupService() {
-        userArgumentsCaptor = ArgumentCaptor.forClass(User.class);
         userDAO = mock(UserDAOImpl.class);
         serviceUnderTests = new UserServiceImpl((UserDAOImpl) userDAO);
     }
 
     @Test
     public void getUserByEmail() {
-        when(serviceUnderTests.getUserByEmail("email")).thenReturn(new User(1L, "email", "password"));
+        when(userDAO.getUserByEmail("email")).thenReturn(new User(1L, "email", "password"));
         User user = serviceUnderTests.getUserByEmail("email");
-
-        Assert.assertEquals((Long) 1L, user.getId());
-        Assert.assertEquals("email", user.getEmail());
-        Assert.assertEquals("password", user.getPassword());
+        Assert.assertNotNull(user);
+        verify(userDAO).getUserByEmail("email");
     }
 
     @Test
     public void update() {
         User user = new User(1L, "mariana@gmail.com", "123456");
-        serviceUnderTests.updateUser(user);
+        when(userDAO.update(user)).thenReturn(user);
 
-        verify(userDAO)
-                .update(userArgumentsCaptor.capture());
+        User updatedTestData = serviceUnderTests.updateUser(user);
 
-        User capturedUpdatedUser = userArgumentsCaptor.getValue();
-
-        Assert.assertEquals(capturedUpdatedUser, user);
+        verify(userDAO).update(user);
+        Assert.assertNotNull(updatedTestData);
     }
 
     @Test
     public void getById() {
-        when(serviceUnderTests.getUserById(1L)).thenReturn(new User(1L, "email", "password"));
-        User user = serviceUnderTests.getUserById(1L);
+        when(userDAO.getById(1L)).thenReturn(new User(1L, "mariana@gmail.com", "123456"));
 
-        Assert.assertEquals((Long) 1L, user.getId());
-        Assert.assertEquals("email", user.getEmail());
-        Assert.assertEquals("password", user.getPassword());
+        User fetchedUser = serviceUnderTests.getUserById(1L);
+
+        verify(userDAO).getById(1L);
+        Assert.assertNotNull(fetchedUser);
     }
 }

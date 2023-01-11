@@ -104,9 +104,6 @@ public class EstateDAOImplTest {
         Assert.assertEquals("Moldova", estateDTO.getCountry());
 
         Assert.assertEquals("vlad@example.com", estateDTO.getEmail());
-        Assert.assertEquals("vlad", estateDTO.getFirstName());
-        Assert.assertEquals("pass", estateDTO.getLastName());
-        Assert.assertEquals("+1354788541", estateDTO.getPhoneNumber());
 
         Assert.assertEquals((Long) 200000L, estateDTO.getPrice());
         Assert.assertEquals(LocalDateTime.of(2023, 01, 02, 15, 02, 46), estateDTO.getLastPriceUpdatedAt());

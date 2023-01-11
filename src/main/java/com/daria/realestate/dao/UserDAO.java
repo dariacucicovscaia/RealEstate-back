@@ -30,6 +30,8 @@ public interface UserDAO extends DAO<User> {
      */
     long removeByEmail(String email);
 
+    User getOwnerOfAnEstate(long estateId);
+
     List<User> getAllUsersThatHaveAppointments();
 
 }

@@ -7,7 +7,7 @@ import com.daria.realestate.domain.enums.TypeOfEstate;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class EstateDTO  {
+public class EstateDTO {
     private PaymentTransactionType paymentTransactionType;
     private AcquisitionStatus acquisitionStatus;
     private LocalDateTime createdAt;
@@ -25,15 +25,13 @@ public class EstateDTO  {
     private String country;
 
     private String email;
-    private String firstName;
-    private String lastName;
-    private String phoneNumber;
+
 
     private Long price;
     private LocalDateTime lastPriceUpdatedAt;
     private String currency;
 
-    public EstateDTO(PaymentTransactionType paymentTransactionType, AcquisitionStatus acquisitionStatus, LocalDateTime createdAt, LocalDateTime lastUpdatedAt, int squareMeters, int numberOfRooms, int numberOfBathRooms, int numberOfGarages, LocalDate yearOfConstruction, TypeOfEstate typeOfEstate, String fullAddress, String city, String country, String email, String firstName, String lastName, String phoneNumber, Long price, LocalDateTime lastPriceUpdatedAt, String currency) {
+    public EstateDTO(PaymentTransactionType paymentTransactionType, AcquisitionStatus acquisitionStatus, LocalDateTime createdAt, LocalDateTime lastUpdatedAt, int squareMeters, int numberOfRooms, int numberOfBathRooms, int numberOfGarages, LocalDate yearOfConstruction, TypeOfEstate typeOfEstate, String fullAddress, String city, String country, String email, Long price, LocalDateTime lastPriceUpdatedAt, String currency) {
         this.paymentTransactionType = paymentTransactionType;
         this.acquisitionStatus = acquisitionStatus;
         this.createdAt = createdAt;
@@ -48,9 +46,6 @@ public class EstateDTO  {
         this.city = city;
         this.country = country;
         this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
         this.price = price;
         this.lastPriceUpdatedAt = lastPriceUpdatedAt;
         this.currency = currency;
@@ -61,11 +56,9 @@ public class EstateDTO  {
     }
 
 
-
     public AcquisitionStatus getAcquisitionStatus() {
         return acquisitionStatus;
     }
-
 
 
     public LocalDateTime getCreatedAt() {
@@ -131,20 +124,6 @@ public class EstateDTO  {
         this.email = email;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-
-    public String getLastName() {
-        return lastName;
-    }
-
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
 
     public Long getPrice() {
         return price;
@@ -154,7 +133,6 @@ public class EstateDTO  {
     public LocalDateTime getLastPriceUpdatedAt() {
         return lastPriceUpdatedAt;
     }
-
 
 
     public String getCurrency() {
@@ -178,9 +156,6 @@ public class EstateDTO  {
                 ", city='" + city + '\'' +
                 ", country='" + country + '\'' +
                 ", email='" + email + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
                 ", price=" + price +
                 ", lastPriceUpdatedAt=" + lastPriceUpdatedAt +
                 ", currency='" + currency + '\'' +

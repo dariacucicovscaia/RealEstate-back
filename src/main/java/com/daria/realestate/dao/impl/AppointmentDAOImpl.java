@@ -3,12 +3,12 @@ package com.daria.realestate.dao.impl;
 import com.daria.realestate.dao.AppointmentDAO;
 import com.daria.realestate.domain.*;
 import com.daria.realestate.domain.enums.AppointmentStatus;
-import com.daria.realestate.dto.AppointmentDTO;
+import com.daria.realestate.dto.AppointmentReportDTO;
 import com.daria.realestate.util.DataBaseConnection;
 
+import javax.xml.transform.Result;
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,13 +34,12 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
                 "  limit " + paginationFilter.getNrOfElementsWeWantDisplayed() + " offset " +
                 getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed());
 
-        try (PreparedStatement preparedStatement = DataBaseConnection.getConnection().prepareStatement(sql)) {
-
-            return setValuesFromResultSetIntoEntityList(preparedStatement.executeQuery());
+        try (Statement statement = getConnection().createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+            return setValuesFromResultSetIntoEntityList(resultSet);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     @Override
@@ -50,9 +49,9 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
                 " inner join appointment as a on ua.appointment_id = a.id " +
                 " where u.id = " + user.getId() ;
 
-        try (PreparedStatement preparedStatement = DataBaseConnection.getConnection().prepareStatement(sql)) {
-
-            return setValuesFromResultSetIntoEntityList(preparedStatement.executeQuery());
+        try (Statement statement = getConnection().createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+            return setValuesFromResultSetIntoEntityList(resultSet);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -62,6 +61,7 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
     @Override
     protected List<Appointment> setValuesFromResultSetIntoEntityList(ResultSet resultSet) {
         List<Appointment> appointments = new ArrayList<>();
+
         try {
             while (resultSet.next()) {
                 appointments.add(new Appointment(
@@ -82,8 +82,7 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
     public Appointment create(Appointment appointment) {
         String sql = "INSERT INTO " + TABLE_NAME + " (" + TABLE_COLUMN_MADE_AT + ", " + TABLE_COLUMN_START + ", " + TABLE_COLUMN_END + ", " + TABLE_COLUMN_APPOINTMENT_STATUS + ", " + TABLE_COLUMN_ESTATE_ID + ") " + "VALUES(?,?,?,?,?);";
 
-        try (PreparedStatement preparedStatement = DataBaseConnection.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
-
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
             preparedStatement.setTimestamp(1, Timestamp.valueOf(appointment.getMadeAt()));
             preparedStatement.setTimestamp(2, Timestamp.valueOf(appointment.getStart()));
             preparedStatement.setTimestamp(3, Timestamp.valueOf(appointment.getEnd()));
@@ -120,7 +119,7 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
     public Appointment update(Appointment appointment) {
         String sql = "UPDATE " + TABLE_NAME + " SET appointmentStatus = ? WHERE id = " + appointment.getId() + ";";
 
-        try (PreparedStatement preparedStatement = DataBaseConnection.getConnection().prepareStatement(sql)) {
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
             preparedStatement.setString(1, String.valueOf(appointment.getAppointmentStatus()));
             preparedStatement.executeUpdate();
 
@@ -132,7 +131,7 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
 
     @Override
     public Appointment getById(long id) {
-        try (Statement statement = DataBaseConnection.getConnection().createStatement()) {
+        try (Statement statement = getConnection().createStatement()) {
             String sql = "SELECT * FROM " + TABLE_NAME + " WHERE id = " + id + ";";
             ResultSet resultSet = statement.executeQuery(sql);
 
@@ -159,30 +158,29 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
     }
 
     @Override
-    public List<AppointmentDTO> getAppointmentsWithASpecificTimeInterval(LocalDateTime from, LocalDateTime to, String email) {
-
-        String sql = " select distinct o.email,p.firstName, p.lastName, p.phoneNumber, a.start, a.end, a.estate_id  from realestate.appointment as a  " +
-                " inner join realestate.user_appointment as ua on ua.appointment_id = a.id   " +
-                " inner join realestate.user as u on u.id = ua.user_id   " +
-                " inner join realestate.estate as e on  e.id = a.estate_id " +
-                " inner join realestate.user as o on o.id = e.owner_id  " +
-                " inner join realestate.profile as p on o.id = p.user_id  "+
-                " where a.start >= \"" + from + "\" and a.start <= \"" + to + "\" and u.email = \"" +email +"\"";
+    public List<AppointmentReportDTO> getAppointmentsWithASpecificTimeIntervalByEstateId(LocalDateTime from, LocalDateTime to, long estateId) {
+        String sql = " select distinct " +
+                " a.start, a.end,u.email,p.firstName, p.lastName, p.phoneNumber, a.appointmentStatus  from realestate.appointment as a " +
+                " inner join realestate.user_appointment as ua on ua.appointment_id = a.id " +
+                " inner join realestate.user as u on u.id = ua.user_id " +
+                " inner join realestate.profile as p on u.id = p.user_id   "+
+                " where a.start >= \"" + from + "\" and a.start <= \"" + to + "\" and a.estate_id = \"" +estateId +"\"";
 
         try (Statement statement = getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(sql)) {
 
-            List<AppointmentDTO> appointments = new ArrayList<>();
+            List<AppointmentReportDTO> appointments = new ArrayList<>();
 
             while(resultSet.next()){
-                appointments.add(new AppointmentDTO(
+                appointments.add(new AppointmentReportDTO(
+                        resultSet.getTimestamp("start").toLocalDateTime(),
+                        resultSet.getTimestamp("end").toLocalDateTime(),
                         resultSet.getString("email"),
                         resultSet.getString("firstName"),
                         resultSet.getString("lastName"),
                         resultSet.getString("phoneNumber"),
-                        resultSet.getTimestamp("start").toLocalDateTime(),
-                        resultSet.getTimestamp("end").toLocalDateTime(),
-                        resultSet.getLong("estate_id")
+
+                        AppointmentStatus.valueOf(resultSet.getString("appointmentStatus"))
                 ));
             }
             return appointments;

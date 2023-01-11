@@ -12,12 +12,10 @@ import com.daria.realestate.service.AppointmentService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -29,62 +27,65 @@ public class AppointmentServiceImplTest {
     private UserAppointmentDAO userAppointmentDAO;
 
     private AppointmentService serviceUnderTests;
-    private ArgumentCaptor<Appointment> appointmentArgumentsCaptor;
 
     @Before
     public void setupService() {
-        appointmentArgumentsCaptor = ArgumentCaptor.forClass(Appointment.class);
-
         appointmentDAO = mock(AppointmentDAOImpl.class);
         userAppointmentDAO = mock(UserAppointmentDAOImpl.class);
 
         serviceUnderTests = new AppointmentServiceImpl((AppointmentDAOImpl) appointmentDAO, (UserAppointmentDAOImpl) userAppointmentDAO);
     }
-//TODO refactor , check how many times is called method, both methods
+
+    //TODO refactor , check how many times is called method, both methods
     @Test
     public void createAppointment() {
         Appointment appointment = getSampleCreatedAppointment();
+        User user = new User(1L, "email", "password");
 
-        serviceUnderTests.createAppointment(appointment, new User(1L, "email", "password"));
+        when(appointmentDAO.create(appointment)).thenReturn(appointment);
+        when(userAppointmentDAO.create(user, appointment)).thenReturn(true);
 
-        verify(appointmentDAO)
-                .create(appointmentArgumentsCaptor.capture());
+        Appointment createdAppointment = serviceUnderTests.createAppointment(appointment, user);
 
-        Appointment updatedAppointment = appointmentArgumentsCaptor.getValue();
-        Assert.assertEquals(updatedAppointment, appointment);
+        verify(appointmentDAO).create(appointment);
+        verify(userAppointmentDAO).create(user, appointment);
+
+        Assert.assertNotNull(createdAppointment);
     }
 
     @Test
     public void getAppointmentsOfAnEstate() {
+        Estate estate = new Estate(1L, PaymentTransactionType.LEASE.name(), AcquisitionStatus.OPEN.name(), LocalDateTime.now(), LocalDateTime.now());
         PaginationFilter paginationFilter = new PaginationFilter(1, 5);
+
         List<Appointment> appointments = new ArrayList<>();
         appointments.add(getSampleCreatedAppointment());
         appointments.add(getSampleCreatedAppointment());
         appointments.add(getSampleCreatedAppointment());
 
-        when(serviceUnderTests.getAppointmentsOfAnEstate(new Estate(1L, PaymentTransactionType.LEASE.name(), AcquisitionStatus.OPEN.name(), LocalDateTime.now(), LocalDateTime.now()), paginationFilter))
-                .thenReturn(appointments);
+        when(appointmentDAO.getAppointmentsOfAnEstate(estate, paginationFilter)).thenReturn(appointments);
 
-        List<Appointment> fetchAppointments = serviceUnderTests
-                .getAppointmentsOfAnEstate(new Estate(1L, PaymentTransactionType.LEASE.name(), AcquisitionStatus.OPEN.name(), LocalDateTime.now(), LocalDateTime.now()), paginationFilter);
+        List<Appointment> testFetchedData = serviceUnderTests.getAppointmentsOfAnEstate(estate, paginationFilter);
 
-        Assert.assertTrue(fetchAppointments.size() <= paginationFilter.getNrOfElementsWeWantDisplayed());
-        for (Appointment appointment : fetchAppointments) {
-            appointments.forEach(a -> Assert.assertEquals(a, appointment));
-        }
+        verify(appointmentDAO).getAppointmentsOfAnEstate(estate, paginationFilter);
+        Assert.assertNotNull(testFetchedData);
     }
 
     @Test
     public void getAppointmentsOfAUser() {
         User user = new User(1L, "email", "password");
-        when(appointmentDAO.appointmentsOfAUser(user)).thenReturn(
-                new ArrayList<>(
-                        Arrays.asList(getSampleCreatedAppointment(), getSampleCreatedAppointment(), getSampleCreatedAppointment())
-                )
-        );
-        List<Appointment> fetchedAppointments = serviceUnderTests.getAppointmentsOfAUser(user);
 
-        Assert.assertNotNull(fetchedAppointments);
+        List<Appointment> appointments = new ArrayList<>();
+        appointments.add(getSampleCreatedAppointment());
+        appointments.add(getSampleCreatedAppointment());
+        appointments.add(getSampleCreatedAppointment());
+
+        when(appointmentDAO.appointmentsOfAUser(user)).thenReturn(appointments);
+
+        List<Appointment> testFetchedData = serviceUnderTests.getAppointmentsOfAUser(user);
+
+        verify(appointmentDAO).appointmentsOfAUser(user);
+        Assert.assertNotNull(testFetchedData);
     }
 
 
@@ -92,19 +93,18 @@ public class AppointmentServiceImplTest {
     public void usersAppointmentsByAppointmentStatus() {
         User user = new User(1L, "email", "password");
         PaginationFilter paginationFilter = new PaginationFilter(1, 5);
-        when(appointmentDAO.usersAppointmentsByAppointmentStatus(user, AppointmentStatus.CONFIRMED, paginationFilter))
-                .thenReturn(
-                        new ArrayList<>(
-                                Arrays.asList(getSampleCreatedAppointment(), getSampleCreatedAppointment(), getSampleCreatedAppointment())
-                        )
-                );
-        new ArrayList<>(
-                Arrays.asList(getSampleCreatedAppointment(), getSampleCreatedAppointment(), getSampleCreatedAppointment())
-        );
+        List<Appointment> appointments = new ArrayList<>();
+        appointments.add(getSampleCreatedAppointment());
+        appointments.add(getSampleCreatedAppointment());
+        appointments.add(getSampleCreatedAppointment());
+
+
+        when(appointmentDAO.usersAppointmentsByAppointmentStatus(user, AppointmentStatus.CONFIRMED, paginationFilter)).thenReturn(appointments);
+
         List<Appointment> fetchedAppointments = serviceUnderTests.usersAppointmentsByAppointmentStatus(user, AppointmentStatus.CONFIRMED, paginationFilter);
 
-        Assert.assertTrue(fetchedAppointments.size() <= paginationFilter.getNrOfElementsWeWantDisplayed());
-        fetchedAppointments.forEach(appointment -> Assert.assertEquals(appointment.getAppointmentStatus(), AppointmentStatus.CONFIRMED));
+        Assert.assertNotNull(fetchedAppointments);
+        verify(appointmentDAO).usersAppointmentsByAppointmentStatus(user, AppointmentStatus.CONFIRMED, paginationFilter);
     }
 
     @Test
@@ -113,10 +113,8 @@ public class AppointmentServiceImplTest {
 
         Appointment fetchedAppointment = serviceUnderTests.getAppointmentById(1L);
 
-        Assert.assertEquals(getSampleCreatedAppointment().getAppointmentStatus(), fetchedAppointment.getAppointmentStatus());
-        Assert.assertEquals(getSampleCreatedAppointment().getMadeAt(), fetchedAppointment.getMadeAt());
-        Assert.assertEquals(getSampleCreatedAppointment().getStart(), fetchedAppointment.getStart());
-        Assert.assertEquals(getSampleCreatedAppointment().getEnd(), fetchedAppointment.getEnd());
+        verify(appointmentDAO).getById(1L);
+        Assert.assertNotNull(fetchedAppointment);
     }
 
     private Appointment getSampleCreatedAppointment() {

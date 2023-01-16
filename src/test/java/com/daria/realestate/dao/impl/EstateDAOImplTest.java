@@ -7,7 +7,7 @@ import com.daria.realestate.domain.enums.OrderBy;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
 import com.daria.realestate.domain.enums.TypeOfEstate;
 import com.daria.realestate.dto.EstateDTO;
-import com.daria.realestate.util.DataBaseConnection;
+import com.daria.realestate.dbconnection.DataBaseConnection;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

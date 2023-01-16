@@ -4,7 +4,7 @@ import com.daria.realestate.dao.ProfileDAO;
 import com.daria.realestate.domain.Address;
 import com.daria.realestate.domain.Profile;
 import com.daria.realestate.domain.User;
-import com.daria.realestate.util.DataBaseConnection;
+import com.daria.realestate.dbconnection.DataBaseConnection;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

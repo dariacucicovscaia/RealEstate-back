@@ -3,8 +3,7 @@ package com.daria.realestate.dao.impl;
 import com.daria.realestate.dao.UserAppointmentDAO;
 import com.daria.realestate.domain.Appointment;
 import com.daria.realestate.domain.User;
-import com.daria.realestate.util.DataBaseConnection;
-import com.daria.realestate.util.PropertiesReader;
+import com.daria.realestate.dbconnection.DataBaseConnection;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 

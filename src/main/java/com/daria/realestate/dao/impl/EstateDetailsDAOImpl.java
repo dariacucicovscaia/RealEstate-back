@@ -2,11 +2,9 @@ package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.EstateDetailsDAO;
 import com.daria.realestate.domain.EstateDetails;
-import com.daria.realestate.domain.PaginationFilter;
-import com.daria.realestate.util.DataBaseConnection;
+import com.daria.realestate.dbconnection.DataBaseConnection;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +47,7 @@ public class EstateDetailsDAOImpl extends AbstractDAOImpl<EstateDetails> impleme
     public EstateDetails create(EstateDetails estateDetails) {
         String sql = "INSERT INTO " + TABLE_NAME + " (" + TABLE_COLUMN_SQUARE_METERS + ", " + TABLE_COLUMN_NUMBER_OF_ROOMS + ", " + TABLE_COLUMN_NUMBER_OF_BATHROOMS + ", " + TABLE_COLUMN_NUMBER_OF_GARAGES + ", " + TABLE_COLUMN_YEAR_OF_CONSTRUCTION + ", " + TABLE_COLUMN_TYPE_OF_ESTATE + ", " + TABLE_COLUMN_ESTATE_ID + ") " + "VALUES(?,?,?,?,?,?,?);";
 
-        try (PreparedStatement preparedStatement = DataBaseConnection.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
             preparedStatement.setInt(1, estateDetails.getSquareMeters());
             preparedStatement.setInt(2, estateDetails.getNumberOfRooms());
             preparedStatement.setInt(3, estateDetails.getNumberOfBathRooms());
@@ -85,7 +83,7 @@ public class EstateDetailsDAOImpl extends AbstractDAOImpl<EstateDetails> impleme
 
     @Override
     public EstateDetails getById(long id) {
-        try (Statement statement = DataBaseConnection.getConnection().createStatement()) {
+        try (Statement statement = getConnection().createStatement()) {
             String sql = "SELECT * FROM " + TABLE_NAME + " WHERE estate_id = " + id + ";";
             ResultSet resultSet = statement.executeQuery(sql);
 

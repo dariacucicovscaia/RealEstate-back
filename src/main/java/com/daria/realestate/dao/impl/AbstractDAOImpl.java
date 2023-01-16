@@ -1,7 +1,7 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.DAO;
-import com.daria.realestate.util.DataBaseConnection;
+import com.daria.realestate.dbconnection.DataBaseConnection;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 

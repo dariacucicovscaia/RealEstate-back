@@ -4,7 +4,7 @@ import com.daria.realestate.dao.UserRoleDAO;
 import com.daria.realestate.domain.User;
 import com.daria.realestate.domain.UserRole;
 import com.daria.realestate.domain.enums.Roles;
-import com.daria.realestate.util.DataBaseConnection;
+import com.daria.realestate.dbconnection.DataBaseConnection;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -41,8 +41,7 @@ public class UserRoleDAOImpl extends AbstractDAOImpl<UserRole> implements UserRo
     public UserRole create(UserRole userRole) {
         String manySql = "insert into user_role (user_id, role) values(?, ?)";
 
-        try (PreparedStatement preparedStatement = DataBaseConnection
-                .getConnection()
+        try (PreparedStatement preparedStatement = getConnection()
                 .prepareStatement(manySql, Statement.RETURN_GENERATED_KEYS)) {
 
             preparedStatement.setLong(1, userRole.getUser().getId());
@@ -80,7 +79,7 @@ public class UserRoleDAOImpl extends AbstractDAOImpl<UserRole> implements UserRo
     public UserRole getById(long id) {
         String sql = "SELECT * FROM user_role WHERE id = " + id + ";";
 
-        try (Statement statement = DataBaseConnection.getConnection().createStatement()) {
+        try (Statement statement = getConnection().createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
 
             return setValuesFromResultSetIntoEntityList(resultSet).get(0);

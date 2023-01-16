@@ -2,7 +2,7 @@ package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.UserDAO;
 import com.daria.realestate.domain.User;
-import com.daria.realestate.util.DataBaseConnection;
+import com.daria.realestate.dbconnection.DataBaseConnection;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,7 +26,7 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
     public User create(User user) {
         String sql = "INSERT INTO " + TABLE_NAME + " (email, password) VALUES(?,?);";
 
-        try (PreparedStatement preparedStatement = DataBaseConnection.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             preparedStatement.setString(1, user.getEmail());
             preparedStatement.setString(2, user.getPassword());
@@ -48,7 +48,7 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
     @Override
     public User update(User user) {
         String sql = "UPDATE " + TABLE_NAME + " SET  email = ?, password  = ? WHERE id = " + user.getId() + ";";
-        try (PreparedStatement preparedStatement = DataBaseConnection.getConnection().prepareStatement(sql)) {
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
             preparedStatement.setString(1, user.getEmail());
             preparedStatement.setString(2, user.getPassword());
 
@@ -68,7 +68,7 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
     public User getUserByEmail(String email) {
         String sql = "SELECT * FROM " + TABLE_NAME + " WHERE email = '" + email + "';";
 
-        try (Statement statement = DataBaseConnection.getConnection().createStatement()) {
+        try (Statement statement = getConnection().createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
 
             return setValuesFromResultSetIntoEntityList(resultSet).get(0);
@@ -111,7 +111,7 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
     @Override
     public User getById(long id) {
         String sql = "SELECT * FROM " + TABLE_NAME + " WHERE id = '" + id + "';";
-        try (Statement statement = DataBaseConnection.getConnection().createStatement();
+        try (Statement statement = getConnection().createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {
 
             return setValuesFromResultSetIntoEntityList(resultSet).get(0);

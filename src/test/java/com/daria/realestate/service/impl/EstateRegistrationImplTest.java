@@ -5,22 +5,12 @@ import com.daria.realestate.dao.impl.AddressDAOImpl;
 import com.daria.realestate.dao.impl.EstateDAOImpl;
 import com.daria.realestate.dao.impl.EstateDetailsDAOImpl;
 import com.daria.realestate.dao.impl.EstatePriceDAOImpl;
-import com.daria.realestate.domain.*;
-import com.daria.realestate.domain.enums.AcquisitionStatus;
-import com.daria.realestate.domain.enums.PaymentTransactionType;
-import com.daria.realestate.domain.enums.TypeOfEstate;
-import com.daria.realestate.dto.EstateDTO;
 import com.daria.realestate.service.EstateRegistrationService;
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class EstateRegistrationImplTest {
@@ -59,6 +49,8 @@ public class EstateRegistrationImplTest {
 //        when(estateDAO.create(estate)).thenReturn(estate);
 //        when(priceDAO.create(price)).thenReturn(price);
 //        when(estateDetailsDAO.create(estateDetails)).thenReturn(estateDetails);
+//
+//        when(serviceUnderTest.createEstate(estateDTO, owner)).thenReturn(estateDTO);
 //
 //        EstateDTO createdTestData = serviceUnderTest.createEstate(estateDTO, owner);
 //

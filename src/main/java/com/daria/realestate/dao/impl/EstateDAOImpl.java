@@ -7,7 +7,7 @@ import com.daria.realestate.domain.enums.AcquisitionStatus;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
 import com.daria.realestate.domain.enums.TypeOfEstate;
 import com.daria.realestate.dto.EstateDTO;
-import com.daria.realestate.util.DataBaseConnection;
+import com.daria.realestate.dbconnection.DataBaseConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -98,7 +98,7 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
     public Estate update(Estate estate) {
         String sql = "UPDATE " + TABLE_NAME + " set acquisitionStatus = ?, paymentTransactionType = ?, createdAt =?,lastUpdatedAt=?   where id = " + estate.getId();
 
-        try (PreparedStatement preparedStatement = DataBaseConnection.getConnection().prepareStatement(sql)) {
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
             preparedStatement.setString(1, String.valueOf(estate.getAcquisitionStatus()));
             preparedStatement.setString(2, String.valueOf(estate.getPaymentTransactionType()));
             preparedStatement.setTimestamp(3, Timestamp.valueOf(estate.getCreatedAt()));
@@ -116,7 +116,7 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
     public Estate create(Estate estate) {
         String sql = "INSERT INTO " + TABLE_NAME + " (" + TABLE_COLUMN_PAYMENT_TRANSACTION_TYPE + ", " + TABLE_COLUMN_ACQUISITION_STATUS + ", " + TABLE_COLUMN_CREATED_AT + ", " + TABLE_COLUMN_LAST_UPDATED_AT + ", " + TABLE_COLUMN_ADDRESS_ID + ", " + TABLE_COLUMN_OWNER_ID + ") " + "VALUES(?,?,?,?,?,?);";
 
-        try (PreparedStatement preparedStatement = DataBaseConnection.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, estate.getPaymentTransactionType().name());
             preparedStatement.setString(2, estate.getAcquisitionStatus().name());
             preparedStatement.setTimestamp(3, Timestamp.valueOf(estate.getCreatedAt()));
@@ -158,7 +158,7 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
 
     @Override
     public Estate getById(long id) {
-        try (Statement statement = DataBaseConnection.getConnection().createStatement()) {
+        try (Statement statement = getConnection().createStatement()) {
             String sql = "SELECT * FROM " + TABLE_NAME + " WHERE id = " + id + ";";
             ResultSet resultSet = statement.executeQuery(sql);
 

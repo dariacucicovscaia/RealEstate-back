@@ -2,8 +2,7 @@ package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.AddressDAO;
 import com.daria.realestate.domain.Address;
-import com.daria.realestate.domain.Profile;
-import com.daria.realestate.util.DataBaseConnection;
+import com.daria.realestate.dbconnection.DataBaseConnection;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,7 +22,7 @@ public class AddressDAOImpl extends AbstractDAOImpl<Address> implements AddressD
     public Address create(Address address) {
         String sql = " INSERT INTO " + TABLE_NAME + " (fullAddress, city, country) " + " VALUES( ? , ? , ? ) ";
 
-        try (PreparedStatement preparedStatement = DataBaseConnection.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, address.getFullAddress());
             preparedStatement.setString(2, address.getCity());
             preparedStatement.setString(3, address.getCountry());
@@ -57,7 +56,7 @@ public class AddressDAOImpl extends AbstractDAOImpl<Address> implements AddressD
 
     @Override
     public Address getById(long id) {
-        try (Statement statement = DataBaseConnection.getConnection().createStatement()) {
+        try (Statement statement = getConnection().createStatement()) {
             String sql = "SELECT * FROM " + TABLE_NAME + " WHERE id = " + id;
             ResultSet resultSet = statement.executeQuery(sql);
 
@@ -86,7 +85,7 @@ public class AddressDAOImpl extends AbstractDAOImpl<Address> implements AddressD
     @Override
     public Address update(Address address) {
         String sql = "UPDATE " + TABLE_NAME + " SET  fullAddress = ?, city  = ?, country = ? WHERE id = " + address.getId() + ";";
-        try (PreparedStatement preparedStatement = DataBaseConnection.getConnection().prepareStatement(sql)) {
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
             preparedStatement.setString(1, address.getFullAddress());
             preparedStatement.setString(2, address.getCity());
             preparedStatement.setString(3, address.getCountry());

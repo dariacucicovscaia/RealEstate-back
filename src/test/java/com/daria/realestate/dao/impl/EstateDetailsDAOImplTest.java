@@ -3,17 +3,14 @@ package com.daria.realestate.dao.impl;
 import com.daria.realestate.dao.EstateDetailsDAO;
 import com.daria.realestate.domain.Estate;
 import com.daria.realestate.domain.EstateDetails;
-import com.daria.realestate.domain.PaginationFilter;
-import com.daria.realestate.domain.enums.OrderBy;
 import com.daria.realestate.domain.enums.TypeOfEstate;
-import com.daria.realestate.util.DataBaseConnection;
+import com.daria.realestate.dbconnection.DataBaseConnection;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class EstateDetailsDAOImplTest {
     private EstateDetailsDAO estateDetailsDAO;

@@ -2,7 +2,7 @@ package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.UserDAO;
 import com.daria.realestate.domain.User;
-import com.daria.realestate.util.DataBaseConnection;
+import com.daria.realestate.dbconnection.DataBaseConnection;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

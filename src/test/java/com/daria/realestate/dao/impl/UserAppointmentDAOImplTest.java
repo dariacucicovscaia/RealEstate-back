@@ -4,7 +4,7 @@ import com.daria.realestate.dao.UserAppointmentDAO;
 import com.daria.realestate.domain.Appointment;
 import com.daria.realestate.domain.User;
 import com.daria.realestate.domain.enums.AppointmentStatus;
-import com.daria.realestate.util.DataBaseConnection;
+import com.daria.realestate.dbconnection.DataBaseConnection;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

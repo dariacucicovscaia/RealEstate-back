@@ -2,7 +2,6 @@ package com.daria.realestate.service.impl;
 
 import com.daria.realestate.service.XLSXReportingService;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -102,7 +101,6 @@ public class XLSXReportingServiceImpl implements XLSXReportingService {
 
                 }
             } catch (IOException e) {
-                //TODO cleanup exceptions and log them
                 System.out.println("Failed to close streams");
             }
         }

@@ -2,7 +2,7 @@ package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.ProfileDAO;
 import com.daria.realestate.domain.Profile;
-import com.daria.realestate.util.DataBaseConnection;
+import com.daria.realestate.dbconnection.DataBaseConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class ProfileDAOImpl extends AbstractDAOImpl<Profile> implements ProfileD
     public Profile create(Profile profile) {
         String sql = "INSERT INTO " + TABLE_NAME + " (firstName, lastName, phoneNumber, address_id, user_id) " + " VALUES( ? , ? , ? , ? , ? ) ";
 
-        try (PreparedStatement preparedStatement = DataBaseConnection.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
 
             preparedStatement.setString(1, profile.getFirstName());
             preparedStatement.setString(2, profile.getLastName());
@@ -56,7 +56,7 @@ public class ProfileDAOImpl extends AbstractDAOImpl<Profile> implements ProfileD
 
     @Override
     public Profile getById(long id) {
-        try (Statement statement = DataBaseConnection.getConnection().createStatement()) {
+        try (Statement statement = getConnection().createStatement()) {
             String sql = "SELECT * FROM " + TABLE_NAME + " WHERE id = " + id;
             ResultSet resultSet = statement.executeQuery(sql);
 
@@ -85,7 +85,7 @@ public class ProfileDAOImpl extends AbstractDAOImpl<Profile> implements ProfileD
     @Override
     public Profile update(Profile profile) {
         String sql = "UPDATE " + TABLE_NAME + " SET  firstName = ?, lastName  = ?, phoneNumber = ? WHERE id = " + profile.getId() + ";";
-        try (PreparedStatement preparedStatement = DataBaseConnection.getConnection().prepareStatement(sql)) {
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
             preparedStatement.setString(1, profile.getFirstName());
             preparedStatement.setString(2, profile.getLastName());
             preparedStatement.setString(3, profile.getPhoneNumber());

@@ -1,5 +1,6 @@
-package com.daria.realestate.util;
+package com.daria.realestate.dbconnection;
 
+import com.daria.realestate.util.PropertiesReader;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -16,8 +17,8 @@ public class DataBaseConnection {
     private static DataBaseConnection instance;
 
     private DataBaseConnection() {
-        this.propertiesReader = new PropertiesReader();
-        Properties properties = propertiesReader.loadProperties("database.properties");
+        this.propertiesReader = new PropertiesReader("application.properties");
+        Properties properties = propertiesReader.loadProperties();
 
         String url = properties.getProperty("url");
         String username = properties.getProperty("username");
@@ -26,8 +27,8 @@ public class DataBaseConnection {
         try {
             con = DriverManager.getConnection(url, username, password);
             logger.info("connection created credentials: url - "
-                            + url + " username - " + username
-                    );
+                    + url + " username - " + username
+            );
         } catch (SQLException e) {
             logger.error(e);
             throw new RuntimeException(e);
@@ -37,14 +38,14 @@ public class DataBaseConnection {
 
     public static DataBaseConnection getInstance() {
         if (instance == null) {
-            getConnection();
+            instance = new DataBaseConnection();
         }
         return instance;
     }
 
-    public static Connection getConnection() {
+    public Connection getConnection() {
         if (con == null) {
-            instance = new DataBaseConnection();
+            getConnection();
         }
         return con;
     }

@@ -2,7 +2,7 @@ package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.EstatePriceDAO;
 import com.daria.realestate.domain.EstatePrice;
-import com.daria.realestate.util.DataBaseConnection;
+import com.daria.realestate.dbconnection.DataBaseConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class EstatePriceDAOImpl extends AbstractDAOImpl<EstatePrice> implements 
                 + TABLE_COLUMN_LAST_UPDATED_AT + ", "
                 + TABLE_COLUMN_CONCURRENCY + ", "
                 + TABLE_COLUMN_ESTATE_ID + ") " + "VALUES(?,?,?,?);";
-        try (PreparedStatement preparedStatement = DataBaseConnection.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
             preparedStatement.setLong(1, price.getPrice());
             preparedStatement.setTimestamp(2, Timestamp.valueOf(price.getLastUpdatedAt()));
             preparedStatement.setString(3, price.getCurrency());
@@ -63,7 +63,7 @@ public class EstatePriceDAOImpl extends AbstractDAOImpl<EstatePrice> implements 
 
     @Override
     public EstatePrice getById(long id) {
-        try (Statement statement = DataBaseConnection.getConnection().createStatement()) {
+        try (Statement statement = getConnection().createStatement()) {
             String sql = "SELECT * FROM " + TABLE_NAME + " WHERE id = " + id + ";";
             ResultSet resultSet = statement.executeQuery(sql);
 

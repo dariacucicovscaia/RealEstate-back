@@ -36,6 +36,16 @@ public class EstateServiceImplTest {
     }
 
     @Test
+    public void createEstate() {
+        Estate estate = getSampleCreatedEstate();
+        when(estateDAO.create(estate)).thenReturn(estate);
+
+        Estate createdEstate = serviceUnderTests.createEstate(estate);
+        verify(estateDAO).create(estate);
+        Assert.assertNotNull(createdEstate);
+    }
+
+    @Test
     public void getAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus() {
         PaginationFilter paginationFilter = new PaginationFilter(1, 5);
 

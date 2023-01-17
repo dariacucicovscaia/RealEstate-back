@@ -17,4 +17,8 @@ public class AddressServiceImpl implements AddressService {
         return addressDAO.update(address);
     }
 
+    @Override
+    public Address createAddress(Address address){
+        return addressDAO.create(address);
+    }
 }

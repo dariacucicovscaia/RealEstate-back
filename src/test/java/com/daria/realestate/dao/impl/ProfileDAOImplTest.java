@@ -12,10 +12,12 @@ import org.junit.Test;
 
 public class ProfileDAOImplTest {
     private ProfileDAO profileDAO;
+
     @Before
-    public void init(){
+    public void init() {
         this.profileDAO = new ProfileDAOImpl(DataBaseConnection.getInstance());
     }
+
     @Test
     public void testCreationOfProfile() {
         Address address = new Address();
@@ -33,19 +35,35 @@ public class ProfileDAOImplTest {
 
         Long removedProfileId = profileDAO.removeById(createdProfile.getId());
         Assert.assertEquals(removedProfileId, createdProfile.getId());
-        Assert.assertThrows(IndexOutOfBoundsException.class, ()-> profileDAO.getById(createdProfile.getId()));
+        Assert.assertThrows(IndexOutOfBoundsException.class, () -> profileDAO.getById(createdProfile.getId()));
     }
 
     @Test
-    public void testGetProfileById(){
+    public void testGetProfileById() {
         Profile profile = profileDAO.getById(1L);
 
-        Assert.assertEquals((Long)1L, profile.getId());
+        Assert.assertEquals((Long) 1L, profile.getId());
         Assert.assertEquals("mariana", profile.getFirstName());
         Assert.assertEquals("smith", profile.getLastName());
         Assert.assertEquals("+1354788541", profile.getPhoneNumber());
     }
 
+    @Test
+    public void testUpdateProfile() {
+        Profile profile = profileDAO.getById(1L);
+        String oldFirstName = profile.getFirstName();
+
+        String newFirstName = "firstName";
+        profile.setFirstName(newFirstName);
+
+        profile = profileDAO.update(profile);
+        Assert.assertEquals(newFirstName, profile.getFirstName());
+
+        profile.setFirstName(oldFirstName);
+        profile = profileDAO.update(profile);
+        Assert.assertEquals(oldFirstName, profile.getFirstName());
+
+    }
 
 
 }

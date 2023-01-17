@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import java.time.LocalDateTime;
 
-public class EstateEstatePriceDAOImplTest {
+public class EstatePriceDAOImplTest {
     private EstatePriceDAO priceDAO;
 
     @Before

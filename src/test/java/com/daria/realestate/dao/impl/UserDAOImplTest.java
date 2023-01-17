@@ -85,4 +85,12 @@ public class UserDAOImplTest {
         List<User> usersThatHaveAppointments = userDAO.getAllUsersThatHaveAppointments();
         Assert.assertNotNull(usersThatHaveAppointments);
     }
+
+    @Test
+    public void getOwnerOfAnEstateTest(){
+        User user= userDAO.getOwnerOfAnEstate(1L);
+
+        Assert.assertEquals("mariana@example.com", user.getEmail());
+        Assert.assertEquals("123456", user.getPassword());
+    }
 }

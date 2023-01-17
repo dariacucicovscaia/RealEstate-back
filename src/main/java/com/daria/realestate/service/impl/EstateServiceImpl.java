@@ -23,6 +23,11 @@ public class EstateServiceImpl implements EstateService {
     }
 
     @Override
+    public Estate createEstate(Estate estate){
+        return estateDAO.create(estate);
+    }
+
+    @Override
     public EstateDTO getAllDetailsOfAnEstate(long estateId) {
         return estateDAO.getAllEstateDetails(estateId);
     }

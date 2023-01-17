@@ -2,6 +2,7 @@ package com.daria.realestate.service.impl;
 
 import com.daria.realestate.dao.EstateDetailsDAO;
 import com.daria.realestate.dao.impl.EstateDetailsDAOImpl;
+import com.daria.realestate.domain.Estate;
 import com.daria.realestate.domain.EstateDetails;
 import com.daria.realestate.domain.enums.TypeOfEstate;
 import com.daria.realestate.service.EstateDetailsService;
@@ -26,7 +27,15 @@ public class EstateDetailsServiceImplTest {
         estateDetailsDAO = mock(EstateDetailsDAOImpl.class);
         serviceUnderTests = new EstateDetailsServiceImpl((EstateDetailsDAOImpl) estateDetailsDAO);
     }
+    @Test
+    public void createEstateDetails() {
+        EstateDetails estateDetails = new EstateDetails(25, 3, 2, 2, LocalDate.now(), TypeOfEstate.TOWNHOUSE);
+        when(estateDetailsDAO.create(estateDetails)).thenReturn(estateDetails);
 
+        EstateDetails createdEstateDetails = serviceUnderTests.createEstateDetails(estateDetails);
+        verify(estateDetailsDAO).create(estateDetails);
+        Assert.assertNotNull(createdEstateDetails);
+    }
 
     @Test
     public void getByEstateId() {

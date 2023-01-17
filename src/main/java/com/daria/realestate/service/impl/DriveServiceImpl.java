@@ -77,6 +77,8 @@ public class DriveServiceImpl implements DriveService {
         if (in == null) {
             throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
         }
+
+
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
         // Build flow and trigger user authorization request.
@@ -133,6 +135,7 @@ public class DriveServiceImpl implements DriveService {
                 String fileId = DRIVE.files().get(getAllFilesByName(fileName).get(0).getId()).execute().getId();
                 File file = new File();
                 file.setName(fileName);
+
                 // File's new content.
                 FileContent mediaContent = new FileContent(MIME_TYPE, fileToInsert);
 

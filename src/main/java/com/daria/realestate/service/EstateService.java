@@ -12,7 +12,7 @@ import java.util.List;
 public interface EstateService {
     List<Estate> getAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(PaymentTransactionType paymentTransactionType, AcquisitionStatus acquisitionStatus, PaginationFilter paginationFilter);
     EstateDTO getAllDetailsOfAnEstate(long estateId);
-
+    Estate createEstate(Estate estate);
     Estate getEstateById(Long id);
     Estate updateEstate(Estate estate);
 }

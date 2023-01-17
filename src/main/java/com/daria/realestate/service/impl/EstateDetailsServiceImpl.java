@@ -16,4 +16,10 @@ public class EstateDetailsServiceImpl implements EstateDetailsService {
     public EstateDetails getByEstateId(Long estateId) {
         return estateDetailsDAO.getById(estateId);
     }
+
+    @Override
+    public EstateDetails createEstateDetails(EstateDetails estateDetails){
+        return estateDetailsDAO.create(estateDetails);
+
+    }
 }

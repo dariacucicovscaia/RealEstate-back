@@ -3,20 +3,23 @@ package com.daria.realestate.dbconnection;
 import com.daria.realestate.util.PropertiesReader;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class DataBaseConnection {
-    private static final Logger logger = LogManager.getLogger(DataBaseConnection.class);
+
+public class DBConnection {
+    private static final Logger logger = LogManager.getLogger(DBConnection.class);
     private static Connection con = null;
     private PropertiesReader propertiesReader;
 
-    private static DataBaseConnection instance;
+    private static DBConnection instance;
 
-    private DataBaseConnection() {
+    private DBConnection() {
         this.propertiesReader = new PropertiesReader("application.properties");
         Properties properties = propertiesReader.loadProperties();
 
@@ -36,9 +39,10 @@ public class DataBaseConnection {
 
     }
 
-    public static DataBaseConnection getInstance() {
+
+    public static DBConnection getInstance() {
         if (instance == null) {
-            instance = new DataBaseConnection();
+            instance = new DBConnection();
         }
         return instance;
     }

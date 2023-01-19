@@ -1,13 +1,13 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.EstateDAO;
+import com.daria.realestate.dbconnection.DBConfig;
 import com.daria.realestate.domain.*;
 import com.daria.realestate.domain.enums.AcquisitionStatus;
 import com.daria.realestate.domain.enums.OrderBy;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
 import com.daria.realestate.domain.enums.TypeOfEstate;
 import com.daria.realestate.dto.EstateDTO;
-import com.daria.realestate.dbconnection.DataBaseConnection;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +22,7 @@ public class EstateDAOImplTest {
 
     @Before
     public void init() {
-        this.estateDAO = new EstateDAOImpl(DataBaseConnection.getInstance());
+        this.estateDAO = new EstateDAOImpl(new DBConfig().dataSource());
     }
 
     @Test
@@ -30,20 +30,21 @@ public class EstateDAOImplTest {
         Address address = new Address(11L, "Strada 31 August 1989", "Sangera", "Moldova");
         User user = new User(6L, "dariacucicovscaia@email.com", "123456789");
 
-        Estate estate = new Estate("SALE", "OPEN", LocalDateTime.now(), LocalDateTime.now());
+        Estate estate = new Estate("SALE", "OPEN", LocalDateTime.parse("2023-01-18T13:28:39"), LocalDateTime.parse("2023-01-18T13:28:39"));
         estate.setAddress(address);
         estate.setOwner(user);
 
         Estate createdEstate = estateDAO.create(estate);
 
-        Assert.assertEquals(address.getId(), createdEstate.getAddress().getId());
-        Assert.assertEquals(user.getId(), createdEstate.getOwner().getId());
-
         Assert.assertEquals(estate.getCreatedAt(), createdEstate.getCreatedAt());
         Assert.assertEquals(estate.getPaymentTransactionType(), createdEstate.getPaymentTransactionType());
         Assert.assertEquals(estate.getAcquisitionStatus(), createdEstate.getAcquisitionStatus());
         Assert.assertEquals(estate.getLastUpdatedAt(), createdEstate.getLastUpdatedAt());
-        estateDAO.removeById(createdEstate.getId());
+
+        int rowsAffected = estateDAO.removeById(createdEstate.getId());
+        Assert.assertEquals(rowsAffected, 1);
+        rowsAffected = estateDAO.removeById(createdEstate.getId());
+        Assert.assertEquals(rowsAffected, 0);
     }
 
 

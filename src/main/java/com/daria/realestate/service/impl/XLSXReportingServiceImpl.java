@@ -5,11 +5,12 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.time.LocalDateTime;
 
-
+@Service
 public class XLSXReportingServiceImpl implements XLSXReportingService {
 
     private Workbook workbook;

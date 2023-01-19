@@ -1,8 +1,8 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.AddressDAO;
+import com.daria.realestate.dbconnection.DBConfig;
 import com.daria.realestate.domain.Address;
-import com.daria.realestate.dbconnection.DataBaseConnection;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,7 +12,7 @@ public class AddressDAOImplTest {
 
     @Before
     public void init() {
-        this.addressDAO = new AddressDAOImpl(DataBaseConnection.getInstance());
+        this.addressDAO = new AddressDAOImpl(new DBConfig().dataSource());
     }
 
     @Test
@@ -23,9 +23,10 @@ public class AddressDAOImplTest {
         Assert.assertEquals(address.getCity(), createdAddress.getCity());
         Assert.assertEquals(address.getCountry(), createdAddress.getCountry());
 
-        Long removedAddressId = addressDAO.removeById(createdAddress.getId());
-        Assert.assertEquals(removedAddressId, createdAddress.getId());
-        Assert.assertThrows(IndexOutOfBoundsException.class, () -> addressDAO.getById(createdAddress.getId()));
+        int rowsAffected = addressDAO.removeById(createdAddress.getId());
+        Assert.assertEquals(rowsAffected, 1);
+         rowsAffected = addressDAO.removeById(createdAddress.getId());
+        Assert.assertEquals(rowsAffected, 0);
     }
 
     @Test

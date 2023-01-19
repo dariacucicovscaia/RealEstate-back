@@ -1,7 +1,7 @@
 package com.daria.realestate.domain;
 
 
-import com.daria.realestate.domain.enums.Roles;
+import com.daria.realestate.domain.enums.Role;
 
 
 import java.util.List;
@@ -12,7 +12,7 @@ public class User {
     private String email;
     private String password;
     private List<Appointment> appointment;
-    private Set<Roles> roles;
+    private Set<Role> roles;
 
     public User(Long id, String email, String password) {
         this.id = id;
@@ -28,11 +28,11 @@ public class User {
     public User() {
     }
 
-    public Set<Roles> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Roles> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 

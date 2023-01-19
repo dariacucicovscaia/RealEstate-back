@@ -1,167 +1,79 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.UserDAO;
+import com.daria.realestate.dao.mappers.UserMapper;
 import com.daria.realestate.domain.User;
-import com.daria.realestate.dbconnection.DataBaseConnection;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
-
+@Repository
 public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
+    private static final String SQL_CREATE_USER = " insert into user (email, password) VALUES( ? , ? ) ";
+    private static final String SQL_GET_USER_BY_ID = " select * from user where id = ? ";
+    private static final String SQL_DELETE_USER_BY_ID = " delete from user where  id = ? ";
+    private static final String SQL_GET_USER_BY_EMAIL = " select * from user where email = ? ";
+    private static final String SQL_DELETE_USER_BY_EMAIL = " delete from user where email = ? ";
+    private static final String SQL_GET_ALL_USERS_THAT_HAVE_APPOINTMENTS = " select distinct u.* from realestate.user as u " + " inner join realestate.user_appointment as ua on ua.user_id = u.id ";
+    private static final String SQL_GET_ESTATE_OWNER = " select u.* from user as u " + " inner join estate as e on e.owner_id = u.id " + " where e.id = ?";
+    private static final String SQL_UPDATE_USER = " update user set email = ?, password = ? where id = ? ";
 
-    private final String TABLE_NAME = "realestate.user";
-    private final String TABLE_COLUMN_ID = "id";
-
-    public UserDAOImpl(DataBaseConnection dataBaseConnection) {
-        super(dataBaseConnection);
+    public UserDAOImpl(DataSource dataSource) {
+        super(dataSource);
     }
-
 
     @Override
     public User create(User user) {
-        String sql = "INSERT INTO " + TABLE_NAME + " (email, password) VALUES(?,?);";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        getJdbcTemplate()
+                .update(connection -> {
+                    PreparedStatement ps = connection.prepareStatement(SQL_CREATE_USER, Statement.RETURN_GENERATED_KEYS);
+                    ps.setString(1, user.getEmail());
+                    ps.setString(2, user.getPassword());
+                    return ps;
+                }, keyHolder);
 
-        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
-            preparedStatement.setString(1, user.getEmail());
-            preparedStatement.setString(2, user.getPassword());
-            preparedStatement.executeUpdate();
-
-            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                user.setId(generatedKeys.getLong(1));
-            }
-
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
-        }
-
-        return getById(user.getId());
+        return getById(keyHolder.getKey().longValue());
     }
 
     @Override
     public User update(User user) {
-        String sql = "UPDATE " + TABLE_NAME + " SET  email = ?, password  = ? WHERE id = " + user.getId() + ";";
-        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
-            preparedStatement.setString(1, user.getEmail());
-            preparedStatement.setString(2, user.getPassword());
-
-            int updated = preparedStatement.executeUpdate();
-            if (updated == 1) {
-                return user;
-            } else {
-                return null;
-            }
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public User getUserByEmail(String email) {
-        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE email = '" + email + "';";
-
-        try (Statement statement = getConnection().createStatement()) {
-            ResultSet resultSet = statement.executeQuery(sql);
-
-            return setValuesFromResultSetIntoEntityList(resultSet).get(0);
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    @Override
-    public long removeByEmail(String email) {
-        String sql = "DELETE FROM " + TABLE_NAME + " WHERE email = ?;";
-        long idOfTheUser = getUserByEmail(email).getId();
-        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
-            preparedStatement.setString(1, email);
-            preparedStatement.executeUpdate();
-            logger.info("User with the email = " + email + " has been removed");
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return idOfTheUser;
-    }
-
-    @Override
-    public User getOwnerOfAnEstate(long estateId) {
-        String sql = " select u.* from user as u " +
-                " inner join estate as e on e.owner_id = u.id " +
-                " where e.id = " + estateId;
-        try (Statement statement = getConnection().createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
-            return setValuesFromResultSetIntoEntityList(resultSet).get(0);
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
-        }
+        getJdbcTemplate().update(SQL_UPDATE_USER,user.getEmail(), user.getPassword(), user.getId());
+        return getById(user.getId());
     }
 
     @Override
     public User getById(long id) {
-        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE id = '" + id + "';";
-        try (Statement statement = getConnection().createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
-
-            return setValuesFromResultSetIntoEntityList(resultSet).get(0);
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
-        }
-
+        return getJdbcTemplate().queryForObject(SQL_GET_USER_BY_ID, new UserMapper(), id);
     }
 
     @Override
-    public long removeById(long id) {
-        String sql = "DELETE FROM " + TABLE_NAME + " WHERE id = ? ;";
-
-        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
-            preparedStatement.setLong(1, id);
-            preparedStatement.executeUpdate();
-            logger.info("User with the id = " + id + " has been removed");
-
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
-        }
-        return id;
+    public User getUserByEmail(String email) {
+        return getJdbcTemplate().queryForObject(SQL_GET_USER_BY_EMAIL, new UserMapper(), email);
     }
 
     @Override
-    protected List<User> setValuesFromResultSetIntoEntityList(ResultSet resultSet) {
-        List<User> users = new ArrayList<>();
-        try {
-            while (resultSet.next()) {
-                users.add(new User(resultSet.getLong(TABLE_COLUMN_ID), resultSet.getString("email"), resultSet.getString("password")));
-            }
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
-        }
-        return users;
+    public User getOwnerOfAnEstate(long estateId) {
+        return getJdbcTemplate().queryForObject(SQL_GET_ESTATE_OWNER, new UserMapper(), estateId);
     }
 
     @Override
     public List<User> getAllUsersThatHaveAppointments() {
-        String sql = " select distinct u.* from realestate.user as u " +
-                " inner join realestate.user_appointment as ua on ua.user_id = u.id ";
+        return getJdbcTemplate().query(SQL_GET_ALL_USERS_THAT_HAVE_APPOINTMENTS, new UserMapper());
+    }
 
-        try (Statement statement = getConnection().createStatement()) {
-            return setValuesFromResultSetIntoEntityList(statement.executeQuery(sql));
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
-        }
+    @Override
+    public int removeById(long id) {
+        return getJdbcTemplate().update(SQL_DELETE_USER_BY_ID, id);
+    }
+
+    @Override
+    public int removeByEmail(String email) {
+        return getJdbcTemplate().update(SQL_DELETE_USER_BY_EMAIL, email);
     }
 }

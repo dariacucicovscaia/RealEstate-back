@@ -1,31 +1,26 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.DAO;
-import com.daria.realestate.dbconnection.DataBaseConnection;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.springframework.jdbc.core.JdbcTemplate;
 
+import javax.sql.DataSource;
 
-import java.sql.*;
-import java.util.List;
 
 public abstract class AbstractDAOImpl<T> implements DAO<T> {
 
-    protected static final Logger logger = LogManager.getLogger(AbstractDAOImpl.class);
+    private final JdbcTemplate jdbcTemplate;
 
-    private final DataBaseConnection dataBaseConnection;
-
-    protected AbstractDAOImpl(DataBaseConnection dataBaseConnection) {
-        this.dataBaseConnection = dataBaseConnection;
+    protected AbstractDAOImpl(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public Connection getConnection() {
-        return dataBaseConnection.getConnection();
+    public JdbcTemplate getJdbcTemplate() {
+        return jdbcTemplate;
     }
 
     protected int getOffset(int pageNumber, int nrOfElementsWeWantDisplayed) {
         return (pageNumber - 1) * nrOfElementsWeWantDisplayed;
     }
 
-    protected abstract List<T> setValuesFromResultSetIntoEntityList(ResultSet resultSet);
+
 }

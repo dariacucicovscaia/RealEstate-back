@@ -1,200 +1,92 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.AppointmentDAO;
+import com.daria.realestate.dao.mappers.AppointmentMapper;
+import com.daria.realestate.dao.mappers.AppointmentReportDTOMapper;
 import com.daria.realestate.domain.*;
 import com.daria.realestate.domain.enums.AppointmentStatus;
 import com.daria.realestate.dto.AppointmentReportDTO;
-import com.daria.realestate.dbconnection.DataBaseConnection;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements AppointmentDAO {
-    private final String TABLE_NAME = "realestate.appointment";
-    private final String TABLE_COLUMN_ID = "id";
-    private final String TABLE_COLUMN_MADE_AT = "madeAt";
-    private final String TABLE_COLUMN_START = "start";
-    private final String TABLE_COLUMN_END = "end";
-    private final String TABLE_COLUMN_APPOINTMENT_STATUS = "appointmentStatus";
-    private final String TABLE_COLUMN_ESTATE_ID = "estate_id";
+    private static final String SQL_DELETE_APPOINTMENT = " delete from appointment where id = ? ";
+    private static final String SQL_GET_ALL_USERS_APPOINTMENTS_BY_A_STATUS = " select a.* from user_appointment as ua " + " inner join user as u on ua.user_id = u.id " + " inner join appointment as a on ua.appointment_id = a.id " + " where u.id = ? and appointmentStatus= ? " + " limit ? offset ? ";
+    private static final String SQL_GET_APPOINTMENTS_OF_A_USER = " select a.* from user_appointment as ua " + " inner join user as u on ua.user_id = u.id  " + " inner join appointment as a on ua.appointment_id = a.id " + " where u.id = ? ";
+    private static final String SQL_CREATE_APPOINTMENT = " insert into appointment (madeAt, start, end, estate_id, appointmentStatus)" + " values ( ? , ? , ? , ? , ? )";
+    private static final String SQL_UPDATE_APPOINTMENT = " update appointment set madeAt = ? , start = ? , end = ?  ,appointmentStatus = ? where id = ? ";
+    private static final String SQL_GET_APPOINTMENT_BY_ID = " select * from appointment where id = ? ";
+    private static final String SQL_GET_APPOINTMENTS_OF_AN_ESTATE = " select a.* from estate as e " + " inner join appointment as a on a.estate_id = e.id " + " where e.id = ?  limit ? offset ? ";
+    private static final String SQL_GET_APPOINTMENTS_WITH_SPECIFIC_TIME_INTERVAL_BY_ESTATE = " select distinct " + " a.start, a.end,u.email,p.firstName, p.lastName, p.phoneNumber, a.appointmentStatus  from realestate.appointment as a " + " inner join realestate.user_appointment as ua on ua.appointment_id = a.id " + " inner join realestate.user as u on u.id = ua.user_id " + " inner join realestate.profile as p on u.id = p.user_id   " + " where a.start >= ? and a.start <= ? and a.estate_id = ? ";
 
-    public AppointmentDAOImpl(DataBaseConnection dataBaseConnection) {
-        super(dataBaseConnection);
+    public AppointmentDAOImpl(DataSource dataSource) {
+        super(dataSource);
     }
 
     @Override
     public List<Appointment> usersAppointmentsByAppointmentStatus(User user, AppointmentStatus appointmentStatus, PaginationFilter paginationFilter) {
-        String sql = " select a.* from user_appointment as ua " +
-                " inner join user as u on ua.user_id = u.id  " +
-                " inner join appointment as a on ua.appointment_id = a.id " +
-                " where u.id = " + user.getId() + " and appointmentStatus= \"" + appointmentStatus.name() + "\"" +
-                "  limit " + paginationFilter.getNrOfElementsWeWantDisplayed() + " offset " +
-                getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed());
-
-        try (Statement statement = getConnection().createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
-            return setValuesFromResultSetIntoEntityList(resultSet);
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
-        }
+        return getJdbcTemplate().query(SQL_GET_ALL_USERS_APPOINTMENTS_BY_A_STATUS,
+                new AppointmentMapper(),
+                user.getId(), appointmentStatus.name(),
+                paginationFilter.getNrOfElementsWeWantDisplayed(),
+                getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed()));
     }
 
     @Override
     public List<Appointment> appointmentsOfAUser(User user) {
-        String sql = " select a.* from user_appointment as ua " +
-                " inner join user as u on ua.user_id = u.id  " +
-                " inner join appointment as a on ua.appointment_id = a.id " +
-                " where u.id = " + user.getId() ;
-
-        try (Statement statement = getConnection().createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
-            return setValuesFromResultSetIntoEntityList(resultSet);
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    @Override
-    protected List<Appointment> setValuesFromResultSetIntoEntityList(ResultSet resultSet) {
-        List<Appointment> appointments = new ArrayList<>();
-
-        try {
-            while (resultSet.next()) {
-                appointments.add(new Appointment(
-                        resultSet.getLong(TABLE_COLUMN_ID),
-                        resultSet.getTimestamp(TABLE_COLUMN_MADE_AT).toLocalDateTime(),
-                        resultSet.getTimestamp(TABLE_COLUMN_START).toLocalDateTime(),
-                        resultSet.getTimestamp(TABLE_COLUMN_END).toLocalDateTime(),
-                        resultSet.getString(TABLE_COLUMN_APPOINTMENT_STATUS)
-                ));
-            }
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
-        }
-        return appointments;
+        return getJdbcTemplate().query(SQL_GET_APPOINTMENTS_OF_A_USER,
+                new AppointmentMapper(),
+                user.getId());
     }
 
     @Override
     public Appointment create(Appointment appointment) {
-        String sql = "INSERT INTO " + TABLE_NAME + " (" + TABLE_COLUMN_MADE_AT + ", " + TABLE_COLUMN_START + ", " + TABLE_COLUMN_END + ", " + TABLE_COLUMN_APPOINTMENT_STATUS + ", " + TABLE_COLUMN_ESTATE_ID + ") " + "VALUES(?,?,?,?,?);";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        getJdbcTemplate()
+                .update(connection -> {
+                    PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE_APPOINTMENT, Statement.RETURN_GENERATED_KEYS);
+                    preparedStatement.setTimestamp(1, Timestamp.valueOf(appointment.getMadeAt()));
+                    preparedStatement.setTimestamp(2, Timestamp.valueOf(appointment.getStart()));
+                    preparedStatement.setTimestamp(3, Timestamp.valueOf(appointment.getEnd()));
+                    preparedStatement.setLong(4, appointment.getEstate().getId());
+                    preparedStatement.setString(5, String.valueOf(appointment.getAppointmentStatus()));
 
-        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
-            preparedStatement.setTimestamp(1, Timestamp.valueOf(appointment.getMadeAt()));
-            preparedStatement.setTimestamp(2, Timestamp.valueOf(appointment.getStart()));
-            preparedStatement.setTimestamp(3, Timestamp.valueOf(appointment.getEnd()));
-            preparedStatement.setString(4, String.valueOf(appointment.getAppointmentStatus()));
-            preparedStatement.setLong(5, appointment.getEstate().getId());
-
-            preparedStatement.executeUpdate();
-            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                appointment.setId(generatedKeys.getLong(1));
-            }
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
-        }
-        return appointment;
+                    return preparedStatement;
+                }, keyHolder);
+        return getById(keyHolder.getKey().longValue());
     }
 
 
     @Override
-    public long removeById(long id) {
-        String sql = "DELETE FROM " + TABLE_NAME + " WHERE id = ?;";
-
-        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
-            preparedStatement.setLong(1, id);
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
-        }
-        return id;
+    public int removeById(long id) {
+        return getJdbcTemplate().update(SQL_DELETE_APPOINTMENT, id);
     }
 
     @Override
     public Appointment update(Appointment appointment) {
-        String sql = "UPDATE " + TABLE_NAME + " SET appointmentStatus = ? WHERE id = " + appointment.getId() + ";";
-
-        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
-            preparedStatement.setString(1, String.valueOf(appointment.getAppointmentStatus()));
-            preparedStatement.executeUpdate();
-
-            return getById(appointment.getId());
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
-        }
+        getJdbcTemplate().update(SQL_UPDATE_APPOINTMENT, appointment.getMadeAt(), appointment.getStart(), appointment.getEnd(), appointment.getAppointmentStatus().name(), appointment.getId());
+        return getById(appointment.getId());
     }
 
     @Override
     public Appointment getById(long id) {
-        try (Statement statement = getConnection().createStatement()) {
-            String sql = "SELECT * FROM " + TABLE_NAME + " WHERE id = " + id + ";";
-            ResultSet resultSet = statement.executeQuery(sql);
-
-            List<Appointment> estates = setValuesFromResultSetIntoEntityList(resultSet);
-            return estates.get(0);
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
-        }
+        return getJdbcTemplate().queryForObject(SQL_GET_APPOINTMENT_BY_ID, new AppointmentMapper(), id);
     }
 
     @Override
     public List<Appointment> getAppointmentsOfAnEstate(Estate estate, PaginationFilter paginationFilter) {
-        String sql = " select a.* from estate as e " +
-                " inner join appointment as a on a.estate_id = e.id " +
-                " where e.id = " + estate.getId()
-                + "  limit " + paginationFilter.getNrOfElementsWeWantDisplayed() + " offset " +
-                getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed());
-
-        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
-            return setValuesFromResultSetIntoEntityList(preparedStatement.executeQuery());
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
-        }
+        return getJdbcTemplate().query(SQL_GET_APPOINTMENTS_OF_AN_ESTATE, new AppointmentMapper(), estate.getId(), paginationFilter.getNrOfElementsWeWantDisplayed(), getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed()));
     }
 
     @Override
     public List<AppointmentReportDTO> getAppointmentsWithASpecificTimeIntervalByEstateId(LocalDateTime from, LocalDateTime to, long estateId) {
-        String sql = " select distinct " +
-                " a.start, a.end,u.email,p.firstName, p.lastName, p.phoneNumber, a.appointmentStatus  from realestate.appointment as a " +
-                " inner join realestate.user_appointment as ua on ua.appointment_id = a.id " +
-                " inner join realestate.user as u on u.id = ua.user_id " +
-                " inner join realestate.profile as p on u.id = p.user_id   "+
-                " where a.start >= \"" + from + "\" and a.start <= \"" + to + "\" and a.estate_id = \"" +estateId +"\"";
-
-        try (Statement statement = getConnection().createStatement();
-            ResultSet resultSet = statement.executeQuery(sql)) {
-
-            List<AppointmentReportDTO> appointments = new ArrayList<>();
-
-            while(resultSet.next()){
-                appointments.add(new AppointmentReportDTO(
-                        resultSet.getTimestamp("start").toLocalDateTime(),
-                        resultSet.getTimestamp("end").toLocalDateTime(),
-                        resultSet.getString("email"),
-                        resultSet.getString("firstName"),
-                        resultSet.getString("lastName"),
-                        resultSet.getString("phoneNumber"),
-
-                        AppointmentStatus.valueOf(resultSet.getString("appointmentStatus"))
-                ));
-            }
-            return appointments;
-
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
-        }
+        return getJdbcTemplate().query(SQL_GET_APPOINTMENTS_WITH_SPECIFIC_TIME_INTERVAL_BY_ESTATE, new AppointmentReportDTOMapper(), from, to, estateId);
     }
 }

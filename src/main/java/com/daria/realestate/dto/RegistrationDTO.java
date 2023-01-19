@@ -1,12 +1,12 @@
 package com.daria.realestate.dto;
 
-import com.daria.realestate.domain.enums.Roles;
+import com.daria.realestate.domain.enums.Role;
 
 public class RegistrationDTO {
     private String email;
     private String password;
 
-    private Roles role;
+    private Role role;
     private String firstName;
     private String lastName;
     private String phoneNumber;
@@ -15,7 +15,7 @@ public class RegistrationDTO {
     private String city;
     private String country;
 
-    public RegistrationDTO(String email, String password, Roles role, String firstName, String lastName, String phoneNumber, String fullAddress, String city, String country) {
+    public RegistrationDTO(String email, String password, Role role, String firstName, String lastName, String phoneNumber, String fullAddress, String city, String country) {
         this.email = email;
         this.password = password;
         this.role = role;
@@ -66,7 +66,7 @@ public class RegistrationDTO {
     }
 
 
-    public Roles getRole() {
+    public Role getRole() {
         return role;
     }
 

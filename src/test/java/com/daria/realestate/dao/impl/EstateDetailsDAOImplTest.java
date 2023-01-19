@@ -1,10 +1,10 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.EstateDetailsDAO;
+import com.daria.realestate.dbconnection.DBConfig;
 import com.daria.realestate.domain.Estate;
 import com.daria.realestate.domain.EstateDetails;
 import com.daria.realestate.domain.enums.TypeOfEstate;
-import com.daria.realestate.dbconnection.DataBaseConnection;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,13 +17,13 @@ public class EstateDetailsDAOImplTest {
 
     @Before
     public void init() {
-        this.estateDetailsDAO = new EstateDetailsDAOImpl(DataBaseConnection.getInstance());
+        this.estateDetailsDAO = new EstateDetailsDAOImpl(new DBConfig().dataSource());
     }
 
 
     @Test
     public void testCreationOfEstateDetails() {
-        Estate estate = new Estate(99999L, "SALE", "OPEN", LocalDateTime.now(), LocalDateTime.now());
+        Estate estate = new Estate(999989L, "SALE", "OPEN", LocalDateTime.now(), LocalDateTime.now());
 
         EstateDetails estateDetails = new EstateDetails(25, 3, 2, 2, LocalDate.now(), TypeOfEstate.TOWNHOUSE);
         estateDetails.setEstate(estate);

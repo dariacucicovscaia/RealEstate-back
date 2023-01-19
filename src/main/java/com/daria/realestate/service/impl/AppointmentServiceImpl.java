@@ -5,9 +5,11 @@ import com.daria.realestate.dao.impl.*;
 import com.daria.realestate.domain.*;
 import com.daria.realestate.domain.enums.AppointmentStatus;
 import com.daria.realestate.service.AppointmentService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class AppointmentServiceImpl implements AppointmentService {
 
     private final AppointmentDAO appointmentDAO;
@@ -21,9 +23,9 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public Appointment createAppointment(Appointment appointment, User user) {
         Appointment createdAppointment = appointmentDAO.create(appointment);
-        Boolean userAppointment = userAppointmentDAO.create(user, createdAppointment);
+        Integer userAppointment = userAppointmentDAO.create(user, createdAppointment);
 
-        if (userAppointment) {
+        if (userAppointment==1) {
             return createdAppointment;
         } else return null;
     }

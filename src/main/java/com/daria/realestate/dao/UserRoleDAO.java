@@ -1,17 +1,25 @@
 package com.daria.realestate.dao;
 
-import com.daria.realestate.domain.User;
-import com.daria.realestate.domain.UserRole;
-import com.daria.realestate.domain.enums.Roles;
+import com.daria.realestate.domain.enums.Role;
 
 import java.util.List;
 
-public interface UserRoleDAO extends DAO<UserRole> {
+public interface UserRoleDAO {
     /**
      * Get all roles of a user
      *
-     * @param user
+     * @param userId
      * @return list of roles
      */
-    List<Roles> getRolesOfAUser(User user);
+    List<Role> getRolesOfAUser(long userId);
+
+    /**
+     *
+     * @param userId
+     * @param role
+     * @return rowsAffected
+     */
+    int removeRole(long userId, Role role);
+    Role create(long userId, Role role);
+
 }

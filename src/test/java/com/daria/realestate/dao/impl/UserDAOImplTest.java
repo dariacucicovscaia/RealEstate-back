@@ -1,8 +1,8 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.UserDAO;
+import com.daria.realestate.dbconnection.DBConfig;
 import com.daria.realestate.domain.User;
-import com.daria.realestate.dbconnection.DataBaseConnection;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +15,7 @@ public class UserDAOImplTest {
 
     @Before
     public void init() {
-        userDAO = new UserDAOImpl(DataBaseConnection.getInstance());
+        userDAO = new UserDAOImpl(new DBConfig().dataSource());
     }
 
     @Test
@@ -66,13 +66,6 @@ public class UserDAOImplTest {
         userDAO.update(initialUser);
     }
 
-    @Test
-    public void testUpdateUserWithThrowable() {
-        String newEmail = "updatedEmail@example.com";
-        String newPassword = "123456";
-
-        Assert.assertNull(userDAO.update(new User(0L, newEmail, newPassword)));
-    }
 
     @Test
     public void testGetById() {

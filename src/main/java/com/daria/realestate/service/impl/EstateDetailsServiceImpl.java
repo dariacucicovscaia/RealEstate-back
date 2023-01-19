@@ -4,7 +4,9 @@ import com.daria.realestate.dao.EstateDetailsDAO;
 import com.daria.realestate.dao.impl.EstateDetailsDAOImpl;
 import com.daria.realestate.domain.EstateDetails;
 import com.daria.realestate.service.EstateDetailsService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class EstateDetailsServiceImpl implements EstateDetailsService {
     private final EstateDetailsDAO estateDetailsDAO;
 

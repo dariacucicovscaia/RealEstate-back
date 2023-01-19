@@ -43,7 +43,7 @@ public class AppointmentServiceImplTest {
         User user = new User(1L, "email", "password");
 
         when(appointmentDAO.create(appointment)).thenReturn(appointment);
-        when(userAppointmentDAO.create(user, appointment)).thenReturn(true);
+        when(userAppointmentDAO.create(user, appointment)).thenReturn(1);
 
         Appointment createdAppointment = serviceUnderTests.createAppointment(appointment, user);
 

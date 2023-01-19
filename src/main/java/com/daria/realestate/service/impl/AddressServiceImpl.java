@@ -4,7 +4,9 @@ import com.daria.realestate.dao.AddressDAO;
 import com.daria.realestate.dao.impl.AddressDAOImpl;
 import com.daria.realestate.domain.Address;
 import com.daria.realestate.service.AddressService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AddressServiceImpl implements AddressService {
     private final AddressDAO addressDAO;
 

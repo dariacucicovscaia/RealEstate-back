@@ -1,5 +1,5 @@
 package com.daria.realestate.domain.enums;
 
-public enum Roles {
+public enum Role {
     ADMIN, USER, SELLER
 }

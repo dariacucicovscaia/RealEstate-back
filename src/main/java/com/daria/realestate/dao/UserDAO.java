@@ -26,9 +26,9 @@ public interface UserDAO extends DAO<User> {
      * Removes user by email
      *
      * @param email email to be used by removing
-     * @return id of the removed User
+     * @return rows affected
      */
-    long removeByEmail(String email);
+    int removeByEmail(String email);
 
     User getOwnerOfAnEstate(long estateId);
 

@@ -14,9 +14,9 @@ public interface DAO<T> {
      * Removes an entity from the db by its id
      *
      * @param id of the entity to be removed
-     * @return id
+     * @return rows affected by remove statement
      */
-    long removeById(long id);
+    int removeById(long id);
 
     /**
      * Gets an entity by its id

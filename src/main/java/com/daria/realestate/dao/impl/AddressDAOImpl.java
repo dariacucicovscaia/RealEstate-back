@@ -1,119 +1,61 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.AddressDAO;
+import com.daria.realestate.dao.mappers.AddressMapper;
 import com.daria.realestate.domain.Address;
-import com.daria.realestate.dbconnection.DataBaseConnection;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
+@Repository
 public class AddressDAOImpl extends AbstractDAOImpl<Address> implements AddressDAO {
-    public AddressDAOImpl(DataBaseConnection dataBaseConnection) {
-        super(dataBaseConnection);
-    }
+    private static final String SQL_UPDATE_ADDRESS = " update address set fullAddress = ?, city  = ?, country = ? where id = ? ";
+    private static final String SQL_FIND_ADDRESS = " select * from address where id = (?) ";
+    private static final String SQL_CREATE_ADDRESS = " insert into realestate.address (fullAddress, city, country) values(?, ?, ?) ";
+    private static final String SQL_DELETE_ADDRESS = " delete from address where id = ? ";
+    private static final String SQL_GET_ADDRESS_OF_AN_ESTATE = " select a.* from address as a  inner join estate as e on e.address_id = a.id where e.id = ?";
 
-    private final static String TABLE_NAME = "address";
+    public AddressDAOImpl(DataSource dataSource) {
+        super(dataSource);
+    }
 
     @Override
     public Address create(Address address) {
-        String sql = " INSERT INTO " + TABLE_NAME + " (fullAddress, city, country) " + " VALUES( ? , ? , ? ) ";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        getJdbcTemplate()
+                .update(connection -> {
+                    PreparedStatement ps = connection.prepareStatement(SQL_CREATE_ADDRESS, Statement.RETURN_GENERATED_KEYS);
+                    ps.setString(1, address.getFullAddress());
+                    ps.setString(2, address.getCity());
+                    ps.setString(3, address.getCountry());
+                    return ps;
+                }, keyHolder);
 
-        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setString(1, address.getFullAddress());
-            preparedStatement.setString(2, address.getCity());
-            preparedStatement.setString(3, address.getCountry());
-
-            preparedStatement.executeUpdate();
-            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                address.setId(generatedKeys.getLong(1));
-            }
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
-        }
-        return getById(address.getId());
+        return getById(keyHolder.getKey().longValue());
     }
 
     @Override
-    public long removeById(long id) {
-        String sql = " DELETE FROM " + TABLE_NAME + " WHERE id = ? ";
-
-        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
-            preparedStatement.setLong(1, id);
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
-        }
-        return id;
+    public int removeById(long id) {
+        return getJdbcTemplate().update(SQL_DELETE_ADDRESS, id);
     }
 
     @Override
     public Address getById(long id) {
-        try (Statement statement = getConnection().createStatement()) {
-            String sql = "SELECT * FROM " + TABLE_NAME + " WHERE id = " + id;
-            ResultSet resultSet = statement.executeQuery(sql);
-
-            List<Address> addresses = setValuesFromResultSetIntoEntityList(resultSet);
-            return addresses.get(0);
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    protected List<Address> setValuesFromResultSetIntoEntityList(ResultSet resultSet) {
-        List<Address> addresses = new ArrayList<>();
-        try {
-            while (resultSet.next()) {
-                addresses.add(new Address(resultSet.getLong("id"), resultSet.getString("fullAddress"), resultSet.getString("city"), resultSet.getString("country")));
-            }
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
-        }
-        return addresses;
+        return getJdbcTemplate().queryForObject(SQL_FIND_ADDRESS , new AddressMapper(), id);
     }
 
     @Override
     public Address update(Address address) {
-        String sql = "UPDATE " + TABLE_NAME + " SET  fullAddress = ?, city  = ?, country = ? WHERE id = " + address.getId() + ";";
-        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
-            preparedStatement.setString(1, address.getFullAddress());
-            preparedStatement.setString(2, address.getCity());
-            preparedStatement.setString(3, address.getCountry());
-
-            int updated = preparedStatement.executeUpdate();
-            if (updated == 1) {
-                return address;
-            } else {
-                return null;
-            }
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
-        }
+        getJdbcTemplate().update(SQL_UPDATE_ADDRESS, address.getFullAddress(), address.getCity(), address.getCountry(), address.getId());
+        return getById(address.getId());
     }
 
     @Override
     public Address getAddressOfAnEstate(long estateId) {
-        String sql = " select a.* from address as a " +
-                " inner join estate as e on e.address_id = a.id " +
-                " where e.id = " + estateId;
-
-        try(Statement statement = getConnection().createStatement();
-        ResultSet resultSet = statement.executeQuery(sql)) {
-            return setValuesFromResultSetIntoEntityList(resultSet).get(0);
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
-        }
+        return getJdbcTemplate().queryForObject(SQL_GET_ADDRESS_OF_AN_ESTATE,  new AddressMapper(), estateId);
     }
 }

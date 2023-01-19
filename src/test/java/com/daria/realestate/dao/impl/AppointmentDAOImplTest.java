@@ -1,6 +1,7 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.AppointmentDAO;
+import com.daria.realestate.dbconnection.DBConfig;
 import com.daria.realestate.domain.Appointment;
 import com.daria.realestate.domain.Estate;
 import com.daria.realestate.domain.PaginationFilter;
@@ -10,7 +11,6 @@ import com.daria.realestate.domain.enums.AcquisitionStatus;
 import com.daria.realestate.domain.enums.OrderBy;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
 import com.daria.realestate.dto.AppointmentReportDTO;
-import com.daria.realestate.dbconnection.DataBaseConnection;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,12 +25,12 @@ public class AppointmentDAOImplTest {
 
     @Before
     public void init() {
-        this.appointmentDAO = new AppointmentDAOImpl(DataBaseConnection.getInstance());
+        this.appointmentDAO = new AppointmentDAOImpl(new DBConfig().dataSource());
     }
 
     @Test
     public void testCreationOfAppointment() {
-        Appointment appointment = new Appointment(LocalDateTime.now(),
+        Appointment appointment = new Appointment(LocalDateTime.parse("2023-01-18T14:33:46"),
                 LocalDateTime.of(2022, 12, 27, 12, 10, 0),
                 LocalDateTime.of(2022, 12, 27, 13, 40, 0),
                 AppointmentStatus.CONFIRMED, new Estate(1L, PaymentTransactionType.LEASE.name(), AcquisitionStatus.OPEN.name(), LocalDateTime.now(), LocalDateTime.now())

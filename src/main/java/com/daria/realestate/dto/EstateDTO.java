@@ -26,7 +26,6 @@ public class EstateDTO {
 
     private String email;
 
-
     private Long price;
     private LocalDateTime lastPriceUpdatedAt;
     private String currency;

@@ -3,61 +3,28 @@ package com.daria.realestate.dao.impl;
 import com.daria.realestate.dao.UserAppointmentDAO;
 import com.daria.realestate.domain.Appointment;
 import com.daria.realestate.domain.User;
-import com.daria.realestate.dbconnection.DataBaseConnection;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
-import java.sql.*;
-
+import javax.sql.DataSource;
+@Repository
 public class UserAppointmentDAOImpl implements UserAppointmentDAO {
 
-    private final DataBaseConnection dataBaseConnection;
-    private static final Logger logger = LogManager.getLogger(UserAppointmentDAOImpl.class);
+    private final JdbcTemplate jdbcTemplate;
+    private static final String INSERT_INTO_USER_APPOINTMENT = " insert into user_appointment (user_id, appointment_id) VALUES( ? , ? ) ";
+    private static final String DELETE_FROM_USER_APPOINTMENT = " delete from user_appointment where user_id = ? and appointment_id = ? ";
 
-    public UserAppointmentDAOImpl(DataBaseConnection dataBaseConnection) {
-        this.dataBaseConnection = dataBaseConnection;
+    public UserAppointmentDAOImpl(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     @Override
-    public Boolean create(User user, Appointment appointment) {
-        String userAppointmentSqlInsert = "INSERT INTO user_appointment (user_id, appointment_id) VALUES(?,?) ";
-        try (PreparedStatement preparedStatement = getConnection().prepareStatement(userAppointmentSqlInsert)) {
-
-            preparedStatement.setLong(1, user.getId());
-            preparedStatement.setLong(2, appointment.getId());
-
-            int rowsAffected = preparedStatement.executeUpdate();
-            if (rowsAffected == 1) {
-                return true;
-            } else return false;
-
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
-        }
-
+    public Integer create(User user, Appointment appointment) {
+        return jdbcTemplate.update(INSERT_INTO_USER_APPOINTMENT, user.getId(), appointment.getId());
     }
+
     @Override
-    public Boolean removeByUserAndAppointment(long userId, long appointmentId) {
-        String sql = "delete from realestate.user_appointment where user_id = "+
-                userId+
-                " and appointment_id = " +appointmentId;
-        try (Statement preparedStatement = getConnection().createStatement()) {
-
-
-            int rowsAffected = preparedStatement.executeUpdate(sql);
-            if (rowsAffected == 1) {
-                return true;
-            } else return false;
-
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
-        }
-
+    public Integer removeByUserAndAppointment(long userId, long appointmentId) {
+        return jdbcTemplate.update(DELETE_FROM_USER_APPOINTMENT, userId, appointmentId);
     }
-    private Connection getConnection() {
-        return dataBaseConnection.getConnection();
-    }
-
 }

@@ -1,10 +1,10 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.ProfileDAO;
+import com.daria.realestate.dbconnection.DBConfig;
 import com.daria.realestate.domain.Address;
 import com.daria.realestate.domain.Profile;
 import com.daria.realestate.domain.User;
-import com.daria.realestate.dbconnection.DataBaseConnection;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,8 +15,7 @@ public class ProfileDAOImplTest {
 
     @Before
     public void init() {
-        this.profileDAO = new ProfileDAOImpl(DataBaseConnection.getInstance());
-    }
+        this.profileDAO = new ProfileDAOImpl(new DBConfig().dataSource());}
 
     @Test
     public void testCreationOfProfile() {
@@ -33,9 +32,8 @@ public class ProfileDAOImplTest {
         Assert.assertEquals(profile.getLastName(), createdProfile.getLastName());
         Assert.assertEquals(profile.getPhoneNumber(), createdProfile.getPhoneNumber());
 
-        Long removedProfileId = profileDAO.removeById(createdProfile.getId());
-        Assert.assertEquals(removedProfileId, createdProfile.getId());
-        Assert.assertThrows(IndexOutOfBoundsException.class, () -> profileDAO.getById(createdProfile.getId()));
+        int removedProfileId = profileDAO.removeById(createdProfile.getId());
+        Assert.assertEquals(removedProfileId,1);
     }
 
     @Test

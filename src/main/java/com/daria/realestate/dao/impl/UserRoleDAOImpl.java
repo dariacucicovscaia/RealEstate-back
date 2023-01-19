@@ -1,109 +1,42 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.UserRoleDAO;
-import com.daria.realestate.domain.User;
-import com.daria.realestate.domain.UserRole;
-import com.daria.realestate.domain.enums.Roles;
-import com.daria.realestate.dbconnection.DataBaseConnection;
+import com.daria.realestate.dao.mappers.RoleMapper;
+import com.daria.realestate.domain.enums.Role;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
+import javax.sql.DataSource;
 import java.util.List;
+@Repository
+public class UserRoleDAOImpl implements UserRoleDAO {
+    private static final String SQL_INSERT_USER_ROLE = " insert into user_role (user_id, role) values(?, ?) ";
+    private static final String SQL_REMOVE_USER_ROLE = " delete from user_role where user_id = ? and role = ? ";
+    private static final String SQL_SELECT_ALL_ROLES_OF_A_USER = " select ur.role from user_role as ur where ur.user_id = ? ";
 
-public class UserRoleDAOImpl extends AbstractDAOImpl<UserRole> implements UserRoleDAO {
-    protected UserRoleDAOImpl(DataBaseConnection dataBaseConnection) {
-        super(dataBaseConnection);
+    private final JdbcTemplate jdbcTemplate;
+
+    protected UserRoleDAOImpl(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     @Override
-    protected List<UserRole> setValuesFromResultSetIntoEntityList(ResultSet resultSet) {
-        List<UserRole> userRoles = new ArrayList<>();
-        try {
-            while (resultSet.next()) {
-                userRoles.add(new UserRole(
-                        resultSet.getLong("id"),
-                        resultSet.getString("role"))
-                );
-            }
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
-        }
-
-        return userRoles;
-    }
-
-
-    @Override
-    public UserRole create(UserRole userRole) {
-        String manySql = "insert into user_role (user_id, role) values(?, ?)";
-
-        try (PreparedStatement preparedStatement = getConnection()
-                .prepareStatement(manySql, Statement.RETURN_GENERATED_KEYS)) {
-
-            preparedStatement.setLong(1, userRole.getUser().getId());
-            preparedStatement.setString(2, userRole.getRole().name());
-            preparedStatement.executeUpdate();
-
-            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                userRole.setId(generatedKeys.getLong(1));
-            }
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
-        }
-
-        return userRole;
-    }
-
-    @Override
-    public long removeById(long id) {
-        String sql = "DELETE FROM user_role WHERE id = ? ;";
-
-        try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
-            preparedStatement.setLong(1, id);
-            preparedStatement.executeUpdate();
-            logger.info("User with the id = " + id + " has been removed");
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return id;
-    }
-
-    @Override
-    public UserRole getById(long id) {
-        String sql = "SELECT * FROM user_role WHERE id = " + id + ";";
-
-        try (Statement statement = getConnection().createStatement()) {
-            ResultSet resultSet = statement.executeQuery(sql);
-
-            return setValuesFromResultSetIntoEntityList(resultSet).get(0);
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
+    public Role create(long userId, Role role) {
+        int rowsAffected = jdbcTemplate.update(SQL_INSERT_USER_ROLE, userId, role.name());
+        if (rowsAffected != 0) {
+            return role;
+        } else {
+            return null;
         }
     }
 
     @Override
-    public List<Roles> getRolesOfAUser(User user) {
-        String sql = " select ur.role from user_role as ur " +
-                " where ur.user_id = " + user.getId() + ";";
+    public int removeRole(long userId, Role role) {
+        return jdbcTemplate.update(SQL_REMOVE_USER_ROLE, userId, role.name());
+    }
 
-        List<Roles> roles = new ArrayList<>();
-        try (Statement statement = getConnection().createStatement()) {
-            ResultSet resultSet = statement.executeQuery(sql);
-            while (resultSet.next()) {
-                roles.add(Roles.valueOf(resultSet.getString(1)));
-            }
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
-        }
-        return roles;
+    @Override
+    public List<Role> getRolesOfAUser(long userId) {
+        return jdbcTemplate.query(SQL_SELECT_ALL_ROLES_OF_A_USER,new RoleMapper(), userId);
     }
 }

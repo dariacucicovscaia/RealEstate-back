@@ -1,22 +1,24 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.UserAppointmentDAO;
-import com.daria.realestate.dbconnection.DBConfig;
+import com.daria.realestate.configuration.DataSourceConfig;
 import com.daria.realestate.domain.Appointment;
 import com.daria.realestate.domain.User;
 import com.daria.realestate.domain.enums.AppointmentStatus;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 
+@SpringBootTest
 public class UserAppointmentDAOImplTest {
     private UserAppointmentDAO userAppointmentDAO;
 
     @Before
     public void init() {
-        this.userAppointmentDAO = new UserAppointmentDAOImpl(new DBConfig().dataSource());
+        this.userAppointmentDAO = new UserAppointmentDAOImpl(new DataSourceConfig().dataSource());
     }
 
     @Test

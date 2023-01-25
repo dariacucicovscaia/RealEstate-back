@@ -1,7 +1,7 @@
 package com.daria.realestate.service.impl;
 
 import com.daria.realestate.service.DriveService;
-import com.daria.realestate.util.PropertiesReader;
+import com.daria.realestate.configuration.PropertiesReader;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -17,7 +17,6 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
-import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.security.GeneralSecurityException;

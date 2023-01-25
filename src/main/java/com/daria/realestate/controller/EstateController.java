@@ -19,7 +19,6 @@ public class EstateController {
         this.estateRegistrationService = estateRegistrationService;
     }
 
-
     @GetMapping("/{estateId}")
     public Estate getEstateById(@PathVariable long estateId){
         return estateService.getEstateById(estateId);

@@ -1,22 +1,23 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.UserRoleDAO;
-import com.daria.realestate.dbconnection.DBConfig;
+import com.daria.realestate.configuration.DataSourceConfig;
 import com.daria.realestate.domain.User;
 import com.daria.realestate.domain.enums.Role;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-
+@SpringBootTest
 public class UserRoleDAOImplTest {
     private UserRoleDAO userRoleDAO;
 
     @Before
     public void init() {
-        this.userRoleDAO = new UserRoleDAOImpl(new DBConfig().dataSource());
+        this.userRoleDAO = new UserRoleDAOImpl(new DataSourceConfig().dataSource());
     }
 
     @Test

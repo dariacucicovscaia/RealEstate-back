@@ -10,12 +10,12 @@ public class EstateDetailsMapper implements RowMapper<EstateDetails> {
     @Override
     public EstateDetails mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new EstateDetails(
-                rs.getInt("squareMeters"),
-                rs.getInt("numberOfRooms"),
-                rs.getInt("numberOfBathRooms"),
-                rs.getInt("numberOfGarages"),
-                rs.getDate("yearOfConstruction").toLocalDate(),
-                rs.getString("typeOfEstate")
+                rs.getInt("square_meters"),
+                rs.getInt("number_of_rooms"),
+                rs.getInt("number_of_bathrooms"),
+                rs.getInt("number_of_garages"),
+                rs.getDate("year_of_construction").toLocalDate(),
+                rs.getString("type_of_estate")
         );
     }
 }

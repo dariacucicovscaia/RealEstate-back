@@ -11,14 +11,14 @@ public class AppointmentReportDTOMapper implements RowMapper<AppointmentReportDT
     @Override
     public AppointmentReportDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new AppointmentReportDTO(
-                rs.getTimestamp("start").toLocalDateTime(),
-                rs.getTimestamp("end").toLocalDateTime(),
+                rs.getTimestamp("appointment_start").toLocalDateTime(),
+                rs.getTimestamp("appointment_end").toLocalDateTime(),
                 rs.getString("email"),
-                rs.getString("firstName"),
-                rs.getString("lastName"),
-                rs.getString("phoneNumber"),
+                rs.getString("first_name"),
+                rs.getString("last_name"),
+                rs.getString("phone_number"),
 
-                AppointmentStatus.valueOf(rs.getString("appointmentStatus"))
+                AppointmentStatus.valueOf(rs.getString("appointment_status"))
         );
     }
 }

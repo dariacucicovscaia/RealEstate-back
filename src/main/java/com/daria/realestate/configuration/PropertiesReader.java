@@ -1,4 +1,4 @@
-package com.daria.realestate.util;
+package com.daria.realestate.configuration;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class PropertiesReader {
-    private String fileName;
+    private final String fileName;
 
     public PropertiesReader(String fileName) {
         this.fileName = fileName;

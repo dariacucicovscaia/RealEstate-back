@@ -1,21 +1,22 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.UserDAO;
-import com.daria.realestate.dbconnection.DBConfig;
+import com.daria.realestate.configuration.DataSourceConfig;
 import com.daria.realestate.domain.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-
+@SpringBootTest
 public class UserDAOImplTest {
     private UserDAO userDAO;
 
     @Before
     public void init() {
-        userDAO = new UserDAOImpl(new DBConfig().dataSource());
+        userDAO = new UserDAOImpl(new DataSourceConfig().dataSource());
     }
 
     @Test

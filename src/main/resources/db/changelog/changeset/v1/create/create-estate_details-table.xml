@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+   http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet id="create-estate_details-table" author="DariaC">
+        <createTable tableName="estate_details">
+            <column name="estate_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="square_meters" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="number_of_rooms" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="number_of_bathrooms" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="number_of_garages" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="year_of_construction" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type_of_estate" type="varchar(45)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

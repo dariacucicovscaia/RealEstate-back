@@ -11,10 +11,10 @@ public class AppointmentMapper implements RowMapper<Appointment> {
     public Appointment mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new Appointment(
                 rs.getLong("id"),
-                rs.getTimestamp("madeAt").toLocalDateTime(),
-                rs.getTimestamp("start").toLocalDateTime(),
-                rs.getTimestamp("end").toLocalDateTime(),
-                rs.getString("appointmentStatus")
+                rs.getTimestamp("made_at").toLocalDateTime(),
+                rs.getTimestamp("appointment_start").toLocalDateTime(),
+                rs.getTimestamp("appointment_end").toLocalDateTime(),
+                rs.getString("appointment_status")
         );
     }
 }

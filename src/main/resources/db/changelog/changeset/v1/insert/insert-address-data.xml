@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+   http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="insert-address-data" author="DariaC">
+        <insert tableName="address">
+            <column name="full_address" value="29 Strada Sfatul Țării"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="20 Maria Biesu"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="54 Tavistock Pl"/>
+            <column name="city" value="Kings Cross"/>
+            <column name="country" value="London"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="10 Rosia Montana"/>
+            <column name="city" value="Alba"/>
+            <column name="country" value="Romania"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="250 Jean-Talon E"/>
+            <column name="city" value="Montréal"/>
+            <column name="country" value="Canada"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="Bruckstrasse 5"/>
+            <column name="city" value="Regensburg"/>
+            <column name="country" value="Germany"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="Grigoriou Afxentiou 12"/>
+            <column name="city" value="Alimos"/>
+            <column name="country" value="Greece"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="Rua Doutor Nunes da Ponte"/>
+            <column name="city" value="Valongo"/>
+            <column name="country" value="Portugal"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="118 City Rd"/>
+            <column name="city" value="Melbourne"/>
+            <column name="country" value="Australia"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="Leeuwlantstraat 29"/>
+            <column name="city" value="Antwerpen"/>
+            <column name="country" value="Belgium"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

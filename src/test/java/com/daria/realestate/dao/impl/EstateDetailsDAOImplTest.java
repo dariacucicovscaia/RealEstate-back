@@ -1,23 +1,25 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.EstateDetailsDAO;
-import com.daria.realestate.dbconnection.DBConfig;
+import com.daria.realestate.configuration.DataSourceConfig;
 import com.daria.realestate.domain.Estate;
 import com.daria.realestate.domain.EstateDetails;
 import com.daria.realestate.domain.enums.TypeOfEstate;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@SpringBootTest
 public class EstateDetailsDAOImplTest {
     private EstateDetailsDAO estateDetailsDAO;
 
     @Before
     public void init() {
-        this.estateDetailsDAO = new EstateDetailsDAOImpl(new DBConfig().dataSource());
+        this.estateDetailsDAO = new EstateDetailsDAOImpl(new DataSourceConfig().dataSource());
     }
 
 

@@ -1,7 +1,7 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.EstatePriceDAO;
-import com.daria.realestate.dbconnection.DBConfig;
+import com.daria.realestate.configuration.DataSourceConfig;
 import com.daria.realestate.domain.Estate;
 import com.daria.realestate.domain.EstatePrice;
 import com.daria.realestate.domain.enums.AcquisitionStatus;
@@ -9,15 +9,17 @@ import com.daria.realestate.domain.enums.PaymentTransactionType;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 
+@SpringBootTest
 public class EstatePriceDAOImplTest {
     private EstatePriceDAO priceDAO;
 
     @Before
     public void init() {
-        this.priceDAO = new EstatePriceDAOImpl(new DBConfig().dataSource());
+        this.priceDAO = new EstatePriceDAOImpl(new DataSourceConfig().dataSource());
     }
 
     @Test

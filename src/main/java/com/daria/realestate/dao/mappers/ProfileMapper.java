@@ -11,6 +11,9 @@ public class ProfileMapper implements RowMapper<Profile> {
 
     @Override
     public Profile mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return new Profile(rs.getLong("id"), rs.getString("firstName"), rs.getString("lastName"), rs.getString("phoneNumber"));
+        return new Profile(rs.getLong("id"),
+                rs.getString("first_name"),
+                rs.getString("last_name"),
+                rs.getString("phone_number"));
     }
 }

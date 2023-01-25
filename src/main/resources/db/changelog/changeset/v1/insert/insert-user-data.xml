@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+   http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="insert-user-data" author="DariaC">
+        <insert tableName="user">
+            <column name="email" value="AnnaMarian@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="CornelMihailov@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="JohnSmith@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="ClavaAllun@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="StasMarin@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="LenaCorr@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="MarianaLane@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="NonaMass@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="CorinaMass@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="AndreiJohn@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

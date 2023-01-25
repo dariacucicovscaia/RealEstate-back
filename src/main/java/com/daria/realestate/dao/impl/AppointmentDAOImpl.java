@@ -24,7 +24,7 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
     private static final String SQL_UPDATE_APPOINTMENT = " update appointment set madeAt = ? , start = ? , end = ?  ,appointmentStatus = ? where id = ? ";
     private static final String SQL_GET_APPOINTMENT_BY_ID = " select * from appointment where id = ? ";
     private static final String SQL_GET_APPOINTMENTS_OF_AN_ESTATE = " select a.* from estate as e " + " inner join appointment as a on a.estate_id = e.id " + " where e.id = ?  limit ? offset ? ";
-    private static final String SQL_GET_APPOINTMENTS_WITH_SPECIFIC_TIME_INTERVAL_BY_ESTATE = " select distinct " + " a.start, a.end,u.email,p.firstName, p.lastName, p.phoneNumber, a.appointmentStatus  from realestate.appointment as a " + " inner join realestate.user_appointment as ua on ua.appointment_id = a.id " + " inner join realestate.user as u on u.id = ua.user_id " + " inner join realestate.profile as p on u.id = p.user_id   " + " where a.start >= ? and a.start <= ? and a.estate_id = ? ";
+    private static final String SQL_GET_APPOINTMENTS_WITH_SPECIFIC_TIME_INTERVAL_BY_ESTATE = " select distinct " + " a.start, a.end,u.email,p.firstName, p.lastName, p.phoneNumber, a.appointmentStatus  from appointment as a " + " inner join user_appointment as ua on ua.appointment_id = a.id " + " inner join user as u on u.id = ua.user_id " + " inner join profile as p on u.id = p.user_id   " + " where a.start >= ? and a.start <= ? and a.estate_id = ? ";
 
     public AppointmentDAOImpl(DataSource dataSource) {
         super(dataSource);

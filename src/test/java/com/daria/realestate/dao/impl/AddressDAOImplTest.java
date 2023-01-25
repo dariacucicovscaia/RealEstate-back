@@ -1,23 +1,24 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.AddressDAO;
-import com.daria.realestate.dbconnection.DBConfig;
 import com.daria.realestate.domain.Address;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class AddressDAOImplTest {
-    private AddressDAO addressDAO;
 
-    @Before
-    public void init() {
-        this.addressDAO = new AddressDAOImpl(new DBConfig().dataSource());
-    }
+    @Autowired
+    private AddressDAO addressDAO;
 
     @Test
     public void testCreationOfAddress() {
-        Address address = new Address("fullAddress", "city", "country");
+        Address address = new Address("full_address", "city", "country");
         Address createdAddress = addressDAO.create(address);
         Assert.assertEquals(address.getFullAddress(), createdAddress.getFullAddress());
         Assert.assertEquals(address.getCity(), createdAddress.getCity());
@@ -29,15 +30,6 @@ public class AddressDAOImplTest {
         Assert.assertEquals(rowsAffected, 0);
     }
 
-    @Test
-    public void testGetProfileById() {
-        Address address = addressDAO.getById(1L);
-
-        Assert.assertEquals((Long) 1L, address.getId());
-        Assert.assertEquals("29 Strada Sfatul Țării", address.getFullAddress());
-        Assert.assertEquals("Chisinau", address.getCity());
-        Assert.assertEquals("Moldova", address.getCountry());
-    }
 
     @Test
     public void retrieveCorrectEstateAddress() {
@@ -46,6 +38,12 @@ public class AddressDAOImplTest {
         Assert.assertEquals("29 Strada Sfatul Țării", address.getFullAddress());
         Assert.assertEquals("Chisinau", address.getCity());
         Assert.assertEquals("Moldova", address.getCountry());
+
+        Address address3 = addressDAO.getAddressOfAnEstate(3L);
+
+        Assert.assertEquals("54 Tavistock Pl", address3.getFullAddress());
+        Assert.assertEquals("Kings Cross", address3.getCity());
+        Assert.assertEquals("London", address3.getCountry());
 
     }
 

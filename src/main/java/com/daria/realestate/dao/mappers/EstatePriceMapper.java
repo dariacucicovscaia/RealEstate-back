@@ -12,7 +12,7 @@ public class EstatePriceMapper implements RowMapper<EstatePrice> {
         return new EstatePrice(
                 rs.getLong("id"),
                 rs.getLong("price"),
-                rs.getTimestamp("lastUpdatedAt").toLocalDateTime(),
+                rs.getTimestamp("last_updated_at").toLocalDateTime(),
                 rs.getString("concurrency"));
     }
 }

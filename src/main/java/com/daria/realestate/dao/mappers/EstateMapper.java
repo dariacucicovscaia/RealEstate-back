@@ -11,10 +11,10 @@ public class EstateMapper implements RowMapper<Estate> {
     public Estate mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new Estate(
                 rs.getLong("id"),
-                rs.getString("paymentTransactionType"),
-                rs.getString("acquisitionStatus"),
-                rs.getTimestamp("createdAt").toLocalDateTime(),
-                rs.getTimestamp("lastUpdatedAt").toLocalDateTime()
+                rs.getString("payment_transaction_type"),
+                rs.getString("acquisition_status"),
+                rs.getTimestamp("created_at").toLocalDateTime(),
+                rs.getTimestamp("last_updated_at").toLocalDateTime()
         );
     }
 }

@@ -1,10 +1,7 @@
-package com.daria.realestate.dbconnection;
+package com.daria.realestate.configuration;
 
-import com.daria.realestate.util.PropertiesReader;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

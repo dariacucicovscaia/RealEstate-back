@@ -11,11 +11,12 @@ import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 
+//TODO sql query into methods
 @Repository
 public class AddressDAOImpl extends AbstractDAOImpl<Address> implements AddressDAO {
-    private static final String SQL_UPDATE_ADDRESS = " update address set fullAddress = ?, city  = ?, country = ? where id = ? ";
+    private static final String SQL_UPDATE_ADDRESS = " update address set full_address = ?, city  = ?, country = ? where id = ? ";
     private static final String SQL_FIND_ADDRESS = " select * from address where id = (?) ";
-    private static final String SQL_CREATE_ADDRESS = " insert into realestate.address (fullAddress, city, country) values(?, ?, ?) ";
+    private static final String SQL_CREATE_ADDRESS = " insert into address (full_address, city, country) values(?, ?, ?) ";
     private static final String SQL_DELETE_ADDRESS = " delete from address where id = ? ";
     private static final String SQL_GET_ADDRESS_OF_AN_ESTATE = " select a.* from address as a  inner join estate as e on e.address_id = a.id where e.id = ?";
 

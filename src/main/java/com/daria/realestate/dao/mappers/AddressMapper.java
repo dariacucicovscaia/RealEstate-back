@@ -13,7 +13,7 @@ public class AddressMapper implements RowMapper<Address> {
         Address address = new Address();
 
         address.setId(rs.getLong("id"));
-        address.setFullAddress( rs.getString("fullAddress"));
+        address.setFullAddress( rs.getString("full_address"));
         address.setCity(rs.getString("city"));
         address.setCountry( rs.getString("country"));
 

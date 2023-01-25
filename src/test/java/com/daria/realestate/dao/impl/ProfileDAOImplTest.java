@@ -1,21 +1,22 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.ProfileDAO;
-import com.daria.realestate.dbconnection.DBConfig;
+import com.daria.realestate.configuration.DataSourceConfig;
 import com.daria.realestate.domain.Address;
 import com.daria.realestate.domain.Profile;
 import com.daria.realestate.domain.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
-
+@SpringBootTest
 public class ProfileDAOImplTest {
     private ProfileDAO profileDAO;
 
     @Before
     public void init() {
-        this.profileDAO = new ProfileDAOImpl(new DBConfig().dataSource());}
+        this.profileDAO = new ProfileDAOImpl(new DataSourceConfig().dataSource());}
 
     @Test
     public void testCreationOfProfile() {

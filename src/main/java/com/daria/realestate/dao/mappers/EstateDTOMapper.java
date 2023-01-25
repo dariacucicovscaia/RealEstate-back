@@ -13,26 +13,26 @@ public class EstateDTOMapper implements RowMapper<EstateDTO> {
     @Override
     public EstateDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new EstateDTO(
-                PaymentTransactionType.valueOf(rs.getString("paymentTransactionType")),
-                AcquisitionStatus.valueOf(rs.getString("acquisitionStatus")),
-                rs.getTimestamp("createdAt").toLocalDateTime(),
-                rs.getTimestamp("lastUpdatedAt").toLocalDateTime(),
+                PaymentTransactionType.valueOf(rs.getString("payment_transaction_type")),
+                AcquisitionStatus.valueOf(rs.getString("acquisition_status")),
+                rs.getTimestamp("created_at").toLocalDateTime(),
+                rs.getTimestamp("last_updated_at").toLocalDateTime(),
 
-                rs.getInt("squareMeters"),
-                rs.getInt("numberOfRooms"),
-                rs.getInt("numberOfBathRooms"),
-                rs.getInt("numberOfGarages"),
-                rs.getDate("yearOfConstruction").toLocalDate(),
-                TypeOfEstate.valueOf(rs.getString("typeOfEstate")),
+                rs.getInt("square_meters"),
+                rs.getInt("number_of_rooms"),
+                rs.getInt("number_of_bathrooms"),
+                rs.getInt("number_of_garages"),
+                rs.getDate("year_of_construction").toLocalDate(),
+                TypeOfEstate.valueOf(rs.getString("type_of_estate")),
 
-                rs.getString("fullAddress"),
+                rs.getString("full_address"),
                 rs.getString("city"),
                 rs.getString("country"),
 
                 rs.getString("email"),
 
                 rs.getLong("price"),
-                rs.getTimestamp("lastPriceUpdate").toLocalDateTime(),
+                rs.getTimestamp("last_price_update").toLocalDateTime(),
                 rs.getString("concurrency")
         );
     }

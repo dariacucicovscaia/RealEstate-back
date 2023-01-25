@@ -1,7 +1,7 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.EstateDAO;
-import com.daria.realestate.dbconnection.DBConfig;
+import com.daria.realestate.configuration.DataSourceConfig;
 import com.daria.realestate.domain.*;
 import com.daria.realestate.domain.enums.AcquisitionStatus;
 import com.daria.realestate.domain.enums.OrderBy;
@@ -11,19 +11,24 @@ import com.daria.realestate.dto.EstateDTO;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
+@SpringBootTest
 public class EstateDAOImplTest {
     private EstateDAO estateDAO;
 
     @Before
     public void init() {
-        this.estateDAO = new EstateDAOImpl(new DBConfig().dataSource());
+        this.estateDAO = new EstateDAOImpl(new DataSourceConfig().dataSource());
     }
+
+
+    //TODO add spring boot dev tools
+
 
     @Test
     public void testCreationOfEstate() {

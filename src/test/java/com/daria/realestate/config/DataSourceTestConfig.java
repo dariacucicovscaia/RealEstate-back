@@ -1,24 +1,27 @@
-package com.daria.realestate.configuration;
+package com.daria.realestate.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.test.context.TestPropertySource;
 
 import javax.sql.DataSource;
 
-//TODO refactor using Environment Variables
-@Configuration
-@PropertySource("classpath:application.properties")
-public class DataSourceConfig {
-    @Autowired
-    private Environment environment;
+@TestConfiguration
+@TestPropertySource(locations = "classpath:application-test.properties")
+public class DataSourceTestConfig {
+//    @Autowired
 
+    private final Environment environment;
+
+    public DataSourceTestConfig(Environment environment) {
+        this.environment = environment;
+    }
 
     @Bean
-    public DataSource dataSource() {
+    public DataSource testDataSource() {
         DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
         driverManagerDataSource.setUrl(environment.getProperty("spring.datasource.url"));
         driverManagerDataSource.setUsername(environment.getProperty("spring.datasource.username"));
@@ -26,3 +29,4 @@ public class DataSourceConfig {
         return driverManagerDataSource;
     }
 }
+

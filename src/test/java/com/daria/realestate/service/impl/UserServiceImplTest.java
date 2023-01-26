@@ -2,6 +2,7 @@ package com.daria.realestate.service.impl;
 
 import com.daria.realestate.dao.*;
 import com.daria.realestate.dao.impl.UserDAOImpl;
+import com.daria.realestate.dao.impl.UserRoleDAOImpl;
 import com.daria.realestate.domain.User;
 import com.daria.realestate.service.UserService;
 import org.junit.Assert;
@@ -16,6 +17,8 @@ import static org.mockito.Mockito.mock;
 public class UserServiceImplTest {
     @Mock
     private UserDAO userDAO;
+    @Mock
+    private UserRoleDAO userRoleDAO;
 
     private UserService serviceUnderTests;
 
@@ -23,7 +26,8 @@ public class UserServiceImplTest {
     @Before
     public void setupService() {
         userDAO = mock(UserDAOImpl.class);
-        serviceUnderTests = new UserServiceImpl((UserDAOImpl) userDAO);
+        userRoleDAO = mock(UserRoleDAOImpl.class);
+        serviceUnderTests = new UserServiceImpl((UserDAOImpl) userDAO, (UserRoleDAOImpl) userRoleDAO);
     }
 
     @Test

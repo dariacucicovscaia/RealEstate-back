@@ -12,7 +12,7 @@ public class User {
     private String email;
     private String password;
     private List<Appointment> appointment;
-    private Set<Role> roles;
+    private List<Role> roles;
 
     public User(Long id, String email, String password) {
         this.id = id;
@@ -28,11 +28,11 @@ public class User {
     public User() {
     }
 
-    public Set<Role> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 

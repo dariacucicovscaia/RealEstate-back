@@ -9,75 +9,69 @@
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
     <changeSet id="insert-appointment-data" author="DariaC">
-<!--        <insert tableName="appointment">-->
-<!--            <column name="made_at" valueDate="now()"/>-->
-<!--            <column name="appointment_start" valueDate="now()+INTERVAL 1 HOUR"/>-->
-<!--            <column name="appointment_end" valueDate="appointment_start + INTERVAL 1 HOUR"/>-->
-<!--            <column name="estate_id" value="1"/>-->
-<!--            <column name="appointment_status" value="SCHEDULED"/>-->
-<!--        </insert>-->
-<!--        <insert tableName="appointment">-->
-<!--            <column name="made_at" valueDate="now()"/>-->
-<!--            <column name="appointment_start" valueDate="NOW() + INTERVAL 25 DAY"/>-->
-<!--            <column name="appointment_end" valueDate="appointment_start + INTERVAL 1 HOUR"/>-->
-<!--            <column name="estate_id" value="2"/>-->
-<!--            <column name="appointment_status" value="FINISHED"/>-->
-<!--        </insert>-->
-<!--        <insert tableName="appointment">-->
-<!--            <column name="made_at" valueDate="now()"/>-->
-<!--            <column name="appointment_start" valueDate="now()+INTERVAL 9 HOUR"/>-->
-<!--            <column name="appointment_end" valueDate="appointment_start + INTERVAL 1 HOUR"/>-->
-<!--            <column name="estate_id" value="3"/>-->
-<!--            <column name="appointment_status" value="SCHEDULED"/>-->
-<!--        </insert>-->
-<!--        <insert tableName="appointment">-->
-<!--            <column name="made_at" valueDate="now()"/>-->
-<!--            <column name="appointment_start" valueDate="NOW() + INTERVAL 66 DAY"/>-->
-<!--            <column name="appointment_end" valueDate="appointment_start + INTERVAL 1 HOUR"/>-->
-<!--            <column name="estate_id" value="4"/>-->
-<!--            <column name="appointment_status" value="CONFIRMED"/>-->
-<!--        </insert>-->
-<!--        <insert tableName="appointment">-->
-<!--            <column name="made_at" valueDate="now()"/>-->
-<!--            <column name="appointment_start" valueDate="NOW() + INTERVAL 4 DAY"/>-->
-<!--            <column name="appointment_end" valueDate="appointment_start + INTERVAL 1 HOUR"/>-->
-<!--            <column name="estate_id" value="5"/>-->
-<!--            <column name="appointment_status" value="CANCELED"/>-->
-<!--        </insert>-->
-<!--        <insert tableName="appointment">-->
-<!--            <column name="made_at" valueDate="now()"/>-->
-<!--            <column name="appointment_start" valueDate="now()+INTERVAL 7 HOUR"/>-->
-<!--            <column name="appointment_end" valueDate="appointment_start + INTERVAL 1 HOUR"/>-->
-<!--            <column name="estate_id" value="6"/>-->
-<!--            <column name="appointment_status" value="DENIED"/>-->
-<!--        </insert>-->
-<!--        <insert tableName="appointment">-->
-<!--            <column name="made_at" valueDate="now()"/>-->
-<!--            <column name="appointment_start" valueDate="NOW() + INTERVAL 21 DAY"/>-->
-<!--            <column name="appointment_end" valueDate="appointment_start + INTERVAL 1 HOUR"/>-->
-<!--            <column name="estate_id" value="7"/>-->
-<!--            <column name="appointment_status" value="FINISHED"/>-->
-<!--        </insert>-->
-<!--        <insert tableName="appointment">-->
-<!--            <column name="made_at" valueDate="now()"/>-->
-<!--            <column name="appointment_start" valueDate="now()+INTERVAL 13 HOUR"/>-->
-<!--            <column name="appointment_end" valueDate="appointment_start + INTERVAL 1 HOUR"/>-->
-<!--            <column name="estate_id" value="8"/>-->
-<!--            <column name="appointment_status" value="SCHEDULED"/>-->
-<!--        </insert>-->
-<!--        <insert tableName="appointment">-->
-<!--            <column name="made_at" valueDate="now()"/>-->
-<!--            <column name="appointment_start" valueDate="NOW() + INTERVAL 12 DAY"/>-->
-<!--            <column name="appointment_end" valueDate="appointment_start + INTERVAL 1 HOUR"/>-->
-<!--            <column name="estate_id" value="9"/>-->
-<!--            <column name="appointment_status" value="REJECTED"/>-->
-<!--        </insert>-->
-<!--        <insert tableName="appointment">-->
-<!--            <column name="made_at" valueDate="now()"/>-->
-<!--            <column name="appointment_start" valueDate="NOW() + INTERVAL 24 DAY"/>-->
-<!--            <column name="appointment_end" valueDate="appointment_start + INTERVAL 1 HOUR"/>-->
-<!--            <column name="estate_id" value="10"/>-->
-<!--            <column name="appointment_status" value="DENIED"/>-->
-<!--        </insert>-->
+        <insert tableName="appointment">
+            <column name="made_at" valueDate="2023-01-26 14:32:46"/>
+            <column name="appointment_start" valueDate="2023-01-27 14:30:00"/>
+            <column name="appointment_end" valueDate="2023-01-27 15:30:00"/>
+            <column name="estate_id" value="1"/>
+            <column name="appointment_status" value="SCHEDULED"/>
+        </insert>
+        <insert tableName="appointment">
+            <column name="made_at" valueDate="2023-01-01 14:32:46"/>
+            <column name="appointment_start" valueDate="2023-01-20 10:30:00"/>
+            <column name="appointment_end" valueDate="2023-01-20 11:30:00"/>
+            <column name="estate_id" value="1"/>
+            <column name="appointment_status" value="SCHEDULED"/>
+        </insert>
+        <insert tableName="appointment">
+            <column name="made_at" valueDate="2022-12-26 14:32:46"/>
+            <column name="appointment_start" valueDate="2022-12-27 11:30:00"/>
+            <column name="appointment_end" valueDate="2022-12-27 12:30:00"/>
+            <column name="estate_id" value="1"/>
+            <column name="appointment_status" value="SCHEDULED"/>
+        </insert>
+        <insert tableName="appointment">
+            <column name="made_at" valueDate="2023-01-26 14:32:46"/>
+            <column name="appointment_start" valueDate="2023-01-27 14:30:00"/>
+            <column name="appointment_end" valueDate="2023-01-27 15:30:00"/>
+            <column name="estate_id" value="2"/>
+            <column name="appointment_status" value="SCHEDULED"/>
+        </insert>
+        <insert tableName="appointment">
+            <column name="made_at" valueDate="2023-01-26 14:32:46"/>
+            <column name="appointment_start" valueDate="2023-01-27 14:30:00"/>
+            <column name="appointment_end" valueDate="2023-01-27 15:30:00"/>
+            <column name="estate_id" value="3"/>
+            <column name="appointment_status" value="SCHEDULED"/>
+        </insert>
+        <insert tableName="appointment">
+            <column name="made_at" valueDate="2023-01-26 14:32:46"/>
+            <column name="appointment_start" valueDate="2023-01-27 14:30:00"/>
+            <column name="appointment_end" valueDate="2023-01-27 15:30:00"/>
+            <column name="estate_id" value="4"/>
+            <column name="appointment_status" value="SCHEDULED"/>
+        </insert>
+        <insert tableName="appointment">
+            <column name="made_at" valueDate="2023-01-26 14:32:46"/>
+            <column name="appointment_start" valueDate="2023-01-27 14:30:00"/>
+            <column name="appointment_end" valueDate="2023-01-27 15:30:00"/>
+            <column name="estate_id" value="5"/>
+            <column name="appointment_status" value="SCHEDULED"/>
+        </insert>
+        <insert tableName="appointment">
+            <column name="made_at" valueDate="2023-01-26 14:32:46"/>
+            <column name="appointment_start" valueDate="2023-01-27 14:30:00"/>
+            <column name="appointment_end" valueDate="2023-01-27 15:30:00"/>
+            <column name="estate_id" value="6"/>
+            <column name="appointment_status" value="SCHEDULED"/>
+        </insert>
+        <!--        <insert tableName="appointment">-->
+        <!--            <column name="made_at" valueDate="now()"/>-->
+        <!--            <column name="appointment_start" valueDate="CAST((now()+ INTERVAL '25' DAY )AS TIMESTAMP)"/>-->
+        <!--            <column name="appointment_end" valueDate="CAST((appointment_start  + INTERVAL '1' HOUR) AS TIMESTAMP)"/>-->
+        <!--            <column name="estate_id" value="2"/>-->
+        <!--            <column name="appointment_status" value="FINISHED"/>-->
+        <!--        </insert>-->
+
     </changeSet>
 </databaseChangeLog>

@@ -14,14 +14,14 @@ import java.util.List;
 
 @Repository
 public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
-    private static final String SQL_CREATE_USER = " insert into user (email, password) VALUES( ? , ? ) ";
-    private static final String SQL_GET_USER_BY_ID = " select * from user where id = ? ";
-    private static final String SQL_DELETE_USER_BY_ID = " delete from user where  id = ? ";
-    private static final String SQL_GET_USER_BY_EMAIL = " select * from user where email = ? ";
-    private static final String SQL_DELETE_USER_BY_EMAIL = " delete from user where email = ? ";
-    private static final String SQL_GET_ALL_USERS_THAT_HAVE_APPOINTMENTS = " select distinct u.* from user as u " + " inner join user_appointment as ua on ua.user_id = u.id ";
-    private static final String SQL_GET_ESTATE_OWNER = " select u.* from user as u " + " inner join estate as e on e.owner_id = u.id " + " where e.id = ?";
-    private static final String SQL_UPDATE_USER = " update user set email = ?, password = ? where id = ? ";
+    private static final String SQL_CREATE_USER = " insert into `user` (email, password) VALUES( ? , ? ) ";
+    private static final String SQL_GET_USER_BY_ID = " select * from `user` where id = ? ";
+    private static final String SQL_DELETE_USER_BY_ID = " delete from `user` where  id = ? ";
+    private static final String SQL_GET_USER_BY_EMAIL = " select * from `user` where email = ? ";
+    private static final String SQL_DELETE_USER_BY_EMAIL = " delete from `user` where email = ? ";
+    private static final String SQL_GET_ALL_USERS_THAT_HAVE_APPOINTMENTS = " select distinct u.* from `user` as u " + " inner join `user_appointment` as ua on ua.user_id = u.id ";
+    private static final String SQL_GET_ESTATE_OWNER = " select u.* from `user` as u " + " inner join `estate` as e on e.owner_id = u.id " + " where e.id = ?";
+    private static final String SQL_UPDATE_USER = " update `user` set email = ?, password = ? where id = ? ";
 
     public UserDAOImpl(DataSource dataSource) {
         super(dataSource);

@@ -20,22 +20,23 @@ import java.util.List;
 public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO {
 
     private static final String SQL_DELETE_ESTATE = " delete from estate where id = ? ";
-    private static final String SQL_GET_ALL_ESTATES_BY_TRANSACTION_TYPE_AND_ACQUISITION_STATUS = " select * from estate where paymentTransactionType = ? and acquisitionStatus = ? " + "  limit ? offset ? ";
+    private static final String SQL_GET_ALL_ESTATES_BY_TRANSACTION_TYPE_AND_ACQUISITION_STATUS =
+            " select * from estate where payment_transaction_type = ? and acquisition_status = ? " + "  limit ? offset ? ";
     private static final String SQL = "select " +
-            " e.paymentTransactionType, e.acquisitionStatus, e.createdAt, e.lastUpdatedAt, " +
-            " ed.squareMeters, ed.numberOfRooms, ed.numberOfBathrooms, ed.numberOfGarages, ed.yearOfConstruction, ed.typeOfEstate, " +
-            " a.fullAddress, a.city, a.country, " +
+            " e.payment_transaction_type, e.acquisition_status, e.created_at, e.last_updated_at, " +
+            " ed.square_meters, ed.number_of_rooms, ed.number_of_bathrooms, ed.number_of_garages, ed.year_of_construction, ed.type_of_estate, " +
+            " a.full_address, a.city, a.country, " +
             " u.email," +
-            " price.price, price.lastUpdatedAt as lastPriceUpdate, price,concurrency " +
+            " price.price, price.last_updated_at as last_price_update, price.concurrency " +
             " from estate as e  " +
-            " inner join user as u on u.id = e.owner_id " +
-            " inner join estate_details as ed on e.id = ed.estate_id " +
-            " inner join address as a on e.address_id = a.id " +
-            " inner join price on price.estate_id = e.id " +
+            " inner join `user` as u on u.id = e.owner_id " +
+            " inner join `estate_details` as ed on e.id = ed.estate_id " +
+            " inner join `address` as a on e.address_id = a.id " +
+            " inner join `price` on price.estate_id = e.id " +
             " where e.id = ? ";
 
-    private static final String SQL_UPDATE_ESTATE = " UPDATE estate set acquisitionStatus = ? , paymentTransactionType = ? , createdAt = ? ,lastUpdatedAt= ? where id = ? ";
-    private static final String SQL_CREATE_ESTATE = "INSERT INTO estate ( paymentTransactionType, acquisitionStatus, createdAt, lastUpdatedAt, address_id, owner_id ) VALUES( ? , ? , ? , ? , ? , ? )";
+    private static final String SQL_UPDATE_ESTATE = " UPDATE estate set acquisition_status = ? , payment_transaction_type = ? , created_at = ? ,last_updated_at= ? where id = ? ";
+    private static final String SQL_CREATE_ESTATE = "INSERT INTO estate ( payment_transaction_type, acquisition_status, created_at, last_updated_at, address_id, owner_id ) VALUES( ? , ? , ? , ? , ? , ? )";
     private static final String SQL_GET_ESTATE_BY_ID = "SELECT * FROM estate WHERE id = ? ";
 
     public EstateDAOImpl(DataSource dataSource) {

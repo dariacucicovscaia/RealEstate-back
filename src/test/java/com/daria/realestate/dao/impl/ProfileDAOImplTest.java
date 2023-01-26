@@ -1,22 +1,18 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.ProfileDAO;
-import com.daria.realestate.configuration.DataSourceConfig;
 import com.daria.realestate.domain.Address;
 import com.daria.realestate.domain.Profile;
 import com.daria.realestate.domain.User;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.beans.factory.annotation.Autowired;
 
-@SpringBootTest
-public class ProfileDAOImplTest {
-    private ProfileDAO profileDAO;
 
-    @Before
-    public void init() {
-        this.profileDAO = new ProfileDAOImpl(new DataSourceConfig().dataSource());}
+public class ProfileDAOImplTest extends AbstractPropsSet{
+
+  @Autowired
+  private ProfileDAO profileDAO;
 
     @Test
     public void testCreationOfProfile() {
@@ -42,9 +38,9 @@ public class ProfileDAOImplTest {
         Profile profile = profileDAO.getById(1L);
 
         Assert.assertEquals((Long) 1L, profile.getId());
-        Assert.assertEquals("mariana", profile.getFirstName());
-        Assert.assertEquals("smith", profile.getLastName());
-        Assert.assertEquals("+1354788541", profile.getPhoneNumber());
+        Assert.assertEquals("Anna", profile.getFirstName());
+        Assert.assertEquals("Marian", profile.getLastName());
+        Assert.assertEquals("069895568", profile.getPhoneNumber());
     }
 
     @Test

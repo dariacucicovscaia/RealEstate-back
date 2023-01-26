@@ -18,13 +18,13 @@ import java.util.List;
 @Repository
 public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements AppointmentDAO {
     private static final String SQL_DELETE_APPOINTMENT = " delete from appointment where id = ? ";
-    private static final String SQL_GET_ALL_USERS_APPOINTMENTS_BY_A_STATUS = " select a.* from user_appointment as ua " + " inner join user as u on ua.user_id = u.id " + " inner join appointment as a on ua.appointment_id = a.id " + " where u.id = ? and appointmentStatus= ? " + " limit ? offset ? ";
-    private static final String SQL_GET_APPOINTMENTS_OF_A_USER = " select a.* from user_appointment as ua " + " inner join user as u on ua.user_id = u.id  " + " inner join appointment as a on ua.appointment_id = a.id " + " where u.id = ? ";
-    private static final String SQL_CREATE_APPOINTMENT = " insert into appointment (madeAt, start, end, estate_id, appointmentStatus)" + " values ( ? , ? , ? , ? , ? )";
-    private static final String SQL_UPDATE_APPOINTMENT = " update appointment set madeAt = ? , start = ? , end = ?  ,appointmentStatus = ? where id = ? ";
+    private static final String SQL_GET_ALL_USERS_APPOINTMENTS_BY_A_STATUS = " select a.* from user_appointment as ua " + " inner join `user` as u on ua.user_id = u.id " + " inner join appointment as a on ua.appointment_id = a.id " + " where u.id = ? and appointment_status= ? " + " limit ? offset ? ";
+    private static final String SQL_GET_APPOINTMENTS_OF_A_USER = " select a.* from user_appointment as ua " + " inner join `user` as u on ua.user_id = u.id  " + " inner join appointment as a on ua.appointment_id = a.id " + " where u.id = ? ";
+    private static final String SQL_CREATE_APPOINTMENT = " insert into appointment (made_at, appointment_start, appointment_end, estate_id, appointment_status)" + " values ( ? , ? , ? , ? , ? )";
+    private static final String SQL_UPDATE_APPOINTMENT = " update appointment set made_at = ? , appointment_start = ? , appointment_end = ?  ,appointment_status = ? where id = ? ";
     private static final String SQL_GET_APPOINTMENT_BY_ID = " select * from appointment where id = ? ";
     private static final String SQL_GET_APPOINTMENTS_OF_AN_ESTATE = " select a.* from estate as e " + " inner join appointment as a on a.estate_id = e.id " + " where e.id = ?  limit ? offset ? ";
-    private static final String SQL_GET_APPOINTMENTS_WITH_SPECIFIC_TIME_INTERVAL_BY_ESTATE = " select distinct " + " a.start, a.end,u.email,p.firstName, p.lastName, p.phoneNumber, a.appointmentStatus  from appointment as a " + " inner join user_appointment as ua on ua.appointment_id = a.id " + " inner join user as u on u.id = ua.user_id " + " inner join profile as p on u.id = p.user_id   " + " where a.start >= ? and a.start <= ? and a.estate_id = ? ";
+    private static final String SQL_GET_APPOINTMENTS_WITH_SPECIFIC_TIME_INTERVAL_BY_ESTATE = " select distinct " + " a.appointment_start, a.appointment_end,u.email,p.first_name, p.last_name, p.phone_number, a.appointment_status  from appointment as a " + " inner join user_appointment as ua on ua.appointment_id = a.id " + " inner join `user` as u on u.id = ua.user_id " + " inner join profile as p on u.id = p.user_id   " + " where a.appointment_start >= ? and a.appointment_start <= ? and a.estate_id = ? ";
 
     public AppointmentDAOImpl(DataSource dataSource) {
         super(dataSource);

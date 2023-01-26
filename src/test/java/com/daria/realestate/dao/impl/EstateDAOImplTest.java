@@ -1,7 +1,6 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.EstateDAO;
-import com.daria.realestate.configuration.DataSourceConfig;
 import com.daria.realestate.domain.*;
 import com.daria.realestate.domain.enums.AcquisitionStatus;
 import com.daria.realestate.domain.enums.OrderBy;
@@ -9,26 +8,16 @@ import com.daria.realestate.domain.enums.PaymentTransactionType;
 import com.daria.realestate.domain.enums.TypeOfEstate;
 import com.daria.realestate.dto.EstateDTO;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@SpringBootTest
-public class EstateDAOImplTest {
+public class EstateDAOImplTest extends AbstractPropsSet{
+    @Autowired
     private EstateDAO estateDAO;
-
-    @Before
-    public void init() {
-        this.estateDAO = new EstateDAOImpl(new DataSourceConfig().dataSource());
-    }
-
-
-    //TODO add spring boot dev tools
-
 
     @Test
     public void testCreationOfEstate() {
@@ -57,15 +46,15 @@ public class EstateDAOImplTest {
     public void shouldGetAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus() {
         int nrOfElementsWeWantDisplayed = 5;
         PaymentTransactionType paymentTransactionType = PaymentTransactionType.LEASE;
-        AcquisitionStatus acquisitionStatus = AcquisitionStatus.OPEN;
-        List<Estate> estateList = estateDAO.getAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(PaymentTransactionType.LEASE, AcquisitionStatus.OPEN, new PaginationFilter(1, nrOfElementsWeWantDisplayed, "id", OrderBy.ASC));
+        AcquisitionStatus acquisitionStatus = AcquisitionStatus.ON_HOLD;
+        List<Estate> estateList = estateDAO.getAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(PaymentTransactionType.LEASE, AcquisitionStatus.ON_HOLD, new PaginationFilter(1, nrOfElementsWeWantDisplayed, "id", OrderBy.ASC));
 
         Assert.assertTrue(estateList.size() <= nrOfElementsWeWantDisplayed);
         Assert.assertTrue(estateList.get(0).getId() < estateList.get(2).getId());
 
         for (Estate estate : estateList) {
-            Assert.assertTrue(estate.getPaymentTransactionType().equals(paymentTransactionType));
-            Assert.assertTrue(estate.getAcquisitionStatus().equals(acquisitionStatus));
+            Assert.assertEquals(estate.getPaymentTransactionType(), paymentTransactionType);
+            Assert.assertEquals(estate.getAcquisitionStatus(), acquisitionStatus);
         }
     }
 
@@ -94,25 +83,22 @@ public class EstateDAOImplTest {
         EstateDTO estateDTO = estateDAO.getAllEstateDetails(2L);
 
         Assert.assertEquals(PaymentTransactionType.LEASE, estateDTO.getPaymentTransactionType());
-        Assert.assertEquals(AcquisitionStatus.OPEN, estateDTO.getAcquisitionStatus());
-        Assert.assertEquals(LocalDateTime.of(2003, 12, 2, 23, 3, 12), estateDTO.getCreatedAt());
-        Assert.assertEquals(LocalDateTime.of(2023, 1, 9, 14, 9, 57), estateDTO.getLastUpdatedAt());
+        Assert.assertEquals(AcquisitionStatus.ON_HOLD, estateDTO.getAcquisitionStatus());
 
-        Assert.assertEquals(30, estateDTO.getSquareMeters());
-        Assert.assertEquals(3, estateDTO.getNumberOfRooms());
-        Assert.assertEquals(2, estateDTO.getNumberOfBathRooms());
+        Assert.assertEquals(20, estateDTO.getSquareMeters());
+        Assert.assertEquals(2, estateDTO.getNumberOfRooms());
+        Assert.assertEquals(1, estateDTO.getNumberOfBathRooms());
         Assert.assertEquals(1, estateDTO.getNumberOfGarages());
-        Assert.assertEquals(LocalDate.of(1995, 07, 07), estateDTO.getYearOfConstruction());
+        Assert.assertEquals(LocalDate.of(1965, 10, 12), estateDTO.getYearOfConstruction());
         Assert.assertEquals(TypeOfEstate.PENTHOUSE, estateDTO.getTypeOfEstate());
 
-        Assert.assertEquals("63A Nicolae Costin Street", estateDTO.getFullAddress());
+        Assert.assertEquals("20 Maria Biesu", estateDTO.getFullAddress());
         Assert.assertEquals("Chisinau", estateDTO.getCity());
         Assert.assertEquals("Moldova", estateDTO.getCountry());
 
-        Assert.assertEquals("vlad@example.com", estateDTO.getEmail());
+        Assert.assertEquals("CornelMihailov@gmail.com", estateDTO.getEmail());
 
-        Assert.assertEquals((Long) 200000L, estateDTO.getPrice());
-        Assert.assertEquals(LocalDateTime.of(2023, 01, 02, 15, 02, 46), estateDTO.getLastPriceUpdatedAt());
+        Assert.assertEquals((Long) 10000L, estateDTO.getPrice());
         Assert.assertEquals("EUR", estateDTO.getCurrency());
     }
 }

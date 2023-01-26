@@ -1,7 +1,6 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.AppointmentDAO;
-import com.daria.realestate.configuration.DataSourceConfig;
 import com.daria.realestate.domain.Appointment;
 import com.daria.realestate.domain.Estate;
 import com.daria.realestate.domain.PaginationFilter;
@@ -12,23 +11,18 @@ import com.daria.realestate.domain.enums.OrderBy;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
 import com.daria.realestate.dto.AppointmentReportDTO;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@SpringBootTest
-public class AppointmentDAOImplTest {
 
+public class AppointmentDAOImplTest extends AbstractPropsSet {
 
+    @Autowired
     private AppointmentDAO appointmentDAO;
 
-    @Before
-    public void init() {
-        this.appointmentDAO = new AppointmentDAOImpl(new DataSourceConfig().dataSource());
-    }
 
     @Test
     public void testCreationOfAppointment() {

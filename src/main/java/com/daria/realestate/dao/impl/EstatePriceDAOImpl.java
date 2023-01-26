@@ -11,7 +11,7 @@ import javax.sql.DataSource;
 import java.sql.*;
 @Repository
 public class EstatePriceDAOImpl extends AbstractDAOImpl<EstatePrice> implements EstatePriceDAO {
-    private static final String SQL_CREATE_ESTATE_PRICE = " insert into price ( price, lastUpdatedAt, concurrency, estate_id )  values ( ? , ? , ? , ? ) ";
+    private static final String SQL_CREATE_ESTATE_PRICE = " insert into price ( price, last_updated_at, concurrency, estate_id )  values ( ? , ? , ? , ? ) ";
     private static final String SQL_DELETE_ESTATE_PRICE = " delete from price where id = ? ";
     private static final String SQL_GET_PRICE_BY_ID = "SELECT * FROM price WHERE id = ? ";
 

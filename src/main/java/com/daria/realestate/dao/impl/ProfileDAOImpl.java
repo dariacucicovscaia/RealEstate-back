@@ -11,10 +11,10 @@ import javax.sql.DataSource;
 import java.sql.*;
 @Repository
 public class ProfileDAOImpl extends AbstractDAOImpl<Profile> implements ProfileDAO {
-    private final static String SQL_INSERT_PROFILE = " insert into profile (firstName, lastName, phoneNumber, address_id, user_id) values( ? , ? , ? , ? , ? ) ";
+    private final static String SQL_INSERT_PROFILE = " insert into profile (first_name, last_name, phone_number, address_id, user_id) values( ? , ? , ? , ? , ? ) ";
     private final static String SQL_DELETE_PROFILE = " delete from profile where id = ? ";
     private static final String SQL_GET_PROFILE_BY_ID = " select * from profile where id = ? ";
-    private static final String SQL_UPDATE_PROFILE = " update profile   set  firstName = ?, lastName  = ?, phoneNumber = ? where id = ? ";
+    private static final String SQL_UPDATE_PROFILE = " update profile   set  first_name = ?, last_name  = ?, phone_number = ? where id = ? ";
 
     public ProfileDAOImpl(DataSource dataSource) {
         super(dataSource);

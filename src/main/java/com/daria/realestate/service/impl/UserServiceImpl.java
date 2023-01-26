@@ -1,18 +1,25 @@
 package com.daria.realestate.service.impl;
 
 import com.daria.realestate.dao.UserDAO;
+import com.daria.realestate.dao.UserRoleDAO;
 import com.daria.realestate.dao.impl.UserDAOImpl;
+import com.daria.realestate.dao.impl.UserRoleDAOImpl;
 import com.daria.realestate.domain.User;
+import com.daria.realestate.domain.enums.Role;
 import com.daria.realestate.service.UserService;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private final UserDAO userDAO;
+    private final UserRoleDAO userRoleDAO;
 
-    public UserServiceImpl(UserDAOImpl userDAO) {
+    public UserServiceImpl(UserDAOImpl userDAO, UserRoleDAOImpl userRoleDAO) {
         this.userDAO = userDAO;
+        this.userRoleDAO = userRoleDAO;
     }
 
     @Override
@@ -27,7 +34,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(Long id) {
-        return userDAO.getById(id);
+        User user = userDAO.getById(id);
+        user.setRoles(userRoleDAO.getRolesOfAUser(id));
+        return user;
     }
 
 

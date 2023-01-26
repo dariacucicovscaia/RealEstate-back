@@ -1,27 +1,23 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.UserDAO;
-import com.daria.realestate.configuration.DataSourceConfig;
 import com.daria.realestate.domain.User;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-@SpringBootTest
-public class UserDAOImplTest {
+
+public class UserDAOImplTest extends AbstractPropsSet{
+
+    @Autowired
     private UserDAO userDAO;
 
-    @Before
-    public void init() {
-        userDAO = new UserDAOImpl(new DataSourceConfig().dataSource());
-    }
 
     @Test
     public void testGetUserByEmail() {
-        String email = "mariana@example.com";
+        String email = "AnnaMarian@gmail.com";
         User extractedUser = userDAO.getUserByEmail(email);
 
         Assert.assertEquals((Long) 1L, extractedUser.getId());
@@ -57,7 +53,7 @@ public class UserDAOImplTest {
     public void testUpdateUser() {
         String newEmail = "updatedEmail@example.com";
         String newPassword = "123456";
-        User initialUser = userDAO.getUserByEmail("mariana@example.com");
+        User initialUser = userDAO.getUserByEmail("AnnaMarian@gmail.com");
 
         User updatedUser = userDAO.update(new User(1L, newEmail, newPassword));
 
@@ -74,6 +70,7 @@ public class UserDAOImplTest {
         long idOfTheUserById = userDAO.getById(id).getId();
         Assert.assertEquals(id, idOfTheUserById);
     }
+
     @Test
     public void getUsersThatHaveAppointmentsTest() {
         List<User> usersThatHaveAppointments = userDAO.getAllUsersThatHaveAppointments();
@@ -81,10 +78,10 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void getOwnerOfAnEstateTest(){
-        User user= userDAO.getOwnerOfAnEstate(1L);
+    public void getOwnerOfAnEstateTest() {
+        User user = userDAO.getOwnerOfAnEstate(1L);
 
-        Assert.assertEquals("mariana@example.com", user.getEmail());
+        Assert.assertEquals("AnnaMarian@gmail.com", user.getEmail());
         Assert.assertEquals("123456", user.getPassword());
     }
 }

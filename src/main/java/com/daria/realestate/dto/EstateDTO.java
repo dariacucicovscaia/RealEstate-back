@@ -8,27 +8,27 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class EstateDTO {
-    private PaymentTransactionType paymentTransactionType;
-    private AcquisitionStatus acquisitionStatus;
-    private LocalDateTime createdAt;
-    private LocalDateTime lastUpdatedAt;
+    private final PaymentTransactionType paymentTransactionType;
+    private final AcquisitionStatus acquisitionStatus;
+    private final LocalDateTime createdAt;
+    private final LocalDateTime lastUpdatedAt;
 
-    private int squareMeters;
-    private int numberOfRooms;
-    private int numberOfBathRooms;
-    private int numberOfGarages;
-    private LocalDate yearOfConstruction;
-    private TypeOfEstate typeOfEstate;
+    private final int squareMeters;
+    private final int numberOfRooms;
+    private final int numberOfBathRooms;
+    private final int numberOfGarages;
+    private final LocalDate yearOfConstruction;
+    private final TypeOfEstate typeOfEstate;
 
-    private String fullAddress;
-    private String city;
-    private String country;
+    private final String fullAddress;
+    private final String city;
+    private final String country;
 
     private String email;
 
-    private Long price;
-    private LocalDateTime lastPriceUpdatedAt;
-    private String currency;
+    private final Long price;
+    private final LocalDateTime lastPriceUpdatedAt;
+    private final String currency;
 
     public EstateDTO(PaymentTransactionType paymentTransactionType, AcquisitionStatus acquisitionStatus, LocalDateTime createdAt, LocalDateTime lastUpdatedAt, int squareMeters, int numberOfRooms, int numberOfBathRooms, int numberOfGarages, LocalDate yearOfConstruction, TypeOfEstate typeOfEstate, String fullAddress, String city, String country, String email, Long price, LocalDateTime lastPriceUpdatedAt, String currency) {
         this.paymentTransactionType = paymentTransactionType;

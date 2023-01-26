@@ -1,28 +1,23 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.UserRoleDAO;
-import com.daria.realestate.configuration.DataSourceConfig;
 import com.daria.realestate.domain.User;
 import com.daria.realestate.domain.enums.Role;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-@SpringBootTest
-public class UserRoleDAOImplTest {
+
+public class UserRoleDAOImplTest extends AbstractPropsSet{
+    @Autowired
     private UserRoleDAO userRoleDAO;
 
-    @Before
-    public void init() {
-        this.userRoleDAO = new UserRoleDAOImpl(new DataSourceConfig().dataSource());
-    }
 
     @Test
     public void testCreationOfUserRole() {
-        User user = new User(1L, "mariana", "passwprd");
+        User user = new User(100000000L,"mariana", "passwprd");
         Role role = Role.USER;
         Role createdUserRole = userRoleDAO.create(user.getId(), role);
         Assert.assertEquals(role, createdUserRole);
@@ -37,7 +32,10 @@ public class UserRoleDAOImplTest {
 
     @Test
     public void getAllRolesOfAUser() {
-        List<Role> roles = userRoleDAO.getRolesOfAUser(4L);
-        roles.forEach(System.out::println);
+        User user = new User(100000001L,"mariana", "passwprd");
+        Role role = Role.USER;
+        userRoleDAO.create(user.getId(), role);
+        List<Role> roles = userRoleDAO.getRolesOfAUser(100000001L);
+        Assert.assertEquals(roles.size(), 1);
     }
 }

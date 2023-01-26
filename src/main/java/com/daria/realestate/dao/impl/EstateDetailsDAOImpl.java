@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 import java.sql.*;
 @Repository
 public class EstateDetailsDAOImpl extends AbstractDAOImpl<EstateDetails> implements EstateDetailsDAO {
-    private static final String SQL_CREATE_ESTATE_DETAILS = " insert into estate_details (estate_id , squareMeters, numberOfRooms , numberOfBathRooms , numberOfGarages , yearOfConstruction ,  typeOfEstate )  values( ? , ? , ? , ? , ? , ? , ? ) ";
+    private static final String SQL_CREATE_ESTATE_DETAILS = " insert into estate_details (estate_id , square_meters, number_of_rooms , number_of_bathrooms , number_of_garages , year_of_construction ,  type_of_estate )  values( ? , ? , ? , ? , ? , ? , ? ) ";
     private static final String SQL_GET_ESTATE_DETAILS_BY_ESTATE_ID = " select * from estate_details where estate_id = ? ";
     private static final String SQL_DELETE_ESTATE_DETAILS = " delete from estate_details where estate_id = ? ";
 

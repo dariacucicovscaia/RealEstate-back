@@ -1,26 +1,20 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.EstateDetailsDAO;
-import com.daria.realestate.configuration.DataSourceConfig;
 import com.daria.realestate.domain.Estate;
 import com.daria.realestate.domain.EstateDetails;
 import com.daria.realestate.domain.enums.TypeOfEstate;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@SpringBootTest
-public class EstateDetailsDAOImplTest {
-    private EstateDetailsDAO estateDetailsDAO;
 
-    @Before
-    public void init() {
-        this.estateDetailsDAO = new EstateDetailsDAOImpl(new DataSourceConfig().dataSource());
-    }
+public class EstateDetailsDAOImplTest extends AbstractPropsSet{
+   @Autowired
+    private EstateDetailsDAO estateDetailsDAO;
 
 
     @Test
@@ -52,7 +46,7 @@ public class EstateDetailsDAOImplTest {
         Assert.assertEquals(2, fetchedEstateDetails.getNumberOfBathRooms());
         Assert.assertEquals(3, fetchedEstateDetails.getNumberOfRooms());
         Assert.assertEquals(1, fetchedEstateDetails.getNumberOfGarages());
-        Assert.assertEquals(LocalDate.of(2003, 12, 02), fetchedEstateDetails.getYearOfConstruction());
+        Assert.assertEquals(LocalDate.of(1965, 10, 12), fetchedEstateDetails.getYearOfConstruction());
 
     }
 

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Service
 public class XLSXReportingServiceImpl implements XLSXReportingService {
 
-    private Workbook workbook;
+    private final Workbook workbook;
 
     public XLSXReportingServiceImpl() {
         this.workbook = new XSSFWorkbook();

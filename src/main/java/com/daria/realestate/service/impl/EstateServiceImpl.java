@@ -32,12 +32,20 @@ public class EstateServiceImpl implements EstateService {
     }
 
     @Override
-    public List<Estate> getAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(PaymentTransactionType paymentTransactionType, AcquisitionStatus acquisitionStatus, PaginationFilter paginationFilter) {
-        return estateDAO.getAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(paymentTransactionType, acquisitionStatus, paginationFilter);
+    public Page<Estate> getAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(int pageSize, int pageNumber, PaymentTransactionType paymentTransactionType, AcquisitionStatus acquisitionStatus) {
+        Page<Estate> pageableEstateList = new Page<>();
+        List<Estate> filteredEstateList = estateDAO.getAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(paymentTransactionType, acquisitionStatus, new PaginationFilter(pageNumber, pageSize));
+
+        pageableEstateList.setContent(filteredEstateList);
+        pageableEstateList.setCurrentPage(pageNumber);
+        pageableEstateList.setPageSize(pageSize);
+        pageableEstateList.setTotalPages(filteredEstateList.size());
+
+        return pageableEstateList;
     }
 
     @Override
-    public Estate createEstate(Estate estate){
+    public Estate createEstate(Estate estate) {
         return estateDAO.create(estate);
     }
 

@@ -2,8 +2,10 @@ package com.daria.realestate.service.impl;
 
 import com.daria.realestate.dao.AppointmentDAO;
 import com.daria.realestate.dao.UserAppointmentDAO;
+import com.daria.realestate.dao.UserDAO;
 import com.daria.realestate.dao.impl.AppointmentDAOImpl;
 import com.daria.realestate.dao.impl.UserAppointmentDAOImpl;
+import com.daria.realestate.dao.impl.UserDAOImpl;
 import com.daria.realestate.domain.*;
 import com.daria.realestate.domain.enums.AcquisitionStatus;
 import com.daria.realestate.domain.enums.AppointmentStatus;
@@ -25,6 +27,8 @@ public class AppointmentServiceImplTest {
     private AppointmentDAO appointmentDAO;
     @Mock
     private UserAppointmentDAO userAppointmentDAO;
+    @Mock
+    private UserDAO userDAO;
 
     private AppointmentService serviceUnderTests;
 
@@ -32,8 +36,9 @@ public class AppointmentServiceImplTest {
     public void setupService() {
         appointmentDAO = mock(AppointmentDAOImpl.class);
         userAppointmentDAO = mock(UserAppointmentDAOImpl.class);
+        userDAO = mock(UserDAOImpl.class);
 
-        serviceUnderTests = new AppointmentServiceImpl((AppointmentDAOImpl) appointmentDAO, (UserAppointmentDAOImpl) userAppointmentDAO);
+        serviceUnderTests = new AppointmentServiceImpl((AppointmentDAOImpl) appointmentDAO, (UserAppointmentDAOImpl) userAppointmentDAO, (UserDAOImpl)userDAO);
     }
 
     //TODO refactor , check how many times is called method, both methods
@@ -45,7 +50,7 @@ public class AppointmentServiceImplTest {
         when(appointmentDAO.create(appointment)).thenReturn(appointment);
         when(userAppointmentDAO.create(user, appointment)).thenReturn(1);
 
-        Appointment createdAppointment = serviceUnderTests.createAppointment(appointment, user);
+        Appointment createdAppointment = serviceUnderTests.createAppointment(appointment,1L);
 
         verify(appointmentDAO).create(appointment);
         verify(userAppointmentDAO).create(user, appointment);

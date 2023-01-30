@@ -8,6 +8,8 @@ import com.daria.realestate.service.impl.EstateRegistrationServiceImpl;
 import com.daria.realestate.service.impl.EstateServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/estate")
 public class EstateController {
@@ -20,13 +22,17 @@ public class EstateController {
     }
 
     @GetMapping("/{estateId}")
-    public Estate getEstateById(@PathVariable long estateId){
+    public Estate getEstateById(@PathVariable long estateId) {
         return estateService.getEstateById(estateId);
     }
 
     @PostMapping("/create/{userId}")
-    public EstateDTO createEstate(@RequestBody EstateDTO estateDTO, @PathVariable long userId){
+    public EstateDTO createEstate(@RequestBody EstateDTO estateDTO, @PathVariable long userId) {
         return estateRegistrationService.createEstate(estateDTO, userId);
     }
 
+    @GetMapping("/estates/{paymentTransactionType}/{acquisitionStatus}")
+    public List<Estate> getAllEstatesByCriteriaPaginated() {
+        return null;
+    }
 }

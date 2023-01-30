@@ -3,17 +3,17 @@ package com.daria.realestate.dto;
 import com.daria.realestate.domain.enums.Role;
 
 public class RegistrationDTO {
-    private String email;
-    private String password;
+    private final String email;
+    private final String password;
 
-    private Role role;
-    private String firstName;
-    private String lastName;
-    private String phoneNumber;
+    private final Role role;
+    private final String firstName;
+    private final String lastName;
+    private final String phoneNumber;
 
-    private String fullAddress;
-    private String city;
-    private String country;
+    private final String fullAddress;
+    private final String city;
+    private final String country;
 
     public RegistrationDTO(String email, String password, Role role, String firstName, String lastName, String phoneNumber, String fullAddress, String city, String country) {
         this.email = email;

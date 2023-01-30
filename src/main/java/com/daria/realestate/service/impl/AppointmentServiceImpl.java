@@ -14,14 +14,17 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     private final AppointmentDAO appointmentDAO;
     private final UserAppointmentDAO userAppointmentDAO;
+    private final UserDAO userDAO;
 
-    public AppointmentServiceImpl(AppointmentDAOImpl appointmentDAO, UserAppointmentDAOImpl userAppointmentDAO) {
+    public AppointmentServiceImpl(AppointmentDAOImpl appointmentDAO, UserAppointmentDAOImpl userAppointmentDAO, UserDAOImpl userDAO) {
         this.appointmentDAO = appointmentDAO;
         this.userAppointmentDAO = userAppointmentDAO;
+        this.userDAO = userDAO;
     }
 
     @Override
-    public Appointment createAppointment(Appointment appointment, User user) {
+    public Appointment createAppointment(Appointment appointment, long userId) {
+        User user = userDAO.getById(userId);
         Appointment createdAppointment = appointmentDAO.create(appointment);
         Integer userAppointment = userAppointmentDAO.create(user, createdAppointment);
 
@@ -48,5 +51,11 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public Appointment getAppointmentById(Long id) {
         return appointmentDAO.getById(id);
+    }
+
+    @Override
+    public Appointment updateAppointment(long appointmentId, Appointment newAppointment){
+        newAppointment.setId(appointmentId);
+        return appointmentDAO.update(newAppointment);
     }
 }

@@ -1,16 +1,15 @@
 package com.daria.realestate.service;
 
 import com.daria.realestate.domain.Estate;
+import com.daria.realestate.domain.Page;
 import com.daria.realestate.domain.PaginationFilter;
-import com.daria.realestate.domain.User;
 import com.daria.realestate.domain.enums.AcquisitionStatus;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
 import com.daria.realestate.dto.EstateDTO;
 
-import java.util.List;
 
 public interface EstateService {
-    List<Estate> getAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(PaymentTransactionType paymentTransactionType, AcquisitionStatus acquisitionStatus, PaginationFilter paginationFilter);
+    Page<Estate> getAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(int pageSize, int pageNumber,PaymentTransactionType paymentTransactionType, AcquisitionStatus acquisitionStatus);
     EstateDTO getAllDetailsOfAnEstate(long estateId);
     Estate createEstate(Estate estate);
     Estate getEstateById(Long id);

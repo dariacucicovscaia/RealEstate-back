@@ -8,7 +8,6 @@ import com.daria.realestate.service.EstateRegistrationService;
 import org.springframework.stereotype.Service;
 
 @Service
-
 public class EstateRegistrationServiceImpl implements EstateRegistrationService {
     private final AddressDAO addressDAO;
     private final EstateDAO estateDAO;

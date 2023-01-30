@@ -9,9 +9,10 @@ import com.daria.realestate.domain.enums.AppointmentStatus;
 import java.util.List;
 
 public interface AppointmentService {
-    Appointment createAppointment(Appointment appointment, User user);
+    Appointment createAppointment(Appointment appointment, long userId);
     List<Appointment> getAppointmentsOfAnEstate(Estate estate, PaginationFilter paginationFilter);
     List<Appointment> getAppointmentsOfAUser(User user);
     List<Appointment> usersAppointmentsByAppointmentStatus(User user, AppointmentStatus appointmentStatus, PaginationFilter paginationFilter);
     Appointment getAppointmentById(Long id);
+    Appointment updateAppointment(long appointmentId, Appointment newAppointment);
 }

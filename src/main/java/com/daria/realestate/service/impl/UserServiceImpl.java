@@ -38,6 +38,9 @@ public class UserServiceImpl implements UserService {
         user.setRoles(userRoleDAO.getRolesOfAUser(id));
         return user;
     }
-
+@Override
+    public User createUser(User user) {
+        return userDAO.create(user);
+    }
 
 }

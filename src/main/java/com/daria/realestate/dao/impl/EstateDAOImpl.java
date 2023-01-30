@@ -21,8 +21,9 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
 
     private static final String SQL_DELETE_ESTATE = " delete from estate where id = ? ";
     private static final String SQL_GET_ALL_ESTATES_BY_TRANSACTION_TYPE_AND_ACQUISITION_STATUS =
-            " select * from estate where payment_transaction_type = ? and acquisition_status = ? " + "  limit ? offset ? ";
-    private static final String SQL = "select " +
+            " select * from estate where payment_transaction_type = ? and acquisition_status = ? "
+                    + " limit ? offset ? ";
+    private static final String SQL_GET_ALL_ESTATE_DETAILS = "select " +
             " e.payment_transaction_type, e.acquisition_status, e.created_at, e.last_updated_at, " +
             " ed.square_meters, ed.number_of_rooms, ed.number_of_bathrooms, ed.number_of_garages, ed.year_of_construction, ed.type_of_estate, " +
             " a.full_address, a.city, a.country, " +
@@ -56,7 +57,7 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
 
     @Override
     public EstateDTO getAllEstateDetails(long id) {
-        return getJdbcTemplate().queryForObject(SQL, new EstateDTOMapper(), id);
+        return getJdbcTemplate().queryForObject(SQL_GET_ALL_ESTATE_DETAILS, new EstateDTOMapper(), id);
     }
 
     @Override

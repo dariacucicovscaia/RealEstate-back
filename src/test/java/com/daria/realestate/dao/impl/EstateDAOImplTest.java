@@ -14,8 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
-public class EstateDAOImplTest extends AbstractPropsSet{
+public class EstateDAOImplTest extends AbstractPropsSet {
     @Autowired
     private EstateDAO estateDAO;
 
@@ -47,7 +48,7 @@ public class EstateDAOImplTest extends AbstractPropsSet{
         int nrOfElementsWeWantDisplayed = 5;
         PaymentTransactionType paymentTransactionType = PaymentTransactionType.LEASE;
         AcquisitionStatus acquisitionStatus = AcquisitionStatus.ON_HOLD;
-        List<Estate> estateList = estateDAO.getAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(PaymentTransactionType.LEASE, AcquisitionStatus.ON_HOLD, new PaginationFilter(1, nrOfElementsWeWantDisplayed, "id", OrderBy.ASC));
+        List<Estate> estateList = estateDAO.getAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatusPaginated(PaymentTransactionType.LEASE, AcquisitionStatus.ON_HOLD, new PaginationFilter(1, nrOfElementsWeWantDisplayed, "id", OrderBy.ASC));
 
         Assert.assertTrue(estateList.size() <= nrOfElementsWeWantDisplayed);
         Assert.assertTrue(estateList.get(0).getId() < estateList.get(2).getId());
@@ -101,4 +102,10 @@ public class EstateDAOImplTest extends AbstractPropsSet{
         Assert.assertEquals((Long) 10000L, estateDTO.getPrice());
         Assert.assertEquals("EUR", estateDTO.getCurrency());
     }
+
+    @Test
+    public void testCountAfterFiltration() {
+       Assert.assertEquals((Integer)4 , estateDAO.countAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(PaymentTransactionType.RENT, AcquisitionStatus.OPEN));
+    }
 }
+

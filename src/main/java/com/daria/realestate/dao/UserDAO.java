@@ -31,7 +31,7 @@ public interface UserDAO extends DAO<User> {
     int removeByEmail(String email);
 
     User getOwnerOfAnEstate(long estateId);
-
+    List<User> getAllUsersOfAnAppointment(long appointmentId);
     List<User> getAllUsersThatHaveAppointments();
 
 }

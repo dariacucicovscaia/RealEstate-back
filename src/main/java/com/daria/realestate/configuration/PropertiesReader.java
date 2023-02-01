@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class PropertiesReader {
-    private final String fileName;
+    private String fileName;
 
     public PropertiesReader(String fileName) {
         this.fileName = fileName;

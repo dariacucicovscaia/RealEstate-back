@@ -3,10 +3,8 @@ package com.daria.realestate.service;
 import java.time.LocalDateTime;
 
 public interface ExcelReportDataService {
-    //TODO we should select all appointments of a retail property for a specific period
-
     /**
-     * Sorts and prepares the data for the Excel inse
+     * Sorts and prepares the data for the Excel insert
      * @param from
      * @param to
      * @param estateId

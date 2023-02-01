@@ -18,7 +18,7 @@ public class EstatePriceDAOImplTest extends AbstractPropsSet {
 
     @Test
     public void testCreationOfPrice() {
-        EstatePrice price = new EstatePrice(10000L, LocalDateTime.parse("2023-01-18T15:31:16"), "EUR", new Estate(1L, PaymentTransactionType.LEASE.name(), AcquisitionStatus.OPEN.name(), LocalDateTime.now(), LocalDateTime.now()));
+        EstatePrice price = new EstatePrice(10000L, LocalDateTime.parse("2023-01-18T15:31:16"), "EUR", new Estate(1L, PaymentTransactionType.LEASE.toString(), AcquisitionStatus.OPEN.toString(), LocalDateTime.now(), LocalDateTime.now()));
 
         EstatePrice createdPrice = priceDAO.create(price);
 

@@ -38,7 +38,7 @@ public class XLSXReportingServiceImpl implements XLSXReportingService {
                 } else if (value instanceof Long) {
                     cell.setCellValue((Long) value);
                 } else if (value instanceof Enum) {
-                    cell.setCellValue(((Enum<?>) value).name());
+                    cell.setCellValue(((Enum<?>) value).toString());
                 } else if (value instanceof Boolean) {
                     cell.setCellValue((Boolean) value);
                 } else if (value instanceof LocalDateTime) {

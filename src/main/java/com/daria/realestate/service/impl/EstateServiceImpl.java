@@ -12,6 +12,7 @@ import com.daria.realestate.domain.*;
 import com.daria.realestate.domain.enums.AcquisitionStatus;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
 import com.daria.realestate.dto.EstateDTO;
+import com.daria.realestate.dto.EstateSearchFilter;
 import com.daria.realestate.service.EstateService;
 import org.springframework.stereotype.Service;
 
@@ -32,16 +33,11 @@ public class EstateServiceImpl implements EstateService {
     }
 
     @Override
-    public Page<Estate> getAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(int pageSize, int pageNumber, PaymentTransactionType paymentTransactionType, AcquisitionStatus acquisitionStatus) {
-        Page<Estate> pageableEstateList = new Page<>();
-        List<Estate> filteredEstateList = estateDAO.getAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(paymentTransactionType, acquisitionStatus, new PaginationFilter(pageNumber, pageSize));
+    public Page<Estate> getAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(int elementsPerPage, int pageNumber, PaymentTransactionType paymentTransactionType, AcquisitionStatus acquisitionStatus) {
+        List<Estate> filteredEstateList = estateDAO.getAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatusPaginated(paymentTransactionType, acquisitionStatus, new PaginationFilter(pageNumber, elementsPerPage));
+        int totalPageCount = estateDAO.countAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(paymentTransactionType, acquisitionStatus);
 
-        pageableEstateList.setContent(filteredEstateList);
-        pageableEstateList.setCurrentPage(pageNumber);
-        pageableEstateList.setPageSize(pageSize);
-        pageableEstateList.setTotalPages(filteredEstateList.size());
-
-        return pageableEstateList;
+        return new Page<>(filteredEstateList, totalPageCount, pageNumber, elementsPerPage);
     }
 
     @Override
@@ -69,4 +65,12 @@ public class EstateServiceImpl implements EstateService {
         return estateDAO.update(estate);
     }
 
+    @Override
+    public Page<Estate> getEstatesFilteredByAllEstateCriteria(EstateSearchFilter estateSearchFilter, int elementsPerPage, int pageNumber) {
+
+        List<Estate> content = estateDAO.getEstatesFilteredByAllEstateCriteria( estateSearchFilter,  new PaginationFilter(pageNumber, elementsPerPage));
+        int totalPageCount = estateDAO.countEstatesFilteredByAllEstateCriteria(estateSearchFilter);
+
+        return new Page<>( content, totalPageCount, pageNumber, elementsPerPage);
+    }
 }

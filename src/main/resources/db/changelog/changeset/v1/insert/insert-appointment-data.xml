@@ -21,21 +21,21 @@
             <column name="appointment_start" valueDate="2023-01-20 10:30:00"/>
             <column name="appointment_end" valueDate="2023-01-20 11:30:00"/>
             <column name="estate_id" value="1"/>
-            <column name="appointment_status" value="SCHEDULED"/>
+            <column name="appointment_status" value="CONFIRMED"/>
         </insert>
         <insert tableName="appointment">
             <column name="made_at" valueDate="2022-12-26 14:32:46"/>
             <column name="appointment_start" valueDate="2022-12-27 11:30:00"/>
             <column name="appointment_end" valueDate="2022-12-27 12:30:00"/>
             <column name="estate_id" value="1"/>
-            <column name="appointment_status" value="SCHEDULED"/>
+            <column name="appointment_status" value="DENIED"/>
         </insert>
         <insert tableName="appointment">
             <column name="made_at" valueDate="2023-01-26 14:32:46"/>
             <column name="appointment_start" valueDate="2023-01-27 14:30:00"/>
             <column name="appointment_end" valueDate="2023-01-27 15:30:00"/>
             <column name="estate_id" value="2"/>
-            <column name="appointment_status" value="SCHEDULED"/>
+            <column name="appointment_status" value="CONFIRMED"/>
         </insert>
         <insert tableName="appointment">
             <column name="made_at" valueDate="2023-01-26 14:32:46"/>
@@ -49,7 +49,7 @@
             <column name="appointment_start" valueDate="2023-01-27 14:30:00"/>
             <column name="appointment_end" valueDate="2023-01-27 15:30:00"/>
             <column name="estate_id" value="4"/>
-            <column name="appointment_status" value="SCHEDULED"/>
+            <column name="appointment_status" value="FINISHED"/>
         </insert>
         <insert tableName="appointment">
             <column name="made_at" valueDate="2023-01-26 14:32:46"/>
@@ -63,7 +63,7 @@
             <column name="appointment_start" valueDate="2023-01-27 14:30:00"/>
             <column name="appointment_end" valueDate="2023-01-27 15:30:00"/>
             <column name="estate_id" value="6"/>
-            <column name="appointment_status" value="SCHEDULED"/>
+            <column name="appointment_status" value="FINISHED"/>
         </insert>
         <!--        <insert tableName="appointment">-->
         <!--            <column name="made_at" valueDate="now()"/>-->

@@ -22,7 +22,7 @@ public class UserRoleDAOImpl implements UserRoleDAO {
 
     @Override
     public Role create(long userId, Role role) {
-        int rowsAffected = jdbcTemplate.update(SQL_INSERT_USER_ROLE, userId, role.name());
+        int rowsAffected = jdbcTemplate.update(SQL_INSERT_USER_ROLE, userId, role.toString());
         if (rowsAffected != 0) {
             return role;
         } else {
@@ -32,7 +32,7 @@ public class UserRoleDAOImpl implements UserRoleDAO {
 
     @Override
     public int removeRole(long userId, Role role) {
-        return jdbcTemplate.update(SQL_REMOVE_USER_ROLE, userId, role.name());
+        return jdbcTemplate.update(SQL_REMOVE_USER_ROLE, userId, role.toString());
     }
 
     @Override

@@ -34,8 +34,8 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Override
     public RegistrationDTO registerUser(RegistrationDTO registrationDTO) {
         User user = userDAO.create(new User(registrationDTO.getEmail(), registrationDTO.getPassword()));
-        Profile profile = profileDAO.create(new Profile(registrationDTO.getFirstName(), registrationDTO.getLastName(), registrationDTO.getPhoneNumber()));
         Address address = addressDAO.create(new Address(registrationDTO.getFullAddress(), registrationDTO.getCity(), registrationDTO.getCountry()));
+        Profile profile = profileDAO.create(new Profile(registrationDTO.getFirstName(), registrationDTO.getLastName(), registrationDTO.getPhoneNumber(), address, user));
         Role role = userRoleDAO.create(user.getId(), registrationDTO.getRole());
 
         return new RegistrationDTO(

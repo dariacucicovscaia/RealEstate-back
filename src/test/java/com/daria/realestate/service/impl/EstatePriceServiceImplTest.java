@@ -28,7 +28,7 @@ public class EstatePriceServiceImplTest {
 
     @Test
     public void createEstatePrice() {
-        EstatePrice price = new EstatePrice(10000L, LocalDateTime.now(), "EUR", new Estate(1L, PaymentTransactionType.LEASE.name(), AcquisitionStatus.OPEN.name(), LocalDateTime.now(), LocalDateTime.now()));
+        EstatePrice price = new EstatePrice(10000L, LocalDateTime.now(), "EUR", new Estate(1L, PaymentTransactionType.LEASE.toString(), AcquisitionStatus.OPEN.toString(), LocalDateTime.now(), LocalDateTime.now()));
 
         when(estatePriceDAO.create(price)).thenReturn(price);
 

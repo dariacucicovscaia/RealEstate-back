@@ -5,6 +5,7 @@ import com.daria.realestate.domain.PaginationFilter;
 import com.daria.realestate.domain.enums.AcquisitionStatus;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
 import com.daria.realestate.dto.EstateDTO;
+import com.daria.realestate.dto.EstateSearchFilter;
 
 import java.util.List;
 
@@ -17,7 +18,8 @@ public interface EstateDAO extends DAO<Estate> {
      * @param paginationFilter       filter for using pagination
      * @return List of all the paginated estates
      */
-    List<Estate> getAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(PaymentTransactionType paymentTransactionType, AcquisitionStatus acquisitionStatus, PaginationFilter paginationFilter);
+    List<Estate> getAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatusPaginated(PaymentTransactionType paymentTransactionType, AcquisitionStatus acquisitionStatus, PaginationFilter paginationFilter);
+
     /**
      * Update estate
      *
@@ -33,4 +35,10 @@ public interface EstateDAO extends DAO<Estate> {
      * @return estateDTO - object that contains all the info to an estate
      */
     EstateDTO getAllEstateDetails(long id);
+
+    Integer countAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(PaymentTransactionType paymentTransactionType, AcquisitionStatus acquisitionStatus);
+
+    List<Estate> getEstatesFilteredByAllEstateCriteria(EstateSearchFilter estateSearchFilter, PaginationFilter paginationFilter);
+
+    Integer countEstatesFilteredByAllEstateCriteria(EstateSearchFilter estateSearchFilter);
 }

@@ -27,7 +27,7 @@ public class EstateDetailsDAOImpl extends AbstractDAOImpl<EstateDetails> impleme
                 estateDetails.getNumberOfBathRooms(),
                 estateDetails.getNumberOfGarages(),
                 Date.valueOf(estateDetails.getYearOfConstruction()),
-                estateDetails.getTypeOfEstate().name());
+                estateDetails.getTypeOfEstate().toString());
 
         return getById(estateDetails.getEstate().getId());
     }

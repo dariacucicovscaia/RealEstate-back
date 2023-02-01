@@ -29,7 +29,7 @@ public class AppointmentDAOImplTest extends AbstractPropsSet {
         Appointment appointment = new Appointment(LocalDateTime.parse("2023-01-18T14:33:46"),
                 LocalDateTime.of(2022, 12, 27, 12, 10, 0),
                 LocalDateTime.of(2022, 12, 27, 13, 40, 0),
-                AppointmentStatus.CONFIRMED, new Estate(1L, PaymentTransactionType.LEASE.name(), AcquisitionStatus.OPEN.name(), LocalDateTime.now(), LocalDateTime.now())
+                AppointmentStatus.CONFIRMED, new Estate(1L, PaymentTransactionType.LEASE.toString(), AcquisitionStatus.OPEN.toString(), LocalDateTime.now(), LocalDateTime.now())
         );
 
         Appointment madeAppointment = appointmentDAO.create(appointment);
@@ -59,7 +59,7 @@ public class AppointmentDAOImplTest extends AbstractPropsSet {
 
     @Test
     public void testGetUsersAppointmentsByAppointmentStatus() {
-        List<Appointment> appointments = appointmentDAO.usersAppointmentsByAppointmentStatus(new User(1L, "mariana@example.com", "123456")
+        List<Appointment> appointments = appointmentDAO.usersAppointmentsByAppointmentStatus(1L
                 , AppointmentStatus.SCHEDULED, new PaginationFilter(1, 5, "id", OrderBy.ASC));
 
         Assert.assertTrue(appointments.size() <= 5);
@@ -71,7 +71,7 @@ public class AppointmentDAOImplTest extends AbstractPropsSet {
     @Test
     public void shouldGetAllAppointmentsOfAnEstatePaginated() {
         List<Appointment> appointments = appointmentDAO.getAppointmentsOfAnEstate(
-                new Estate(1L, PaymentTransactionType.LEASE.name(), AcquisitionStatus.OPEN.name(), LocalDateTime.now(), LocalDateTime.now()),
+                new Estate(1L, PaymentTransactionType.LEASE.toString(), AcquisitionStatus.OPEN.toString(), LocalDateTime.now(), LocalDateTime.now()),
                 new PaginationFilter(1, 5, "id", OrderBy.ASC)
         );
 
@@ -80,7 +80,7 @@ public class AppointmentDAOImplTest extends AbstractPropsSet {
 
     @Test
     public void getAllAppointmentsOfAUser() {
-        List<Appointment> appointmentsOfAUser = appointmentDAO.appointmentsOfAUser(new User(1L, "mariana@example.com", "123456"));
+        List<Appointment> appointmentsOfAUser = appointmentDAO.appointmentsOfAUser(1L, new PaginationFilter(1,2));
 
         Assert.assertNotNull(appointmentsOfAUser);
     }

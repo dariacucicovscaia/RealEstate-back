@@ -20,6 +20,7 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
     private static final String SQL_GET_USER_BY_EMAIL = " select * from `user` where email = ? ";
     private static final String SQL_DELETE_USER_BY_EMAIL = " delete from `user` where email = ? ";
     private static final String SQL_GET_ALL_USERS_THAT_HAVE_APPOINTMENTS = " select distinct u.* from `user` as u " + " inner join `user_appointment` as ua on ua.user_id = u.id ";
+    private static final String SQL_GET_ALL_USERS_OF_AN_APPOINTMENT = " select distinct u.* from `user` as u " + " inner join `user_appointment` as ua on ua.user_id = u.id where ua.appointment_id = ? ";
     private static final String SQL_GET_ESTATE_OWNER = " select u.* from `user` as u " + " inner join `estate` as e on e.owner_id = u.id " + " where e.id = ?";
     private static final String SQL_UPDATE_USER = " update `user` set email = ?, password = ? where id = ? ";
 
@@ -43,7 +44,7 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
 
     @Override
     public User update(User user) {
-        getJdbcTemplate().update(SQL_UPDATE_USER,user.getEmail(), user.getPassword(), user.getId());
+        getJdbcTemplate().update(SQL_UPDATE_USER, user.getEmail(), user.getPassword(), user.getId());
         return getById(user.getId());
     }
 
@@ -65,6 +66,11 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
     @Override
     public List<User> getAllUsersThatHaveAppointments() {
         return getJdbcTemplate().query(SQL_GET_ALL_USERS_THAT_HAVE_APPOINTMENTS, new UserMapper());
+    }
+
+    @Override
+    public List<User> getAllUsersOfAnAppointment(long appointmentId) {
+        return getJdbcTemplate().query(SQL_GET_ALL_USERS_OF_AN_APPOINTMENT, new UserMapper(), appointmentId);
     }
 
     @Override

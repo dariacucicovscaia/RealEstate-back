@@ -22,14 +22,15 @@ public interface AppointmentDAO extends DAO<Appointment> {
 
     /**
      * Gets all users appointments
-     * @param user
+     * @param userId
      * @param appointmentStatus
      * @return
      */
 
-    List<Appointment> usersAppointmentsByAppointmentStatus(User user, AppointmentStatus appointmentStatus, PaginationFilter paginationFilter);
-    List<Appointment> appointmentsOfAUser(User user);
+    List<Appointment> usersAppointmentsByAppointmentStatus(long userId, AppointmentStatus appointmentStatus, PaginationFilter paginationFilter);
+    Integer countUsersAppointmentsByAppointmentStatus(long userId, AppointmentStatus appointmentStatus);
+    List<Appointment> appointmentsOfAUser(long id , PaginationFilter paginationFilter);
     List<Appointment> getAppointmentsOfAnEstate(Estate estate, PaginationFilter paginationFilter);
-
+    Integer countAppointmentsOfAUser(long id);
     List<AppointmentReportDTO> getAppointmentsWithASpecificTimeIntervalByEstateId(LocalDateTime from, LocalDateTime to, long estateId);
 }

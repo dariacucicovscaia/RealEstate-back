@@ -28,7 +28,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         Appointment createdAppointment = appointmentDAO.create(appointment);
         Integer userAppointment = userAppointmentDAO.create(user, createdAppointment);
 
-        if (userAppointment==1) {
+        if (userAppointment == 1) {
             return createdAppointment;
         } else return null;
     }
@@ -39,22 +39,29 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<Appointment> getAppointmentsOfAUser(User user) {
-        return appointmentDAO.appointmentsOfAUser(user);
+    public Page<Appointment> getAppointmentsOfAUser(long userId, int page, int elementsPerPage) {
+        List<Appointment> appointmentContent = appointmentDAO.appointmentsOfAUser(userId, new PaginationFilter(page, elementsPerPage));
+        int elementsInTotal = appointmentDAO.countAppointmentsOfAUser(userId);
+        return new Page<>(appointmentContent, elementsInTotal, page, elementsPerPage);
     }
 
     @Override
-    public List<Appointment> usersAppointmentsByAppointmentStatus(User user, AppointmentStatus appointmentStatus, PaginationFilter paginationFilter) {
-        return appointmentDAO.usersAppointmentsByAppointmentStatus(user, appointmentStatus, paginationFilter);
+    public Page<Appointment> usersAppointmentsByAppointmentStatus(long userId, AppointmentStatus appointmentStatus, int page, int elementsPerPage) {
+        List<Appointment> appointmentContent = appointmentDAO.usersAppointmentsByAppointmentStatus(userId, appointmentStatus, new PaginationFilter(page, elementsPerPage));
+        int elementsInTotal = appointmentDAO.countUsersAppointmentsByAppointmentStatus(userId, appointmentStatus);
+        return new Page<>(appointmentContent, elementsInTotal, page, elementsPerPage);
     }
 
     @Override
     public Appointment getAppointmentById(Long id) {
-        return appointmentDAO.getById(id);
+        Appointment appointment = appointmentDAO.getById(id);
+        appointment.setUsers(userDAO.getAllUsersOfAnAppointment(id));
+
+        return appointment;
     }
 
     @Override
-    public Appointment updateAppointment(long appointmentId, Appointment newAppointment){
+    public Appointment updateAppointment(long appointmentId, Appointment newAppointment) {
         newAppointment.setId(appointmentId);
         return appointmentDAO.update(newAppointment);
     }

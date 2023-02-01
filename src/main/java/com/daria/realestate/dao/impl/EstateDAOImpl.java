@@ -8,6 +8,7 @@ import com.daria.realestate.domain.PaginationFilter;
 import com.daria.realestate.domain.enums.AcquisitionStatus;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
 import com.daria.realestate.dto.EstateDTO;
+import com.daria.realestate.dto.EstateSearchFilter;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -19,10 +20,15 @@ import java.util.List;
 @Repository
 public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO {
 
+    private static final String SQL_CREATE_ESTATE = "INSERT INTO estate ( payment_transaction_type, acquisition_status, created_at, last_updated_at, address_id, owner_id ) VALUES( ? , ? , ? , ? , ? , ? )";
+    private static final String SQL_GET_ESTATE_BY_ID = "SELECT * FROM estate WHERE id = ? ";
+    private static final String SQL_UPDATE_ESTATE = " UPDATE estate set acquisition_status = ? , payment_transaction_type = ? , created_at = ? ,last_updated_at= ? where id = ? ";
     private static final String SQL_DELETE_ESTATE = " delete from estate where id = ? ";
+
     private static final String SQL_GET_ALL_ESTATES_BY_TRANSACTION_TYPE_AND_ACQUISITION_STATUS =
             " select * from estate where payment_transaction_type = ? and acquisition_status = ? "
                     + " limit ? offset ? ";
+
     private static final String SQL_GET_ALL_ESTATE_DETAILS = "select " +
             " e.payment_transaction_type, e.acquisition_status, e.created_at, e.last_updated_at, " +
             " ed.square_meters, ed.number_of_rooms, ed.number_of_bathrooms, ed.number_of_garages, ed.year_of_construction, ed.type_of_estate, " +
@@ -36,23 +42,27 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
             " inner join `price` on price.estate_id = e.id " +
             " where e.id = ? ";
 
-    private static final String SQL_UPDATE_ESTATE = " UPDATE estate set acquisition_status = ? , payment_transaction_type = ? , created_at = ? ,last_updated_at= ? where id = ? ";
-    private static final String SQL_CREATE_ESTATE = "INSERT INTO estate ( payment_transaction_type, acquisition_status, created_at, last_updated_at, address_id, owner_id ) VALUES( ? , ? , ? , ? , ? , ? )";
-    private static final String SQL_GET_ESTATE_BY_ID = "SELECT * FROM estate WHERE id = ? ";
+
+    private static final String SQL_COUNT_ALL_ESTATES_BY_TRANSACTION_TYPE_AND_ACQUISITION_STATUS = " select count(*) from estate where payment_transaction_type = ? and acquisition_status = ? ";
 
     public EstateDAOImpl(DataSource dataSource) {
         super(dataSource);
     }
 
     @Override
-    public List<Estate> getAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(PaymentTransactionType paymentTransactionType, AcquisitionStatus acquisitionStatus, PaginationFilter paginationFilter) {
+    public List<Estate> getAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatusPaginated(PaymentTransactionType paymentTransactionType, AcquisitionStatus acquisitionStatus, PaginationFilter paginationFilter) {
         return getJdbcTemplate().query(
                 SQL_GET_ALL_ESTATES_BY_TRANSACTION_TYPE_AND_ACQUISITION_STATUS,
                 new EstateMapper(),
-                paymentTransactionType.name(),
-                acquisitionStatus.name(),
+                paymentTransactionType.toString(),
+                acquisitionStatus.toString(),
                 paginationFilter.getNrOfElementsWeWantDisplayed(),
                 getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed()));
+    }
+
+    @Override
+    public Integer countAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(PaymentTransactionType paymentTransactionType, AcquisitionStatus acquisitionStatus) {
+        return getJdbcTemplate().queryForObject(SQL_COUNT_ALL_ESTATES_BY_TRANSACTION_TYPE_AND_ACQUISITION_STATUS, Integer.class, paymentTransactionType.toString(), acquisitionStatus.toString());
     }
 
     @Override
@@ -63,8 +73,8 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
     @Override
     public Estate update(Estate estate) {
         getJdbcTemplate().update(SQL_UPDATE_ESTATE,
-                estate.getAcquisitionStatus().name(),
-                estate.getPaymentTransactionType().name(),
+                estate.getAcquisitionStatus().toString(),
+                estate.getPaymentTransactionType().toString(),
                 Timestamp.valueOf(estate.getCreatedAt()),
                 Timestamp.valueOf(estate.getLastUpdatedAt()),
                 estate.getId()
@@ -76,8 +86,8 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         getJdbcTemplate().update(connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE_ESTATE, Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, estate.getPaymentTransactionType().name());
-            preparedStatement.setString(2, estate.getAcquisitionStatus().name());
+            preparedStatement.setString(1, estate.getPaymentTransactionType().toString());
+            preparedStatement.setString(2, estate.getAcquisitionStatus().toString());
             preparedStatement.setTimestamp(3, Timestamp.valueOf(estate.getCreatedAt()));
             preparedStatement.setTimestamp(4, Timestamp.valueOf(estate.getLastUpdatedAt()));
             preparedStatement.setLong(5, estate.getAddress().getId());
@@ -98,5 +108,84 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
     @Override
     public int removeById(long id) {
         return getJdbcTemplate().update(SQL_DELETE_ESTATE, id);
+    }
+
+    private static final String SQL_FILTER_BY_ALL_ESTATE_CRITERIA = " select e.* from estate as e " +
+            " inner join `estate_details` as ed on e.id = ed.estate_id " +
+            " inner join `price` as p on p.estate_id = e.id " +
+            " inner join `address` as a on e.address_id = a.id " +
+            " where e.acquisition_status = ? and " +
+            " e.payment_transaction_type = ? and " +
+            " ed.square_meters > ? and ed.square_meters < ? and " +
+            " ed.number_of_rooms > ? and ed.number_of_rooms < ? and " +
+            " ed.number_of_bathrooms > ? and ed.number_of_bathrooms < ? and " +
+            " ed.number_of_garages > ? and ed.number_of_garages < ? and " +
+            " ed.year_of_construction > ? and ed.year_of_construction < ? and " +
+            " ed.type_of_estate = ? and  " +
+            " p.price > ? and p.price < ? and  " +
+            " a.city = ? and " +
+            " a.country = ? " +
+            " limit ? offset ? ";
+
+    private static final String SQL_COUNT_ALL_FILTERED_BY_ALL_ESTATE_CRITERIA =
+            " select count(*) from estate as e " +
+                    " inner join `estate_details` as ed on e.id = ed.estate_id " +
+                    " inner join `price` as p on p.estate_id = e.id " +
+                    " inner join `address` as a on e.address_id = a.id " +
+                    " where e.acquisition_status = ? and " +
+                    " e.payment_transaction_type = ? and " +
+                    " ed.square_meters > ? and ed.square_meters < ? and " +
+                    " ed.number_of_rooms > ? and ed.number_of_rooms < ? and " +
+                    " ed.number_of_bathrooms > ? and ed.number_of_bathrooms < ? and " +
+                    " ed.number_of_garages > ? and ed.number_of_garages < ? and " +
+                    " ed.year_of_construction > ? and ed.year_of_construction < ? and " +
+                    " ed.type_of_estate = ? and  " +
+                    " p.price > ? and p.price < ? and  " +
+                    " a.city = ? and " +
+                    " a.country = ? ";
+
+    @Override
+    public List<Estate> getEstatesFilteredByAllEstateCriteria(
+           EstateSearchFilter estateSearchFilter,
+            PaginationFilter paginationFilter
+    ) {
+
+        return getJdbcTemplate().query(SQL_FILTER_BY_ALL_ESTATE_CRITERIA, new EstateMapper(),
+                estateSearchFilter.getAcquisitionStatus().toString(),
+                estateSearchFilter.getPaymentTransactionType().toString(),
+                estateSearchFilter.getSquareMetersFrom(),   estateSearchFilter.getSquareMetersTo(),
+                estateSearchFilter.getNumberOfRoomsFrom(), estateSearchFilter.getNumberOfRoomsTo(),
+                estateSearchFilter.getNumberOfBathroomsFrom(), estateSearchFilter.getNumberOfBathroomsTo(),
+                estateSearchFilter.getNumberOfGaragesFrom(), estateSearchFilter.getNumberOfGaragesTo(),
+                estateSearchFilter.getYearOfConstructionFrom(), estateSearchFilter.getYearOfConstructionTo(),
+                estateSearchFilter.getTypeOfEstate().toString(),
+                estateSearchFilter.getPriceFrom(), estateSearchFilter.getPriceTo(),
+                estateSearchFilter.getCity(),
+                estateSearchFilter.getCountry(),
+                paginationFilter.getNrOfElementsWeWantDisplayed(),
+                getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed())
+        );
+    }
+
+    @Override
+    public Integer countEstatesFilteredByAllEstateCriteria(
+          EstateSearchFilter estateSearchFilter
+    ) {
+
+        return getJdbcTemplate().queryForObject(SQL_COUNT_ALL_FILTERED_BY_ALL_ESTATE_CRITERIA,
+                Integer.class,
+                estateSearchFilter.getAcquisitionStatus().toString(),
+                estateSearchFilter.getPaymentTransactionType().toString(),
+                estateSearchFilter.getSquareMetersFrom(),   estateSearchFilter.getSquareMetersTo(),
+                estateSearchFilter.getNumberOfRoomsFrom(), estateSearchFilter.getNumberOfRoomsTo(),
+                estateSearchFilter.getNumberOfBathroomsFrom(), estateSearchFilter.getNumberOfBathroomsTo(),
+                estateSearchFilter.getNumberOfGaragesFrom(), estateSearchFilter.getNumberOfGaragesTo(),
+                estateSearchFilter.getYearOfConstructionFrom(), estateSearchFilter.getYearOfConstructionTo(),
+                estateSearchFilter.getTypeOfEstate().toString(),
+                estateSearchFilter.getPriceFrom(), estateSearchFilter.getPriceTo(),
+                estateSearchFilter.getCity(),
+                estateSearchFilter.getCountry()
+        );
+
     }
 }

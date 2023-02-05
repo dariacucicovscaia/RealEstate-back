@@ -17,14 +17,13 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.security.GeneralSecurityException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class DriveServiceImpl implements DriveService {
@@ -32,16 +31,19 @@ public class DriveServiceImpl implements DriveService {
     private static final String CREDENTIALS_FILE_PATH = "/client_secret.json";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
-    private static final Set<String> SCOPES = DriveScopes.all();
+    private static final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE);
     private final String MIME_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    private final Logger logger;
 
     private final NetHttpTransport HTTP_TRANSPORT;
     private final Drive DRIVE;
+
 
     public DriveServiceImpl() {
         try {
             this.HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
             this.DRIVE = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT)).setApplicationName(APPLICATION_NAME).build();
+            logger = LoggerFactory.getLogger(DriveServiceImpl.class);
         } catch (GeneralSecurityException | IOException e) {
             throw new RuntimeException(e);
         }
@@ -67,7 +69,7 @@ public class DriveServiceImpl implements DriveService {
 
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
                 .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
-                .setAccessType("online")
+                .setAccessType("offline")
                 .build();
 
 
@@ -78,32 +80,31 @@ public class DriveServiceImpl implements DriveService {
         return credential;
     }
 
-
     @Override
-    public List<File> getAllFilesByName(String fileName) {
+    public File getFileByName(String fileName) {
         FileList result;
         try {
             result = DRIVE.files().list()
                     .setQ("mimeType='" + MIME_TYPE + "'")
                     .setQ("name = '" + fileName + "'")
                     .setSpaces("drive")
-                    .setFields("files(id, name)")
+                    .setFields("files(id, name, mimeType)")
                     .execute();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         if (result.getFiles().size() != 0) {
-            return new ArrayList<>(result.getFiles());
+            return result.getFiles().get(0);
         } else return null;
     }
 
     @Override
     public String uploadFileIntoDrive(String fileName, java.io.File fileToInsert) {
         File uploadedFile;
-        if (getAllFilesByName(fileName) != null) {
+        if (getFileByName(fileName) != null) {
             try {
-                String fileId = DRIVE.files().get(getAllFilesByName(fileName).get(0).getId()).execute().getId();
+                String fileId = DRIVE.files().get(getFileByName(fileName).getId()).execute().getId();
                 File file = new File();
                 file.setName(fileName);
 
@@ -126,9 +127,20 @@ public class DriveServiceImpl implements DriveService {
                 throw new RuntimeException(e);
             }
 
-
         }
-        return String.format("{fileId: '%s'}", uploadedFile.getId());
+        return  uploadedFile.getId();
 
+    }
+
+    @Override
+    public ByteArrayOutputStream downloadFile(String fileName) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            DRIVE.files().get(getFileByName(fileName).getId())
+                    .executeMediaAndDownloadTo(outputStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return outputStream;
     }
 }

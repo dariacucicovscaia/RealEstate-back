@@ -3,7 +3,7 @@ package com.daria.realestate.service.impl;
 import com.daria.realestate.dao.AppointmentDAO;
 import com.daria.realestate.dao.impl.AppointmentDAOImpl;
 import com.daria.realestate.dto.AppointmentReportDTO;
-import com.daria.realestate.service.ExcelReportDataService;
+import com.daria.realestate.service.PrepExcelObjectService;
 import org.springframework.stereotype.Service;
 
 
@@ -11,11 +11,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class ExcelReportDataServiceImpl implements ExcelReportDataService {
+public class PrepExcelObjectServiceImpl implements PrepExcelObjectService {
 
     private final AppointmentDAO appointmentDAO;
 
-    public ExcelReportDataServiceImpl(AppointmentDAOImpl appointmentDAO) {
+    public PrepExcelObjectServiceImpl(AppointmentDAOImpl appointmentDAO) {
         this.appointmentDAO = appointmentDAO;
     }
 

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class AddressServiceImpl implements AddressService {
     private final AddressDAO addressDAO;
 
-    public AddressServiceImpl(AddressDAOImpl addressDAO) {
+    public AddressServiceImpl(AddressDAO addressDAO) {
         this.addressDAO = addressDAO;
     }
 

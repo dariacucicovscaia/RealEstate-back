@@ -38,10 +38,10 @@ public class AppointmentServiceImplTest {
         userAppointmentDAO = mock(UserAppointmentDAOImpl.class);
         userDAO = mock(UserDAOImpl.class);
 
-        serviceUnderTests = new AppointmentServiceImpl((AppointmentDAOImpl) appointmentDAO, (UserAppointmentDAOImpl) userAppointmentDAO, (UserDAOImpl)userDAO);
+        serviceUnderTests = new AppointmentServiceImpl(appointmentDAO, userAppointmentDAO, userDAO);
     }
 
-    //TODO refactor , check how many times is called method, both methods
+
     @Test
     public void createAppointment() {
         Appointment appointment = getSampleCreatedAppointment();
@@ -49,11 +49,13 @@ public class AppointmentServiceImplTest {
 
         when(appointmentDAO.create(appointment)).thenReturn(appointment);
         when(userAppointmentDAO.create(user, appointment)).thenReturn(1);
+        when(userDAO.getById(user.getId())).thenReturn(user);
 
-        Appointment createdAppointment = serviceUnderTests.createAppointment(appointment,1L);
+        Appointment createdAppointment = serviceUnderTests.createAppointment(appointment, 1L);
 
         verify(appointmentDAO).create(appointment);
         verify(userAppointmentDAO).create(user, appointment);
+        verify(userDAO).getById(user.getId());
 
         Assert.assertNotNull(createdAppointment);
     }

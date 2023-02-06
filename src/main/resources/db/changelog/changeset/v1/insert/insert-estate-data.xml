@@ -89,5 +89,166 @@
             <column name="address_id" value="10"/>
             <column name="owner_id" value="8"/>
         </insert>
+        <insert tableName="estate">
+            <column name="payment_transaction_type" value="RENT"/>
+            <column name="acquisition_status" value="OPEN"/>
+            <column name="created_at" valueDate="now()"/>
+            <column name="last_updated_at" valueDate="now()"/>
+            <column name="address_id" value="11"/>
+            <column name="owner_id" value="11"/>
+        </insert>
+        <insert tableName="estate">
+            <column name="payment_transaction_type" value="LEASE"/>
+            <column name="acquisition_status" value="ON_HOLD"/>
+            <column name="created_at" valueDate="now()"/>
+            <column name="last_updated_at" valueDate="now()"/>
+            <column name="address_id" value="12"/>
+            <column name="owner_id" value="12"/>
+        </insert>
+        <insert tableName="estate">
+            <column name="payment_transaction_type" value="SALE"/>
+            <column name="acquisition_status" value="SOLD"/>
+            <column name="created_at" valueDate="now()"/>
+            <column name="last_updated_at" valueDate="now()"/>
+            <column name="address_id" value="13"/>
+            <column name="owner_id" value="13"/>
+        </insert>
+        <insert tableName="estate">
+            <column name="payment_transaction_type" value="RENT"/>
+            <column name="acquisition_status" value="OPEN"/>
+            <column name="created_at" valueDate="now()"/>
+            <column name="last_updated_at" valueDate="now()"/>
+            <column name="address_id" value="14"/>
+            <column name="owner_id" value="14"/>
+        </insert>
+        <insert tableName="estate">
+            <column name="payment_transaction_type" value="LEASE"/>
+            <column name="acquisition_status" value="ON_HOLD"/>
+            <column name="created_at" valueDate="now()"/>
+            <column name="last_updated_at" valueDate="now()"/>
+            <column name="address_id" value="15"/>
+            <column name="owner_id" value="11"/>
+        </insert>
+        <insert tableName="estate">
+            <column name="payment_transaction_type" value="SALE"/>
+            <column name="acquisition_status" value="SOLD"/>
+            <column name="created_at" valueDate="now()"/>
+            <column name="last_updated_at" valueDate="now()"/>
+            <column name="address_id" value="16"/>
+            <column name="owner_id" value="12"/>
+        </insert>
+        <insert tableName="estate">
+            <column name="payment_transaction_type" value="RENT"/>
+            <column name="acquisition_status" value="OPEN"/>
+            <column name="created_at" valueDate="now()"/>
+            <column name="last_updated_at" valueDate="now()"/>
+            <column name="address_id" value="17"/>
+            <column name="owner_id" value="12"/>
+        </insert>
+        <insert tableName="estate">
+            <column name="payment_transaction_type" value="LEASE"/>
+            <column name="acquisition_status" value="ON_HOLD"/>
+            <column name="created_at" valueDate="now()"/>
+            <column name="last_updated_at" valueDate="now()"/>
+            <column name="address_id" value="18"/>
+            <column name="owner_id" value="16"/>
+        </insert>
+        <insert tableName="estate">
+            <column name="payment_transaction_type" value="SALE"/>
+            <column name="acquisition_status" value="SOLD"/>
+            <column name="created_at" valueDate="now()"/>
+            <column name="last_updated_at" valueDate="now()"/>
+            <column name="address_id" value="19"/>
+            <column name="owner_id" value="17"/>
+        </insert>
+        <insert tableName="estate">
+            <column name="payment_transaction_type" value="RENT"/>
+            <column name="acquisition_status" value="OPEN"/>
+            <column name="created_at" valueDate="now()"/>
+            <column name="last_updated_at" valueDate="now()"/>
+            <column name="address_id" value="20"/>
+            <column name="owner_id" value="18"/>
+        </insert>
+        <insert tableName="estate">
+            <column name="payment_transaction_type" value="RENT"/>
+            <column name="acquisition_status" value="OPEN"/>
+            <column name="created_at" valueDate="now()"/>
+            <column name="last_updated_at" valueDate="now()"/>
+            <column name="address_id" value="21"/>
+            <column name="owner_id" value="21"/>
+        </insert>
+        <insert tableName="estate">
+            <column name="payment_transaction_type" value="LEASE"/>
+            <column name="acquisition_status" value="ON_HOLD"/>
+            <column name="created_at" valueDate="now()"/>
+            <column name="last_updated_at" valueDate="now()"/>
+            <column name="address_id" value="22"/>
+            <column name="owner_id" value="22"/>
+        </insert>
+        <insert tableName="estate">
+            <column name="payment_transaction_type" value="SALE"/>
+            <column name="acquisition_status" value="SOLD"/>
+            <column name="created_at" valueDate="now()"/>
+            <column name="last_updated_at" valueDate="now()"/>
+            <column name="address_id" value="23"/>
+            <column name="owner_id" value="23"/>
+        </insert>
+        <insert tableName="estate">
+            <column name="payment_transaction_type" value="RENT"/>
+            <column name="acquisition_status" value="OPEN"/>
+            <column name="created_at" valueDate="now()"/>
+            <column name="last_updated_at" valueDate="now()"/>
+            <column name="address_id" value="24"/>
+            <column name="owner_id" value="24"/>
+        </insert>
+        <insert tableName="estate">
+            <column name="payment_transaction_type" value="LEASE"/>
+            <column name="acquisition_status" value="ON_HOLD"/>
+            <column name="created_at" valueDate="now()"/>
+            <column name="last_updated_at" valueDate="now()"/>
+            <column name="address_id" value="25"/>
+            <column name="owner_id" value="21"/>
+        </insert>
+        <insert tableName="estate">
+            <column name="payment_transaction_type" value="SALE"/>
+            <column name="acquisition_status" value="SOLD"/>
+            <column name="created_at" valueDate="now()"/>
+            <column name="last_updated_at" valueDate="now()"/>
+            <column name="address_id" value="26"/>
+            <column name="owner_id" value="22"/>
+        </insert>
+        <insert tableName="estate">
+            <column name="payment_transaction_type" value="RENT"/>
+            <column name="acquisition_status" value="OPEN"/>
+            <column name="created_at" valueDate="now()"/>
+            <column name="last_updated_at" valueDate="now()"/>
+            <column name="address_id" value="27"/>
+            <column name="owner_id" value="22"/>
+        </insert>
+        <insert tableName="estate">
+            <column name="payment_transaction_type" value="LEASE"/>
+            <column name="acquisition_status" value="ON_HOLD"/>
+            <column name="created_at" valueDate="now()"/>
+            <column name="last_updated_at" valueDate="now()"/>
+            <column name="address_id" value="28"/>
+            <column name="owner_id" value="26"/>
+        </insert>
+        <insert tableName="estate">
+            <column name="payment_transaction_type" value="SALE"/>
+            <column name="acquisition_status" value="SOLD"/>
+            <column name="created_at" valueDate="now()"/>
+            <column name="last_updated_at" valueDate="now()"/>
+            <column name="address_id" value="29"/>
+            <column name="owner_id" value="27"/>
+        </insert>
+        <insert tableName="estate">
+            <column name="payment_transaction_type" value="RENT"/>
+            <column name="acquisition_status" value="OPEN"/>
+            <column name="created_at" valueDate="now()"/>
+            <column name="last_updated_at" valueDate="now()"/>
+            <column name="address_id" value="30"/>
+            <column name="owner_id" value="28"/>
+        </insert>
+
     </changeSet>
 </databaseChangeLog>

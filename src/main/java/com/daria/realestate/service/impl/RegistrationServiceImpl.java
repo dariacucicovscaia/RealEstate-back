@@ -24,7 +24,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     private final AddressDAO addressDAO;
     private final UserRoleDAO userRoleDAO;
 
-    public RegistrationServiceImpl(UserDAOImpl userDAO, ProfileDAOImpl profileDAO, AddressDAOImpl addressDAO, UserRoleDAOImpl userRoleDAO) {
+    public RegistrationServiceImpl(UserDAO userDAO, ProfileDAO profileDAO, AddressDAO addressDAO, UserRoleDAO userRoleDAO) {
         this.userDAO = userDAO;
         this.profileDAO = profileDAO;
         this.addressDAO = addressDAO;

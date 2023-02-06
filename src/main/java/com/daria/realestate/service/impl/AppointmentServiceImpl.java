@@ -16,7 +16,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     private final UserAppointmentDAO userAppointmentDAO;
     private final UserDAO userDAO;
 
-    public AppointmentServiceImpl(AppointmentDAOImpl appointmentDAO, UserAppointmentDAOImpl userAppointmentDAO, UserDAOImpl userDAO) {
+    public AppointmentServiceImpl(AppointmentDAO appointmentDAO, UserAppointmentDAO userAppointmentDAO, UserDAO userDAO) {
         this.appointmentDAO = appointmentDAO;
         this.userAppointmentDAO = userAppointmentDAO;
         this.userDAO = userDAO;

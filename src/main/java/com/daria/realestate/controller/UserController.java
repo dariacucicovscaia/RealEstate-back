@@ -13,7 +13,7 @@ public class UserController {
     private final UserService userService;
     private final RegistrationService registrationService;
 
-    public UserController(UserServiceImpl userService, RegistrationService registrationService) {
+    public UserController(UserService userService, RegistrationService registrationService) {
         this.userService = userService;
         this.registrationService = registrationService;
     }

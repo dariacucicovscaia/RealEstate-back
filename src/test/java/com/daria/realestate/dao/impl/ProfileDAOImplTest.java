@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-public class ProfileDAOImplTest extends AbstractPropsSet{
+public class ProfileDAOImplTest extends AbstractPropsSet {
 
   @Autowired
   private ProfileDAO profileDAO;

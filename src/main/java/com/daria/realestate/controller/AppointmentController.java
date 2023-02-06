@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/appointment")
 public class AppointmentController {
     private final AppointmentService appointmentService;
-    public AppointmentController(AppointmentServiceImpl appointmentService) {
+    public AppointmentController(AppointmentService appointmentService) {
         this.appointmentService = appointmentService;
     }
 

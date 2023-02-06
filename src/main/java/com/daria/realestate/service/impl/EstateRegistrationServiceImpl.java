@@ -15,7 +15,7 @@ public class EstateRegistrationServiceImpl implements EstateRegistrationService 
     private final EstateDetailsDAO estateDetailsDAO;
     private  final UserDAO userDAO;
 
-    public EstateRegistrationServiceImpl(AddressDAOImpl addressDAO, EstateDAOImpl estateDAO, EstatePriceDAOImpl priceDAO, EstateDetailsDAOImpl estateDetailsDAO, UserDAOImpl userDAO) {
+    public EstateRegistrationServiceImpl(AddressDAO addressDAO, EstateDAO estateDAO, EstatePriceDAO priceDAO, EstateDetailsDAO estateDetailsDAO, UserDAO userDAO) {
         this.addressDAO = addressDAO;
         this.estateDAO = estateDAO;
         this.priceDAO = priceDAO;

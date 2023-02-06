@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDateTime;
 
 
-public class UserAppointmentDAOImplTest extends AbstractPropsSet{
+public class UserAppointmentDAOImplTest extends AbstractPropsSet {
     @Autowired
     private UserAppointmentDAO userAppointmentDAO;
 

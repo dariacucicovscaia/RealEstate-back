@@ -15,7 +15,7 @@ public class PrepExcelObjectServiceImpl implements PrepExcelObjectService {
 
     private final AppointmentDAO appointmentDAO;
 
-    public PrepExcelObjectServiceImpl(AppointmentDAOImpl appointmentDAO) {
+    public PrepExcelObjectServiceImpl(AppointmentDAO appointmentDAO) {
         this.appointmentDAO = appointmentDAO;
     }
 

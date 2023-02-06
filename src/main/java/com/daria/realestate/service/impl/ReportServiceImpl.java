@@ -27,7 +27,7 @@ public class ReportServiceImpl implements ReportService {
     @Autowired
     private Environment env;
 
-    public ReportServiceImpl(ReportDAOImpl reportDAO, DriveServiceImpl driveService, PrepExcelObjectServiceImpl prepExcelObjectService) {
+    public ReportServiceImpl(ReportDAO reportDAO, DriveService driveService, PrepExcelObjectService prepExcelObjectService) {
         this.reportDAO = reportDAO;
         this.driveService = driveService;
         this.prepExcelObjectService = prepExcelObjectService;

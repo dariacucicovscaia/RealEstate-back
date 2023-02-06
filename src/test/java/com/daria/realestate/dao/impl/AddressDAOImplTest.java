@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class AddressDAOImplTest extends AbstractPropsSet{
+public class AddressDAOImplTest extends AbstractPropsSet {
 
     @Autowired
     private AddressDAO addressDAO;

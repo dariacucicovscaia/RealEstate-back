@@ -15,6 +15,9 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -110,82 +113,240 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
         return getJdbcTemplate().update(SQL_DELETE_ESTATE, id);
     }
 
-    private static final String SQL_FILTER_BY_ALL_ESTATE_CRITERIA = " select e.* from estate as e " +
-            " inner join `estate_details` as ed on e.id = ed.estate_id " +
-            " inner join `price` as p on p.estate_id = e.id " +
-            " inner join `address` as a on e.address_id = a.id " +
-            " where e.acquisition_status = ? and " +
-            " e.payment_transaction_type = ? and " +
-            " ed.square_meters > ? and ed.square_meters < ? and " +
-            " ed.number_of_rooms > ? and ed.number_of_rooms < ? and " +
-            " ed.number_of_bathrooms > ? and ed.number_of_bathrooms < ? and " +
-            " ed.number_of_garages > ? and ed.number_of_garages < ? and " +
-            " ed.year_of_construction > ? and ed.year_of_construction < ? and " +
-            " ed.type_of_estate = ? and  " +
-            " p.price > ? and p.price < ? and  " +
-            " a.city = ? and " +
-            " a.country = ? " +
-            " limit ? offset ? ";
-
-    private static final String SQL_COUNT_ALL_FILTERED_BY_ALL_ESTATE_CRITERIA =
-            " select count(*) from estate as e " +
-                    " inner join `estate_details` as ed on e.id = ed.estate_id " +
-                    " inner join `price` as p on p.estate_id = e.id " +
-                    " inner join `address` as a on e.address_id = a.id " +
-                    " where e.acquisition_status = ? and " +
-                    " e.payment_transaction_type = ? and " +
-                    " ed.square_meters > ? and ed.square_meters < ? and " +
-                    " ed.number_of_rooms > ? and ed.number_of_rooms < ? and " +
-                    " ed.number_of_bathrooms > ? and ed.number_of_bathrooms < ? and " +
-                    " ed.number_of_garages > ? and ed.number_of_garages < ? and " +
-                    " ed.year_of_construction > ? and ed.year_of_construction < ? and " +
-                    " ed.type_of_estate = ? and  " +
-                    " p.price > ? and p.price < ? and  " +
-                    " a.city = ? and " +
-                    " a.country = ? ";
 
     @Override
-    public List<Estate> getEstatesFilteredByAllEstateCriteria(
-           EstateSearchFilter estateSearchFilter,
-            PaginationFilter paginationFilter
-    ) {
-
-        return getJdbcTemplate().query(SQL_FILTER_BY_ALL_ESTATE_CRITERIA, new EstateMapper(),
-                estateSearchFilter.getAcquisitionStatus().toString(),
-                estateSearchFilter.getPaymentTransactionType().toString(),
-                estateSearchFilter.getSquareMetersFrom(),   estateSearchFilter.getSquareMetersTo(),
-                estateSearchFilter.getNumberOfRoomsFrom(), estateSearchFilter.getNumberOfRoomsTo(),
-                estateSearchFilter.getNumberOfBathroomsFrom(), estateSearchFilter.getNumberOfBathroomsTo(),
-                estateSearchFilter.getNumberOfGaragesFrom(), estateSearchFilter.getNumberOfGaragesTo(),
-                estateSearchFilter.getYearOfConstructionFrom(), estateSearchFilter.getYearOfConstructionTo(),
-                estateSearchFilter.getTypeOfEstate().toString(),
-                estateSearchFilter.getPriceFrom(), estateSearchFilter.getPriceTo(),
-                estateSearchFilter.getCity(),
-                estateSearchFilter.getCountry(),
-                paginationFilter.getNrOfElementsWeWantDisplayed(),
-                getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed())
-        );
+    public List<Estate> getEstatesFilteredByAllEstateCriteria(EstateSearchFilter estateSearchFilter, PaginationFilter paginationFilter) {
+        String query = getSqlGetAllFilteredByAllEstateCriteria(estateSearchFilter, paginationFilter, false);
+        return getJdbcTemplate().query(query, new EstateMapper());
     }
 
     @Override
-    public Integer countEstatesFilteredByAllEstateCriteria(
-          EstateSearchFilter estateSearchFilter
-    ) {
+    public Integer countEstatesFilteredByAllEstateCriteria(EstateSearchFilter estateSearchFilter) {
+        String query = getSqlGetAllFilteredByAllEstateCriteria(estateSearchFilter, null , true);
+        return getJdbcTemplate().queryForObject(query, Integer.class);
+    }
 
-        return getJdbcTemplate().queryForObject(SQL_COUNT_ALL_FILTERED_BY_ALL_ESTATE_CRITERIA,
-                Integer.class,
-                estateSearchFilter.getAcquisitionStatus().toString(),
-                estateSearchFilter.getPaymentTransactionType().toString(),
-                estateSearchFilter.getSquareMetersFrom(),   estateSearchFilter.getSquareMetersTo(),
-                estateSearchFilter.getNumberOfRoomsFrom(), estateSearchFilter.getNumberOfRoomsTo(),
-                estateSearchFilter.getNumberOfBathroomsFrom(), estateSearchFilter.getNumberOfBathroomsTo(),
-                estateSearchFilter.getNumberOfGaragesFrom(), estateSearchFilter.getNumberOfGaragesTo(),
-                estateSearchFilter.getYearOfConstructionFrom(), estateSearchFilter.getYearOfConstructionTo(),
-                estateSearchFilter.getTypeOfEstate().toString(),
-                estateSearchFilter.getPriceFrom(), estateSearchFilter.getPriceTo(),
-                estateSearchFilter.getCity(),
-                estateSearchFilter.getCountry()
-        );
+    private String getSqlGetAllFilteredByAllEstateCriteria(EstateSearchFilter estateSearchFilter, PaginationFilter paginationFilter, boolean count) {
+        StringBuilder query = new StringBuilder();
 
+        if (count) {
+            query.append(" select count(*) from estate as e ");
+            boolean isEstateDetailsPresent = estateSearchFilter.getSquareMetersFrom() >= 0
+                    || estateSearchFilter.getNumberOfRoomsFrom() >= 0
+                    || estateSearchFilter.getNumberOfGaragesFrom() >= 0
+                    || estateSearchFilter.getYearOfConstructionFrom() != null
+                    || estateSearchFilter.getTypeOfEstate() != null;
+            boolean isPricePresent = estateSearchFilter.getPriceFrom() >= 0;
+            boolean isAddressPresent = estateSearchFilter.getCity() != null
+                    || estateSearchFilter.getCountry() != null;
+
+            if (isEstateDetailsPresent) {
+                query.append(" inner join `estate_details` as ed on e.id = ed.estate_id ");
+            }
+            if (isPricePresent) {
+                query.append(" inner join `price` as p on p.estate_id = e.id ");
+            }
+            if (isAddressPresent) {
+                query.append(" inner join `address` as a on e.address_id = a.id ");
+            }
+
+            query.append(" where ");
+            if (estateSearchFilter.getPaymentTransactionType() != null) {
+                query.append(" e.payment_transaction_type = \"" + estateSearchFilter.getPaymentTransactionType().toString() + "\" ");
+            }
+            if (estateSearchFilter.getPaymentTransactionType() == null && estateSearchFilter.getAcquisitionStatus() != null) {
+                query.append("  e.acquisition_status = \"" + estateSearchFilter.getAcquisitionStatus().toString() + "\" ");
+            } else if (estateSearchFilter.getAcquisitionStatus() != null) {
+                query.append(" and e.acquisition_status = \"" + estateSearchFilter.getAcquisitionStatus().toString() + "\" ");
+            }
+
+
+            if (estateSearchFilter.getSquareMetersFrom() >= 0) {
+
+                query.append(" and ed.square_meters > " + estateSearchFilter.getSquareMetersFrom() + " ");
+
+                if (estateSearchFilter.getSquareMetersTo() <= estateSearchFilter.getSquareMetersFrom()) {
+                    query.append(" and ed.square_meters < " + Integer.MAX_VALUE + " ");
+                } else {
+                    query.append(" and ed.square_meters < " + estateSearchFilter.getSquareMetersTo() + " ");
+                }
+
+            }
+            if (estateSearchFilter.getNumberOfRoomsFrom() >= 0) {
+
+                query.append(" and ed.number_of_rooms > " + estateSearchFilter.getNumberOfRoomsFrom() + " ");
+
+                if (estateSearchFilter.getNumberOfRoomsTo() <= estateSearchFilter.getNumberOfRoomsFrom()) {
+                    query.append(" and ed.number_of_rooms < " + Integer.MAX_VALUE + " ");
+                } else {
+                    query.append(" and ed.number_of_rooms < " + estateSearchFilter.getNumberOfRoomsTo() + " ");
+                }
+
+            }
+            if (estateSearchFilter.getNumberOfBathroomsFrom() >= 0) {
+                query.append(" and ed.number_of_bathrooms > " + estateSearchFilter.getNumberOfBathroomsFrom() + " ");
+
+                if (estateSearchFilter.getNumberOfBathroomsTo() <= estateSearchFilter.getNumberOfBathroomsFrom()) {
+                    query.append(" and ed.number_of_bathrooms < " + Integer.MAX_VALUE + " ");
+                } else {
+                    query.append(" and ed.number_of_bathrooms < " + estateSearchFilter.getNumberOfBathroomsTo() + " ");
+                }
+
+            }
+            if (estateSearchFilter.getNumberOfGaragesFrom() >= 0) {
+
+                query.append(" and ed.number_of_garages > " + estateSearchFilter.getNumberOfGaragesFrom() + " ");
+
+                if (estateSearchFilter.getNumberOfGaragesTo() <= estateSearchFilter.getNumberOfGaragesFrom()) {
+                    query.append(" and ed.number_of_garages < " + Integer.MAX_VALUE + " ");
+                } else {
+                    query.append(" and  ed.number_of_garages < " + estateSearchFilter.getNumberOfGaragesTo() + " ");
+                }
+
+            }
+            if (estateSearchFilter.getYearOfConstructionFrom() != null) {
+                LocalDate from = LocalDate.parse(estateSearchFilter.getYearOfConstructionFrom());
+
+                query.append(" and  ed.year_of_construction > \"" + estateSearchFilter.getYearOfConstructionFrom() + "\" ");
+
+                if (estateSearchFilter.getYearOfConstructionTo() != null || LocalDate.parse(estateSearchFilter.getYearOfConstructionTo()).isBefore(from)) {
+                    query.append(" and  ed.year_of_construction < \"" + LocalDate.now() + "\" ");
+
+                } else {
+                    query.append(" and  ed.year_of_construction < \"" + estateSearchFilter.getYearOfConstructionTo() + "\" ");
+                }
+
+            }
+            if (estateSearchFilter.getTypeOfEstate() != null) {
+                query.append(" and ed.type_of_estate = \"" + estateSearchFilter.getTypeOfEstate().toString() + "\" ");
+            }
+            if (estateSearchFilter.getPriceFrom() >= 0) {
+                query.append(" and p.price > " + estateSearchFilter.getPriceFrom() + " ");
+
+                if (estateSearchFilter.getPriceTo() <= estateSearchFilter.getPriceFrom()) {
+                    query.append(" and p.price < " + Integer.MAX_VALUE + " ");
+
+                } else {
+                    query.append("and  p.price < " + estateSearchFilter.getPriceTo() + " ");
+                }
+            }
+            if (estateSearchFilter.getCity() != null) {
+                query.append("and a.city = \"" + estateSearchFilter.getCity() + "\" ");
+            }
+            if (estateSearchFilter.getCountry() != null) {
+                query.append("and  a.country = \"" + estateSearchFilter.getCountry() + "\" ");
+            }
+
+        } else {
+            query.append(" select e.* from estate as e ");
+            boolean isEstateDetailsPresent = estateSearchFilter.getSquareMetersFrom() >= 0
+                    || estateSearchFilter.getNumberOfRoomsFrom() >= 0
+                    || estateSearchFilter.getNumberOfGaragesFrom() >= 0
+                    || estateSearchFilter.getYearOfConstructionFrom() != null
+                    || estateSearchFilter.getTypeOfEstate() != null;
+            boolean isPricePresent = estateSearchFilter.getPriceFrom() >= 0;
+            boolean isAddressPresent = estateSearchFilter.getCity() != null
+                    || estateSearchFilter.getCountry() != null;
+
+            if (isEstateDetailsPresent) {
+                query.append(" inner join `estate_details` as ed on e.id = ed.estate_id ");
+            }
+            if (isPricePresent) {
+                query.append(" inner join `price` as p on p.estate_id = e.id ");
+            }
+            if (isAddressPresent) {
+                query.append(" inner join `address` as a on e.address_id = a.id ");
+            }
+            query.append(" where ");
+            if (estateSearchFilter.getPaymentTransactionType() != null) {
+                query.append(" e.payment_transaction_type = \"" + estateSearchFilter.getPaymentTransactionType().toString() + "\" ");
+            }
+            if (estateSearchFilter.getPaymentTransactionType() == null && estateSearchFilter.getAcquisitionStatus() != null) {
+                query.append("  e.acquisition_status = \"" + estateSearchFilter.getAcquisitionStatus().toString() + "\" ");
+            } else if (estateSearchFilter.getAcquisitionStatus() != null) {
+                query.append(" and e.acquisition_status = \"" + estateSearchFilter.getAcquisitionStatus().toString() + "\" ");
+            }
+
+
+            if (estateSearchFilter.getSquareMetersFrom() >= 0) {
+
+                query.append(" and ed.square_meters > " + estateSearchFilter.getSquareMetersFrom() + " ");
+
+                if (estateSearchFilter.getSquareMetersTo() <= estateSearchFilter.getSquareMetersFrom()) {
+                    query.append(" and ed.square_meters < " + Integer.MAX_VALUE + " ");
+                } else {
+                    query.append(" and ed.square_meters < " + estateSearchFilter.getSquareMetersTo() + " ");
+                }
+
+            }
+            if (estateSearchFilter.getNumberOfRoomsFrom() >= 0) {
+
+                query.append(" and ed.number_of_rooms > " + estateSearchFilter.getNumberOfRoomsFrom() + " ");
+
+                if (estateSearchFilter.getNumberOfRoomsTo() <= estateSearchFilter.getNumberOfRoomsFrom()) {
+                    query.append(" and ed.number_of_rooms < " + Integer.MAX_VALUE + " ");
+                } else {
+                    query.append(" and ed.number_of_rooms < " + estateSearchFilter.getNumberOfRoomsTo() + " ");
+                }
+
+            }
+            if (estateSearchFilter.getNumberOfBathroomsFrom() >= 0) {
+                query.append(" and ed.number_of_bathrooms > " + estateSearchFilter.getNumberOfBathroomsFrom() + " ");
+
+                if (estateSearchFilter.getNumberOfBathroomsTo() <= estateSearchFilter.getNumberOfBathroomsFrom()) {
+                    query.append(" and ed.number_of_bathrooms < " + Integer.MAX_VALUE + " ");
+                } else {
+                    query.append(" and ed.number_of_bathrooms < " + estateSearchFilter.getNumberOfBathroomsTo() + " ");
+                }
+
+            }
+            if (estateSearchFilter.getNumberOfGaragesFrom() >= 0) {
+
+                query.append(" and ed.number_of_garages > " + estateSearchFilter.getNumberOfGaragesFrom() + " ");
+
+                if (estateSearchFilter.getNumberOfGaragesTo() <= estateSearchFilter.getNumberOfGaragesFrom()) {
+                    query.append(" and ed.number_of_garages < " + Integer.MAX_VALUE + " ");
+                } else {
+                    query.append(" and  ed.number_of_garages < " + estateSearchFilter.getNumberOfGaragesTo() + " ");
+                }
+
+            }
+            if (estateSearchFilter.getYearOfConstructionFrom() != null) {
+                LocalDate from = LocalDate.parse(estateSearchFilter.getYearOfConstructionFrom());
+
+                query.append(" and  ed.year_of_construction > \"" + estateSearchFilter.getYearOfConstructionFrom() + "\" ");
+
+                if (estateSearchFilter.getYearOfConstructionTo() != null || LocalDate.parse(estateSearchFilter.getYearOfConstructionTo()).isBefore(from)) {
+                    query.append(" and  ed.year_of_construction < \"" + LocalDate.now() + "\" ");
+
+                } else {
+                    query.append(" and  ed.year_of_construction < \"" + estateSearchFilter.getYearOfConstructionTo() + "\" ");
+                }
+
+            }
+            if (estateSearchFilter.getTypeOfEstate() != null) {
+                query.append(" and ed.type_of_estate = \"" + estateSearchFilter.getTypeOfEstate().toString() + "\" ");
+            }
+            if (estateSearchFilter.getPriceFrom() >= 0) {
+                query.append(" and p.price > " + estateSearchFilter.getPriceFrom() + " ");
+
+                if (estateSearchFilter.getPriceTo() <= estateSearchFilter.getPriceFrom()) {
+                    query.append(" and p.price < " + Integer.MAX_VALUE + " ");
+
+                } else {
+                    query.append("and  p.price < " + estateSearchFilter.getPriceTo() + " ");
+                }
+            }
+            if (estateSearchFilter.getCity() != null) {
+                query.append("and a.city = \"" + estateSearchFilter.getCity() + "\" ");
+            }
+            if (estateSearchFilter.getCountry() != null) {
+                query.append("and  a.country = \"" + estateSearchFilter.getCountry() + "\" ");
+            }
+            if (paginationFilter != null) {
+                query.append(" limit " + paginationFilter.getNrOfElementsWeWantDisplayed() + " offset " + getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed()) + " ");
+            }
+        }
+        return query.toString();
     }
 }

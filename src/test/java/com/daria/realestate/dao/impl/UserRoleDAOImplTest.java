@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 
-public class UserRoleDAOImplTest extends AbstractPropsSet{
+public class UserRoleDAOImplTest extends AbstractPropsSet {
     @Autowired
     private UserRoleDAO userRoleDAO;
 
@@ -32,10 +32,10 @@ public class UserRoleDAOImplTest extends AbstractPropsSet{
 
     @Test
     public void getAllRolesOfAUser() {
-        User user = new User(100000001L,"mariana", "passwprd");
+        User user = new User(10000000333L,"mariana", "passwprd");
         Role role = Role.USER;
         userRoleDAO.create(user.getId(), role);
-        List<Role> roles = userRoleDAO.getRolesOfAUser(100000001L);
+        List<Role> roles = userRoleDAO.getRolesOfAUser(10000000333L);
         Assert.assertEquals(roles.size(), 1);
     }
 }

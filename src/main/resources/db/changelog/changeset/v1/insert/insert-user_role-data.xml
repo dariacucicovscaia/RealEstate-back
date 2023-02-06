@@ -57,5 +57,46 @@
             <column name="user_id" value="10"/>
             <column name="role" value="USER"/>
         </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="11"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="12"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="13"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="14"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="15"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="16"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="17"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="18"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="19"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="20"/>
+            <column name="role" value="USER"/>
+        </insert>
+
     </changeSet>
 </databaseChangeLog>

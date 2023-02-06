@@ -19,7 +19,7 @@ public class EstateController {
     private final EstateService estateService;
     private final EstateRegistrationService estateRegistrationService;
 
-    public EstateController(EstateServiceImpl estateService, EstateRegistrationServiceImpl estateRegistrationService) {
+    public EstateController(EstateService estateService, EstateRegistrationService estateRegistrationService) {
         this.estateService = estateService;
         this.estateRegistrationService = estateRegistrationService;
     }

@@ -4,7 +4,6 @@ import com.daria.realestate.dao.AppointmentDAO;
 import com.daria.realestate.domain.Appointment;
 import com.daria.realestate.domain.Estate;
 import com.daria.realestate.domain.PaginationFilter;
-import com.daria.realestate.domain.User;
 import com.daria.realestate.domain.enums.AppointmentStatus;
 import com.daria.realestate.domain.enums.AcquisitionStatus;
 import com.daria.realestate.domain.enums.OrderBy;

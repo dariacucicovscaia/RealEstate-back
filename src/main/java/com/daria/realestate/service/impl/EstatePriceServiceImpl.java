@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class EstatePriceServiceImpl implements EstatePriceService {
     private final EstatePriceDAO priceDAO;
 
-    public EstatePriceServiceImpl(EstatePriceDAOImpl priceDAO) {
+    public EstatePriceServiceImpl(EstatePriceDAO priceDAO) {
         this.priceDAO = priceDAO;
     }
 

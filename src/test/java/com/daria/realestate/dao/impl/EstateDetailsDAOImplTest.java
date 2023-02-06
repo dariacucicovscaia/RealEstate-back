@@ -1,5 +1,6 @@
 package com.daria.realestate.dao.impl;
 
+
 import com.daria.realestate.dao.EstateDetailsDAO;
 import com.daria.realestate.domain.Estate;
 import com.daria.realestate.domain.EstateDetails;
@@ -12,7 +13,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
-public class EstateDetailsDAOImplTest extends AbstractPropsSet{
+public class EstateDetailsDAOImplTest extends AbstractPropsSet {
    @Autowired
     private EstateDetailsDAO estateDetailsDAO;
 

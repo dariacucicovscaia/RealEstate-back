@@ -25,7 +25,7 @@ public class EstateServiceImpl implements EstateService {
     private final UserDAO userDAO;
     private final UserRoleDAO userRoleDAO;
 
-    public EstateServiceImpl(EstateDAOImpl estateDAO, AddressDAOImpl addressDAO, UserDAOImpl userDAO, UserRoleDAOImpl userRoleDAO) {
+    public EstateServiceImpl(EstateDAO estateDAO, AddressDAO addressDAO, UserDAO userDAO, UserRoleDAO userRoleDAO) {
         this.estateDAO = estateDAO;
         this.addressDAO = addressDAO;
         this.userDAO = userDAO;

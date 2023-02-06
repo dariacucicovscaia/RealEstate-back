@@ -59,5 +59,204 @@
             <column name="city" value="Antwerpen"/>
             <column name="country" value="Belgium"/>
         </insert>
+
+
+        <insert tableName="address">
+            <column name="full_address" value="18 Strada Alba Iulia"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="15 Strada Ion Creanga"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="10 Strada Stefan cel Mare"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="3 Strada Alexandru cel Bun"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="32 Strada Nicolae Testemițanu"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="5 Strada Mihai Viteazu"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="24 Strada Petru cel Mare"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="12 Strada Vasile Alecsandri"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="9 Strada Eminescu"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="11 Strada Pushkin"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="7 Strada Alexandru Lăpușneanu"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="19 Strada Gheorghe Asachi"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="21 Strada Mihai Eminescu"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="30 Strada Grigore Vieru"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="27 Strada Alexandru Donici"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="29 Strada A. Russo"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="25 Strada Alexei Mateevici"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="23 Strada Spiru Haret"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="17 Strada Ion Luca Caragiale"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+
+        <insert tableName="address">
+            <column name="full_address" value="31 Strada Mihai Eminescu"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="32 Strada Grigore Vieru"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="33 Strada Alexandru Donici"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="34 Strada A. Russo"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="35 Strada Alexei Mateevici"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="36 Strada Spiru Haret"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="37 Strada Ion Luca Caragiale"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="38 Strada Sfatul Țării"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="39 Strada Mihai Eminescu"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="40 Strada Grigore Vieru"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="41 Strada Alexandru Donici"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="42 Strada A. Russo"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="43 Strada Alexei Mateevici"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="44 Strada Spiru Haret"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="45 Strada Ion Luca Caragiale"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="46 Strada Sfatul Țării"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="47 Strada Mihai Eminescu"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="48 Strada Grigore Vieru"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="49 Strada Alexandru Donici"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+        <insert tableName="address">
+            <column name="full_address" value="50 Strada A. Russo"/>
+            <column name="city" value="Chisinau"/>
+            <column name="country" value="Moldova"/>
+        </insert>
+
     </changeSet>
 </databaseChangeLog>

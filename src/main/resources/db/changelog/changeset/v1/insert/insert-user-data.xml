@@ -49,5 +49,124 @@
             <column name="email" value="AndreiJohn@gmail.com"/>
             <column name="password" value="123456"/>
         </insert>
+
+
+
+        <insert tableName="user">
+            <column name="email" value="JohnDoe@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="JaneDoe@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="MichaelSmith@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="EmilyBrown@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="WilliamJones@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+
+
+        <insert tableName="user">
+            <column name="email" value="OliviaTaylor@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="AlexanderJohnson@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="AvaMiller@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="EthanWilson@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="AbigailAnderson@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+
+
+        <insert tableName="user">
+            <column name="email" value="MadisonMoore@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="MasonLewis@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="NoahYoung@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="IsabellaKing@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="LucasBrown@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+
+
+        <insert tableName="user">
+            <column name="email" value="MiaGreen@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="AveryHarris@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="EllaClark@gmaile"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="EvelynHall@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="NatalieAdams@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+
+
+        <insert tableName="user">
+            <column name="email" value="LiamCook@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="SophiaBailey@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="MilaBell@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="AidenCooper@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="LilaBaker@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="EliTurner@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
+        <insert tableName="user">
+            <column name="email" value="AriaParker@gmail.com"/>
+            <column name="password" value="123456"/>
+        </insert>
     </changeSet>
 </databaseChangeLog>

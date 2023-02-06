@@ -1,6 +1,5 @@
 package com.daria.realestate.dao.impl;
 
-import com.daria.realestate.dao.EstateDAO;
 import com.daria.realestate.domain.*;
 import com.daria.realestate.domain.enums.AcquisitionStatus;
 import com.daria.realestate.domain.enums.OrderBy;
@@ -14,11 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 public class EstateDAOImplTest extends AbstractPropsSet {
     @Autowired
-    private EstateDAO estateDAO;
+    private EstateDAOImpl estateDAO;
 
     @Test
     public void testCreationOfEstate() {
@@ -105,7 +103,7 @@ public class EstateDAOImplTest extends AbstractPropsSet {
 
     @Test
     public void testCountAfterFiltration() {
-       Assert.assertEquals((Integer)4 , estateDAO.countAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(PaymentTransactionType.RENT, AcquisitionStatus.OPEN));
+       Assert.assertEquals((Integer)12 , estateDAO.countAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(PaymentTransactionType.RENT, AcquisitionStatus.OPEN));
     }
 }
 

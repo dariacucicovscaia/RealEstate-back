@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class ProfileServiceImpl implements ProfileService {
     private final ProfileDAO profileDAO;
 
-    public ProfileServiceImpl(ProfileDAOImpl profileDAO) {
+    public ProfileServiceImpl(ProfileDAO profileDAO) {
         this.profileDAO = profileDAO;
     }
 

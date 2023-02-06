@@ -100,5 +100,193 @@
             <column name="type_of_estate" value="APPARTMENT"/>
         </insert>
 
+
+        <insert tableName="estate_details">
+            <column name="estate_id" value="11"/>
+            <column name="square_meters" value="21"/>
+            <column name="number_of_rooms" value="3"/>
+            <column name="number_of_bathrooms" value="2"/>
+            <column name="number_of_garages" value="1"/>
+            <column name="year_of_construction" value="2022-07-15"/>
+            <column name="type_of_estate" value="TOWNHOUSE"/>
+        </insert>
+        <insert tableName="estate_details">
+            <column name="estate_id" value="12"/>
+            <column name="square_meters" value="36"/>
+            <column name="number_of_rooms" value="1"/>
+            <column name="number_of_bathrooms" value="1"/>
+            <column name="number_of_garages" value="1"/>
+            <column name="year_of_construction" value="2022-05-12"/>
+            <column name="type_of_estate" value="GARDEN"/>
+        </insert>
+        <insert tableName="estate_details">
+            <column name="estate_id" value="13"/>
+            <column name="square_meters" value="26"/>
+            <column name="number_of_rooms" value="3"/>
+            <column name="number_of_bathrooms" value="2"/>
+            <column name="number_of_garages" value="1"/>
+            <column name="year_of_construction" value="2022-09-24"/>
+            <column name="type_of_estate" value="SINGLE_FAMILY"/>
+        </insert>
+        <insert tableName="estate_details">
+            <column name="estate_id" value="14"/>
+            <column name="square_meters" value="29"/>
+            <column name="number_of_rooms" value="6"/>
+            <column name="number_of_bathrooms" value="4"/>
+            <column name="number_of_garages" value="2"/>
+            <column name="year_of_construction" value="2022-03-19"/>
+            <column name="type_of_estate" value="OFFICE"/>
+        </insert>
+        <insert tableName="estate_details">
+            <column name="estate_id" value="15"/>
+            <column name="square_meters" value="15"/>
+            <column name="number_of_rooms" value="2"/>
+            <column name="number_of_bathrooms" value="2"/>
+            <column name="number_of_garages" value="1"/>
+            <column name="year_of_construction" value="2022-06-13"/>
+            <column name="type_of_estate" value="CONDO"/>
+        </insert>
+
+
+        <insert tableName="estate_details">
+            <column name="estate_id" value="16"/>
+            <column name="square_meters" value="29"/>
+            <column name="number_of_rooms" value="5"/>
+            <column name="number_of_bathrooms" value="3"/>
+            <column name="number_of_garages" value="0"/>
+            <column name="year_of_construction" value="2022-01-13"/>
+            <column name="type_of_estate" value="CAFE"/>
+        </insert>
+        <insert tableName="estate_details">
+            <column name="estate_id" value="17"/>
+            <column name="square_meters" value="21"/>
+            <column name="number_of_rooms" value="2"/>
+            <column name="number_of_bathrooms" value="1"/>
+            <column name="number_of_garages" value="0"/>
+            <column name="year_of_construction" value="2022-06-07"/>
+            <column name="type_of_estate" value="BUNGALOW"/>
+        </insert>
+        <insert tableName="estate_details">
+            <column name="estate_id" value="18"/>
+            <column name="square_meters" value="8"/>
+            <column name="number_of_rooms" value="5"/>
+            <column name="number_of_bathrooms" value="3"/>
+            <column name="number_of_garages" value="2"/>
+            <column name="year_of_construction" value="2022-03-30"/>
+            <column name="type_of_estate" value="OFFICE"/>
+        </insert>
+        <insert tableName="estate_details">
+            <column name="estate_id" value="19"/>
+            <column name="square_meters" value="22"/>
+            <column name="number_of_rooms" value="3"/>
+            <column name="number_of_bathrooms" value="2"/>
+            <column name="number_of_garages" value="1"/>
+            <column name="year_of_construction" value="2022-12-05"/>
+            <column name="type_of_estate" value="SINGLE_FAMILY"/>
+        </insert>
+        <insert tableName="estate_details">
+            <column name="estate_id" value="20"/>
+            <column name="square_meters" value="25"/>
+            <column name="number_of_rooms" value="3"/>
+            <column name="number_of_bathrooms" value="2"/>
+            <column name="number_of_garages" value="1"/>
+            <column name="year_of_construction" value="2022-02-15"/>
+            <column name="type_of_estate" value="PENTHOUSE"/>
+        </insert>
+
+
+        <insert tableName="estate_details">
+            <column name="estate_id" value="21"/>
+            <column name="square_meters" value="27"/>
+            <column name="number_of_rooms" value="2"/>
+            <column name="number_of_bathrooms" value="2"/>
+            <column name="number_of_garages" value="1"/>
+            <column name="year_of_construction" value="2021-11-30"/>
+            <column name="type_of_estate" value="MAGAZINE"/>
+        </insert>
+        <insert tableName="estate_details">
+            <column name="estate_id" value="22"/>
+            <column name="square_meters" value="14"/>
+            <column name="number_of_rooms" value="2"/>
+            <column name="number_of_bathrooms" value="1"/>
+            <column name="number_of_garages" value="1"/>
+            <column name="year_of_construction" value="2022-05-12"/>
+            <column name="type_of_estate" value="CAFE"/>
+        </insert>
+        <insert tableName="estate_details">
+            <column name="estate_id" value="23"/>
+            <column name="square_meters" value="19"/>
+            <column name="number_of_rooms" value="3"/>
+            <column name="number_of_bathrooms" value="2"/>
+            <column name="number_of_garages" value="1"/>
+            <column name="year_of_construction" value="2021-07-16"/>
+            <column name="type_of_estate" value="OFFICE"/>
+        </insert>
+        <insert tableName="estate_details">
+            <column name="estate_id" value="24"/>
+            <column name="square_meters" value="16"/>
+            <column name="number_of_rooms" value="3"/>
+            <column name="number_of_bathrooms" value="2"/>
+            <column name="number_of_garages" value="1"/>
+            <column name="year_of_construction" value="2022-02-14"/>
+            <column name="type_of_estate" value="CONDO"/>
+        </insert>
+        <insert tableName="estate_details">
+            <column name="estate_id" value="25"/>
+            <column name="square_meters" value="28"/>
+            <column name="number_of_rooms" value="1"/>
+            <column name="number_of_bathrooms" value="1"/>
+            <column name="number_of_garages" value="1"/>
+            <column name="year_of_construction" value="2021-12-31"/>
+            <column name="type_of_estate" value="RAILROAD"/>
+        </insert>
+
+
+        <insert tableName="estate_details">
+            <column name="estate_id" value="26"/>
+            <column name="square_meters" value="11"/>
+            <column name="number_of_rooms" value="1"/>
+            <column name="number_of_bathrooms" value="1"/>
+            <column name="number_of_garages" value="1"/>
+            <column name="year_of_construction" value="2022-03-08"/>
+            <column name="type_of_estate" value="GARDEN"/>
+        </insert>
+        <insert tableName="estate_details">
+            <column name="estate_id" value="27"/>
+            <column name="square_meters" value="17"/>
+            <column name="number_of_rooms" value="2"/>
+            <column name="number_of_bathrooms" value="1"/>
+            <column name="number_of_garages" value="1"/>
+            <column name="year_of_construction" value="2021-09-22"/>
+            <column name="type_of_estate" value="BUNGALOW"/>
+        </insert>
+        <insert tableName="estate_details">
+            <column name="estate_id" value="28"/>
+            <column name="square_meters" value="20"/>
+            <column name="number_of_rooms" value="1"/>
+            <column name="number_of_bathrooms" value="1"/>
+            <column name="number_of_garages" value="1"/>
+            <column name="year_of_construction" value="2022-12-13"/>
+            <column name="type_of_estate" value="CABIN"/>
+        </insert>
+        <insert tableName="estate_details">
+            <column name="estate_id" value="29"/>
+            <column name="square_meters" value="26"/>
+            <column name="number_of_rooms" value="3"/>
+            <column name="number_of_bathrooms" value="2"/>
+            <column name="number_of_garages" value="1"/>
+            <column name="year_of_construction" value="2022-06-05"/>
+            <column name="type_of_estate" value="SINGLE_FAMILY"/>
+        </insert>
+        <insert tableName="estate_details">
+            <column name="estate_id" value="30"/>
+            <column name="square_meters" value="18"/>
+            <column name="number_of_rooms" value="3"/>
+            <column name="number_of_bathrooms" value="2"/>
+            <column name="number_of_garages" value="1"/>
+            <column name="year_of_construction" value="2021-11-19"/>
+            <column name="type_of_estate" value="TOWNHOUSE"/>
+        </insert>
+
     </changeSet>
 </databaseChangeLog>

@@ -1,7 +1,7 @@
-package com.daria.realestate.domain;
+package com.daria.realestate.dto;
 
 import java.util.List;
-
+//TODO pattern: Builder
 public class Page<T> {
     private final List<T> content;
     private final int totalElements;

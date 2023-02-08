@@ -2,25 +2,22 @@ package com.daria.realestate.controller;
 
 import com.daria.realestate.domain.User;
 import com.daria.realestate.dto.RegistrationDTO;
-import com.daria.realestate.service.RegistrationService;
 import com.daria.realestate.service.UserService;
-import com.daria.realestate.service.impl.UserServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
     private final UserService userService;
-    private final RegistrationService registrationService;
 
-    public UserController(UserService userService, RegistrationService registrationService) {
+
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.registrationService = registrationService;
     }
 
     @PostMapping("/register")
     public RegistrationDTO register(@RequestBody RegistrationDTO userDTO) {
-        return registrationService.registerUser(userDTO);
+        return userService.registerUser(userDTO);
     }
 
     @GetMapping("/email/{userEmail}")

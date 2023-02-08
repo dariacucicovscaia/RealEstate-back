@@ -1,9 +1,6 @@
 package com.daria.realestate.service.impl;
 
-import com.daria.realestate.dao.AddressDAO;
-import com.daria.realestate.dao.EstateDAO;
-import com.daria.realestate.dao.UserDAO;
-import com.daria.realestate.dao.UserRoleDAO;
+import com.daria.realestate.dao.*;
 import com.daria.realestate.dao.impl.*;
 import com.daria.realestate.domain.*;
 import com.daria.realestate.domain.enums.AcquisitionStatus;
@@ -34,7 +31,10 @@ public class EstateServiceImplTest {
     private UserDAO userDAO;
     @Mock
     private UserRoleDAO userRoleDAO;
-
+    @Mock
+    private EstatePriceDAO priceDAO;
+    @Mock
+    private EstateDetailsDAO estateDetailsDAO;
 
     private EstateService serviceUnderTests;
 
@@ -44,8 +44,10 @@ public class EstateServiceImplTest {
         addressDAO = mock(AddressDAOImpl.class);
         userDAO = mock(UserDAOImpl.class);
         userRoleDAO = mock(UserRoleDAOImpl.class);
+        priceDAO = mock(EstatePriceDAOImpl.class);
+        estateDetailsDAO = mock(EstateDetailsDAOImpl.class);
 
-        serviceUnderTests = new EstateServiceImpl((EstateDAOImpl) estateDAO, (AddressDAOImpl) addressDAO, (UserDAOImpl) userDAO, (UserRoleDAOImpl) userRoleDAO);
+        serviceUnderTests = new EstateServiceImpl( estateDAO,  addressDAO, priceDAO, estateDetailsDAO, userDAO, userRoleDAO);
     }
 
     @Test

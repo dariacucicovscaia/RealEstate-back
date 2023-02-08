@@ -1,6 +1,8 @@
 package com.daria.realestate.service.impl;
 
 import com.daria.realestate.dao.*;
+import com.daria.realestate.dao.impl.AddressDAOImpl;
+import com.daria.realestate.dao.impl.ProfileDAOImpl;
 import com.daria.realestate.dao.impl.UserDAOImpl;
 import com.daria.realestate.dao.impl.UserRoleDAOImpl;
 import com.daria.realestate.domain.User;
@@ -19,7 +21,10 @@ public class UserServiceImplTest {
     private UserDAO userDAO;
     @Mock
     private UserRoleDAO userRoleDAO;
-
+    @Mock
+    private ProfileDAO profileDAO;
+    @Mock
+    private AddressDAO addressDAO;
     private UserService serviceUnderTests;
 
 
@@ -27,7 +32,9 @@ public class UserServiceImplTest {
     public void setupService() {
         userDAO = mock(UserDAOImpl.class);
         userRoleDAO = mock(UserRoleDAOImpl.class);
-        serviceUnderTests = new UserServiceImpl((UserDAOImpl) userDAO, (UserRoleDAOImpl) userRoleDAO);
+        profileDAO = mock(ProfileDAOImpl.class);
+        addressDAO = mock(AddressDAOImpl.class);
+        serviceUnderTests = new UserServiceImpl( userDAO, profileDAO, addressDAO,  userRoleDAO);
     }
 
     @Test

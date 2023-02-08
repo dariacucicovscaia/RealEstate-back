@@ -2,6 +2,7 @@ package com.daria.realestate.service;
 
 import com.daria.realestate.domain.*;
 import com.daria.realestate.domain.enums.AppointmentStatus;
+import com.daria.realestate.dto.Page;
 
 import java.util.List;
 

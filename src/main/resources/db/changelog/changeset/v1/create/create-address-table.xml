@@ -12,7 +12,7 @@
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-<!--TODO change name by convenssion ctrl shift r-->
+
             <column name="full_address" type="varchar(225)">
                 <constraints nullable="false"/>
             </column>

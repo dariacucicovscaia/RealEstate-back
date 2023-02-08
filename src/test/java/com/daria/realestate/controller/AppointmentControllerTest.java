@@ -2,7 +2,7 @@ package com.daria.realestate.controller;
 
 import com.daria.realestate.domain.Appointment;
 import com.daria.realestate.domain.Estate;
-import com.daria.realestate.domain.Page;
+import com.daria.realestate.dto.Page;
 import com.daria.realestate.domain.enums.AcquisitionStatus;
 import com.daria.realestate.domain.enums.AppointmentStatus;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -66,12 +67,13 @@ public class AppointmentControllerTest {
 
         this.mockMvc.perform(get("/api/v1/appointment/details/{appointmentId}", 1))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.madeAt", is("2022-02-01T12:02:12")));
+                .andExpect(jsonPath("$.madeAt", is("2022-02-01T12:02:12")))
+                .andDo(print());
     }
 
     @Test
     public void updateAppointment() throws Exception {
-        given(appointmentService.updateAppointment(1L, testDataAppointment())).willReturn(testDataAppointment());
+        when(appointmentService.updateAppointment(1L, testDataAppointment())).thenReturn(testDataAppointment());
 
         this.mockMvc.perform(put("/api/v1/appointment/update/{appointmentId}", 1)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -90,9 +92,9 @@ public class AppointmentControllerTest {
                                 "\n" +
                                 "}"))
                 .andExpect(status().isOk())
+                .andDo(print())
                 .andExpect(handler().methodName("updateAppointment"));
     }
-
     @Test
     public void getMyAppointments() throws Exception {
         given(appointmentService.getAppointmentsOfAUser(1L, 1, 5)).willReturn(testDataPageableAppointment());

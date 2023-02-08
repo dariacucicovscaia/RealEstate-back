@@ -24,7 +24,7 @@ public class ReportController {
     }
 
     @GetMapping("/download/{fileNameFromDrive}/{estateId}")
-    public ResponseEntity<Resource> download(@PathVariable String fileNameFromDrive, @PathVariable long estateId) throws IOException {
+    public ResponseEntity<Resource> downloadFromDrive(@PathVariable String fileNameFromDrive, @PathVariable long estateId) throws IOException {
         File file = reportService.downloadReportFromDrive(estateId, fileNameFromDrive);
 
         HttpHeaders headers = new HttpHeaders();
@@ -40,12 +40,12 @@ public class ReportController {
     }
 
     @PostMapping("/generate/{from}/{to}/{estateId}/{estateAddress}")
-    public String generateReport(@PathVariable String from, @PathVariable String to, @PathVariable long estateId, @PathVariable String estateAddress) {
+    public String generateLocalReport(@PathVariable String from, @PathVariable String to, @PathVariable long estateId, @PathVariable String estateAddress) {
         return reportService.generateLocalReport(LocalDateTime.parse(from), LocalDateTime.parse(to), estateId, estateAddress);
     }
 
     @PostMapping("/saveToDrive/{fileName}/{estateId}")
-    public String saveToDrive(@RequestParam("filePath") String filePath, @PathVariable String fileName,@PathVariable long estateId) {
+    public String uploadToDrive(@RequestParam("filePath") String filePath, @PathVariable String fileName,@PathVariable long estateId) {
         return reportService.uploadReportToDrive(estateId, fileName, new java.io.File(filePath));
     }
 }

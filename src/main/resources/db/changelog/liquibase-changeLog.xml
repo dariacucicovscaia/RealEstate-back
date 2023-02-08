@@ -10,24 +10,4 @@
 
    <includeAll path="db\changelog\changeset\v1\"/>
 
-
-<!--    <include file="db\changelog\changeset\create\create-address-table.xml"/>-->
-<!--    <include file="db\changelog\changeset\create\create-appointment-table.xml"/>-->
-<!--    <include file="db\changelog\changeset\create\create-estate-table.xml"/>-->
-<!--    <include file="db\changelog\changeset\create\create-estate_details-table.xml"/>-->
-<!--    <include file="db\changelog\changeset\create\create-price-table.xml"/>-->
-<!--    <include file="db\changelog\changeset\create\create-profile-table.xml"/>-->
-<!--    <include file="db\changelog\changeset\create\create-user-table.xml"/>-->
-<!--    <include file="db\changelog\changeset\create\create-user_appointment-table.xml"/>-->
-<!--    <include file="db\changelog\changeset\create\create-user_role-table.xml"/>-->
-
-<!--    <include file="db\changelog\changeset\insert\insert-address-data.xml"/>-->
-<!--    <include file="db\changelog\changeset\insert\insert-appointment-data.xml"/>-->
-<!--    <include file="db\changelog\changeset\insert\insert-estate-data.xml"/>-->
-<!--    <include file="db\changelog\changeset\insert\insert-estate_details-data.xml"/>-->
-<!--    <include file="db\changelog\changeset\insert\insert-price-data.xml"/>-->
-<!--    <include file="db\changelog\changeset\insert\insert-profile-data.xml"/>-->
-<!--    <include file="db\changelog\changeset\insert\insert-user-data.xml"/>-->
-<!--    <include file="db\changelog\changeset\insert\insert-user_appointment-data.xml"/>-->
-<!--    <include file="db\changelog\changeset\insert\insert-user_role-data.xml"/>-->
 </databaseChangeLog>

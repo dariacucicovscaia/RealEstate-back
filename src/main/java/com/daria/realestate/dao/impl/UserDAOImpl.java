@@ -1,7 +1,7 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.UserDAO;
-import com.daria.realestate.dao.mappers.UserMapper;
+import com.daria.realestate.dao.mappers.UserWithNoPasswordMapper;
 import com.daria.realestate.domain.User;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -50,27 +50,27 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
 
     @Override
     public User getById(long id) {
-        return getJdbcTemplate().queryForObject(SQL_GET_USER_BY_ID, new UserMapper(), id);
+        return getJdbcTemplate().queryForObject(SQL_GET_USER_BY_ID, new UserWithNoPasswordMapper(), id);
     }
 
     @Override
     public User getUserByEmail(String email) {
-        return getJdbcTemplate().queryForObject(SQL_GET_USER_BY_EMAIL, new UserMapper(), email);
+        return getJdbcTemplate().queryForObject(SQL_GET_USER_BY_EMAIL, new UserWithNoPasswordMapper(), email);
     }
 
     @Override
     public User getOwnerOfAnEstate(long estateId) {
-        return getJdbcTemplate().queryForObject(SQL_GET_ESTATE_OWNER, new UserMapper(), estateId);
+        return getJdbcTemplate().queryForObject(SQL_GET_ESTATE_OWNER, new UserWithNoPasswordMapper(), estateId);
     }
 
     @Override
     public List<User> getAllUsersThatHaveAppointments() {
-        return getJdbcTemplate().query(SQL_GET_ALL_USERS_THAT_HAVE_APPOINTMENTS, new UserMapper());
+        return getJdbcTemplate().query(SQL_GET_ALL_USERS_THAT_HAVE_APPOINTMENTS, new UserWithNoPasswordMapper());
     }
 
     @Override
     public List<User> getAllUsersOfAnAppointment(long appointmentId) {
-        return getJdbcTemplate().query(SQL_GET_ALL_USERS_OF_AN_APPOINTMENT, new UserMapper(), appointmentId);
+        return getJdbcTemplate().query(SQL_GET_ALL_USERS_OF_AN_APPOINTMENT, new UserWithNoPasswordMapper(), appointmentId);
     }
 
     @Override

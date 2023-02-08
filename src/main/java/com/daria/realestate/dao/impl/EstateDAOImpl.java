@@ -122,231 +122,129 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
 
     @Override
     public Integer countEstatesFilteredByAllEstateCriteria(EstateSearchFilter estateSearchFilter) {
-        String query = getSqlGetAllFilteredByAllEstateCriteria(estateSearchFilter, null , true);
+        String query = getSqlGetAllFilteredByAllEstateCriteria(estateSearchFilter, null, true);
         return getJdbcTemplate().queryForObject(query, Integer.class);
     }
 
     private String getSqlGetAllFilteredByAllEstateCriteria(EstateSearchFilter estateSearchFilter, PaginationFilter paginationFilter, boolean count) {
         StringBuilder query = new StringBuilder();
 
+        boolean isEstateDetailsPresent = estateSearchFilter.getSquareMetersFrom() >= 0
+                || estateSearchFilter.getNumberOfRoomsFrom() >= 0
+                || estateSearchFilter.getNumberOfGaragesFrom() >= 0
+                || estateSearchFilter.getYearOfConstructionFrom() != null
+                || estateSearchFilter.getTypeOfEstate() != null;
+        boolean isPricePresent = estateSearchFilter.getPriceFrom() >= 0;
+        boolean isAddressPresent = estateSearchFilter.getCity() != null
+                || estateSearchFilter.getCountry() != null;
+
+        if (isEstateDetailsPresent) {
+            query.append(" inner join `estate_details` as ed on e.id = ed.estate_id ");
+        }
+        if (isPricePresent) {
+            query.append(" inner join `price` as p on p.estate_id = e.id ");
+        }
+        if (isAddressPresent) {
+            query.append(" inner join `address` as a on e.address_id = a.id ");
+        }
+
+        query.append(" where 1=1 ");
+
+        if (estateSearchFilter.getPaymentTransactionType() != null) {
+            query.append(" and e.payment_transaction_type = \"").append(estateSearchFilter.getPaymentTransactionType().toString()).append("\" ");
+        }
+
+        if (estateSearchFilter.getAcquisitionStatus() != null) {
+            query.append(" and e.acquisition_status = \"").append(estateSearchFilter.getAcquisitionStatus().toString()).append("\" ");
+        }
+
+        if (estateSearchFilter.getSquareMetersFrom() >= 0) {
+
+            query.append(" and ed.square_meters > ").append(estateSearchFilter.getSquareMetersFrom()).append(" ");
+
+            if (estateSearchFilter.getSquareMetersTo() <= estateSearchFilter.getSquareMetersFrom()) {
+                query.append(" and ed.square_meters < ").append(Integer.MAX_VALUE).append(" ");
+            } else {
+                query.append(" and ed.square_meters < ").append(estateSearchFilter.getSquareMetersTo()).append(" ");
+            }
+
+        }
+        if (estateSearchFilter.getNumberOfRoomsFrom() >= 0) {
+
+            query.append(" and ed.number_of_rooms > ").append(estateSearchFilter.getNumberOfRoomsFrom()).append(" ");
+
+            if (estateSearchFilter.getNumberOfRoomsTo() <= estateSearchFilter.getNumberOfRoomsFrom()) {
+                query.append(" and ed.number_of_rooms < ").append(Integer.MAX_VALUE).append(" ");
+            } else {
+                query.append(" and ed.number_of_rooms < ").append(estateSearchFilter.getNumberOfRoomsTo()).append(" ");
+            }
+
+        }
+        if (estateSearchFilter.getNumberOfBathroomsFrom() >= 0) {
+            query.append(" and ed.number_of_bathrooms > ").append(estateSearchFilter.getNumberOfBathroomsFrom()).append(" ");
+
+            if (estateSearchFilter.getNumberOfBathroomsTo() <= estateSearchFilter.getNumberOfBathroomsFrom()) {
+                query.append(" and ed.number_of_bathrooms < ").append(Integer.MAX_VALUE).append(" ");
+            } else {
+                query.append(" and ed.number_of_bathrooms < ").append(estateSearchFilter.getNumberOfBathroomsTo()).append(" ");
+            }
+
+        }
+        if (estateSearchFilter.getNumberOfGaragesFrom() >= 0) {
+
+            query.append(" and ed.number_of_garages > ").append(estateSearchFilter.getNumberOfGaragesFrom()).append(" ");
+
+            if (estateSearchFilter.getNumberOfGaragesTo() <= estateSearchFilter.getNumberOfGaragesFrom()) {
+                query.append(" and ed.number_of_garages < ").append(Integer.MAX_VALUE).append(" ");
+            } else {
+                query.append(" and  ed.number_of_garages < ").append(estateSearchFilter.getNumberOfGaragesTo()).append(" ");
+            }
+
+        }
+        if (estateSearchFilter.getYearOfConstructionFrom() != null) {
+            LocalDate from = LocalDate.parse(estateSearchFilter.getYearOfConstructionFrom());
+
+            query.append(" and  ed.year_of_construction > \"").append(estateSearchFilter.getYearOfConstructionFrom()).append("\" ");
+
+            if (estateSearchFilter.getYearOfConstructionTo() != null || LocalDate.parse(estateSearchFilter.getYearOfConstructionTo()).isBefore(from)) {
+                query.append(" and  ed.year_of_construction < \"").append(LocalDate.now()).append("\" ");
+
+            } else {
+                query.append(" and  ed.year_of_construction < \"").append(estateSearchFilter.getYearOfConstructionTo()).append("\" ");
+            }
+
+        }
+        if (estateSearchFilter.getTypeOfEstate() != null) {
+            query.append(" and ed.type_of_estate = \"").append(estateSearchFilter.getTypeOfEstate().toString()).append("\" ");
+        }
+        if (estateSearchFilter.getPriceFrom() >= 0) {
+            query.append(" and p.price > ").append(estateSearchFilter.getPriceFrom()).append(" ");
+
+            if (estateSearchFilter.getPriceTo() <= estateSearchFilter.getPriceFrom()) {
+                query.append(" and p.price < ").append(Integer.MAX_VALUE).append(" ");
+
+            } else {
+                query.append("and  p.price < ").append(estateSearchFilter.getPriceTo()).append(" ");
+            }
+        }
+        if (estateSearchFilter.getCity() != null) {
+            query.append("and a.city = \"").append(estateSearchFilter.getCity()).append("\" ");
+        }
+        if (estateSearchFilter.getCountry() != null) {
+            query.append("and  a.country = \"").append(estateSearchFilter.getCountry()).append("\" ");
+        }
+
         if (count) {
-            query.append(" select count(*) from estate as e ");
-            boolean isEstateDetailsPresent = estateSearchFilter.getSquareMetersFrom() >= 0
-                    || estateSearchFilter.getNumberOfRoomsFrom() >= 0
-                    || estateSearchFilter.getNumberOfGaragesFrom() >= 0
-                    || estateSearchFilter.getYearOfConstructionFrom() != null
-                    || estateSearchFilter.getTypeOfEstate() != null;
-            boolean isPricePresent = estateSearchFilter.getPriceFrom() >= 0;
-            boolean isAddressPresent = estateSearchFilter.getCity() != null
-                    || estateSearchFilter.getCountry() != null;
-
-            if (isEstateDetailsPresent) {
-                query.append(" inner join `estate_details` as ed on e.id = ed.estate_id ");
-            }
-            if (isPricePresent) {
-                query.append(" inner join `price` as p on p.estate_id = e.id ");
-            }
-            if (isAddressPresent) {
-                query.append(" inner join `address` as a on e.address_id = a.id ");
-            }
-
-            query.append(" where ");
-            if (estateSearchFilter.getPaymentTransactionType() != null) {
-                query.append(" e.payment_transaction_type = \"" + estateSearchFilter.getPaymentTransactionType().toString() + "\" ");
-            }
-            if (estateSearchFilter.getPaymentTransactionType() == null && estateSearchFilter.getAcquisitionStatus() != null) {
-                query.append("  e.acquisition_status = \"" + estateSearchFilter.getAcquisitionStatus().toString() + "\" ");
-            } else if (estateSearchFilter.getAcquisitionStatus() != null) {
-                query.append(" and e.acquisition_status = \"" + estateSearchFilter.getAcquisitionStatus().toString() + "\" ");
-            }
-
-
-            if (estateSearchFilter.getSquareMetersFrom() >= 0) {
-
-                query.append(" and ed.square_meters > " + estateSearchFilter.getSquareMetersFrom() + " ");
-
-                if (estateSearchFilter.getSquareMetersTo() <= estateSearchFilter.getSquareMetersFrom()) {
-                    query.append(" and ed.square_meters < " + Integer.MAX_VALUE + " ");
-                } else {
-                    query.append(" and ed.square_meters < " + estateSearchFilter.getSquareMetersTo() + " ");
-                }
-
-            }
-            if (estateSearchFilter.getNumberOfRoomsFrom() >= 0) {
-
-                query.append(" and ed.number_of_rooms > " + estateSearchFilter.getNumberOfRoomsFrom() + " ");
-
-                if (estateSearchFilter.getNumberOfRoomsTo() <= estateSearchFilter.getNumberOfRoomsFrom()) {
-                    query.append(" and ed.number_of_rooms < " + Integer.MAX_VALUE + " ");
-                } else {
-                    query.append(" and ed.number_of_rooms < " + estateSearchFilter.getNumberOfRoomsTo() + " ");
-                }
-
-            }
-            if (estateSearchFilter.getNumberOfBathroomsFrom() >= 0) {
-                query.append(" and ed.number_of_bathrooms > " + estateSearchFilter.getNumberOfBathroomsFrom() + " ");
-
-                if (estateSearchFilter.getNumberOfBathroomsTo() <= estateSearchFilter.getNumberOfBathroomsFrom()) {
-                    query.append(" and ed.number_of_bathrooms < " + Integer.MAX_VALUE + " ");
-                } else {
-                    query.append(" and ed.number_of_bathrooms < " + estateSearchFilter.getNumberOfBathroomsTo() + " ");
-                }
-
-            }
-            if (estateSearchFilter.getNumberOfGaragesFrom() >= 0) {
-
-                query.append(" and ed.number_of_garages > " + estateSearchFilter.getNumberOfGaragesFrom() + " ");
-
-                if (estateSearchFilter.getNumberOfGaragesTo() <= estateSearchFilter.getNumberOfGaragesFrom()) {
-                    query.append(" and ed.number_of_garages < " + Integer.MAX_VALUE + " ");
-                } else {
-                    query.append(" and  ed.number_of_garages < " + estateSearchFilter.getNumberOfGaragesTo() + " ");
-                }
-
-            }
-            if (estateSearchFilter.getYearOfConstructionFrom() != null) {
-                LocalDate from = LocalDate.parse(estateSearchFilter.getYearOfConstructionFrom());
-
-                query.append(" and  ed.year_of_construction > \"" + estateSearchFilter.getYearOfConstructionFrom() + "\" ");
-
-                if (estateSearchFilter.getYearOfConstructionTo() != null || LocalDate.parse(estateSearchFilter.getYearOfConstructionTo()).isBefore(from)) {
-                    query.append(" and  ed.year_of_construction < \"" + LocalDate.now() + "\" ");
-
-                } else {
-                    query.append(" and  ed.year_of_construction < \"" + estateSearchFilter.getYearOfConstructionTo() + "\" ");
-                }
-
-            }
-            if (estateSearchFilter.getTypeOfEstate() != null) {
-                query.append(" and ed.type_of_estate = \"" + estateSearchFilter.getTypeOfEstate().toString() + "\" ");
-            }
-            if (estateSearchFilter.getPriceFrom() >= 0) {
-                query.append(" and p.price > " + estateSearchFilter.getPriceFrom() + " ");
-
-                if (estateSearchFilter.getPriceTo() <= estateSearchFilter.getPriceFrom()) {
-                    query.append(" and p.price < " + Integer.MAX_VALUE + " ");
-
-                } else {
-                    query.append("and  p.price < " + estateSearchFilter.getPriceTo() + " ");
-                }
-            }
-            if (estateSearchFilter.getCity() != null) {
-                query.append("and a.city = \"" + estateSearchFilter.getCity() + "\" ");
-            }
-            if (estateSearchFilter.getCountry() != null) {
-                query.append("and  a.country = \"" + estateSearchFilter.getCountry() + "\" ");
-            }
+            query.insert(0, " select count(*) from estate as e ");
 
         } else {
-            query.append(" select e.* from estate as e ");
-            boolean isEstateDetailsPresent = estateSearchFilter.getSquareMetersFrom() >= 0
-                    || estateSearchFilter.getNumberOfRoomsFrom() >= 0
-                    || estateSearchFilter.getNumberOfGaragesFrom() >= 0
-                    || estateSearchFilter.getYearOfConstructionFrom() != null
-                    || estateSearchFilter.getTypeOfEstate() != null;
-            boolean isPricePresent = estateSearchFilter.getPriceFrom() >= 0;
-            boolean isAddressPresent = estateSearchFilter.getCity() != null
-                    || estateSearchFilter.getCountry() != null;
+            query.insert(0, " select e.* from estate as e ");
 
-            if (isEstateDetailsPresent) {
-                query.append(" inner join `estate_details` as ed on e.id = ed.estate_id ");
-            }
-            if (isPricePresent) {
-                query.append(" inner join `price` as p on p.estate_id = e.id ");
-            }
-            if (isAddressPresent) {
-                query.append(" inner join `address` as a on e.address_id = a.id ");
-            }
-            query.append(" where ");
-            if (estateSearchFilter.getPaymentTransactionType() != null) {
-                query.append(" e.payment_transaction_type = \"" + estateSearchFilter.getPaymentTransactionType().toString() + "\" ");
-            }
-            if (estateSearchFilter.getPaymentTransactionType() == null && estateSearchFilter.getAcquisitionStatus() != null) {
-                query.append("  e.acquisition_status = \"" + estateSearchFilter.getAcquisitionStatus().toString() + "\" ");
-            } else if (estateSearchFilter.getAcquisitionStatus() != null) {
-                query.append(" and e.acquisition_status = \"" + estateSearchFilter.getAcquisitionStatus().toString() + "\" ");
-            }
-
-
-            if (estateSearchFilter.getSquareMetersFrom() >= 0) {
-
-                query.append(" and ed.square_meters > " + estateSearchFilter.getSquareMetersFrom() + " ");
-
-                if (estateSearchFilter.getSquareMetersTo() <= estateSearchFilter.getSquareMetersFrom()) {
-                    query.append(" and ed.square_meters < " + Integer.MAX_VALUE + " ");
-                } else {
-                    query.append(" and ed.square_meters < " + estateSearchFilter.getSquareMetersTo() + " ");
-                }
-
-            }
-            if (estateSearchFilter.getNumberOfRoomsFrom() >= 0) {
-
-                query.append(" and ed.number_of_rooms > " + estateSearchFilter.getNumberOfRoomsFrom() + " ");
-
-                if (estateSearchFilter.getNumberOfRoomsTo() <= estateSearchFilter.getNumberOfRoomsFrom()) {
-                    query.append(" and ed.number_of_rooms < " + Integer.MAX_VALUE + " ");
-                } else {
-                    query.append(" and ed.number_of_rooms < " + estateSearchFilter.getNumberOfRoomsTo() + " ");
-                }
-
-            }
-            if (estateSearchFilter.getNumberOfBathroomsFrom() >= 0) {
-                query.append(" and ed.number_of_bathrooms > " + estateSearchFilter.getNumberOfBathroomsFrom() + " ");
-
-                if (estateSearchFilter.getNumberOfBathroomsTo() <= estateSearchFilter.getNumberOfBathroomsFrom()) {
-                    query.append(" and ed.number_of_bathrooms < " + Integer.MAX_VALUE + " ");
-                } else {
-                    query.append(" and ed.number_of_bathrooms < " + estateSearchFilter.getNumberOfBathroomsTo() + " ");
-                }
-
-            }
-            if (estateSearchFilter.getNumberOfGaragesFrom() >= 0) {
-
-                query.append(" and ed.number_of_garages > " + estateSearchFilter.getNumberOfGaragesFrom() + " ");
-
-                if (estateSearchFilter.getNumberOfGaragesTo() <= estateSearchFilter.getNumberOfGaragesFrom()) {
-                    query.append(" and ed.number_of_garages < " + Integer.MAX_VALUE + " ");
-                } else {
-                    query.append(" and  ed.number_of_garages < " + estateSearchFilter.getNumberOfGaragesTo() + " ");
-                }
-
-            }
-            if (estateSearchFilter.getYearOfConstructionFrom() != null) {
-                LocalDate from = LocalDate.parse(estateSearchFilter.getYearOfConstructionFrom());
-
-                query.append(" and  ed.year_of_construction > \"" + estateSearchFilter.getYearOfConstructionFrom() + "\" ");
-
-                if (estateSearchFilter.getYearOfConstructionTo() != null || LocalDate.parse(estateSearchFilter.getYearOfConstructionTo()).isBefore(from)) {
-                    query.append(" and  ed.year_of_construction < \"" + LocalDate.now() + "\" ");
-
-                } else {
-                    query.append(" and  ed.year_of_construction < \"" + estateSearchFilter.getYearOfConstructionTo() + "\" ");
-                }
-
-            }
-            if (estateSearchFilter.getTypeOfEstate() != null) {
-                query.append(" and ed.type_of_estate = \"" + estateSearchFilter.getTypeOfEstate().toString() + "\" ");
-            }
-            if (estateSearchFilter.getPriceFrom() >= 0) {
-                query.append(" and p.price > " + estateSearchFilter.getPriceFrom() + " ");
-
-                if (estateSearchFilter.getPriceTo() <= estateSearchFilter.getPriceFrom()) {
-                    query.append(" and p.price < " + Integer.MAX_VALUE + " ");
-
-                } else {
-                    query.append("and  p.price < " + estateSearchFilter.getPriceTo() + " ");
-                }
-            }
-            if (estateSearchFilter.getCity() != null) {
-                query.append("and a.city = \"" + estateSearchFilter.getCity() + "\" ");
-            }
-            if (estateSearchFilter.getCountry() != null) {
-                query.append("and  a.country = \"" + estateSearchFilter.getCountry() + "\" ");
-            }
             if (paginationFilter != null) {
                 query.append(" limit " + paginationFilter.getNrOfElementsWeWantDisplayed() + " offset " + getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed()) + " ");
             }
         }
+
         return query.toString();
     }
 }

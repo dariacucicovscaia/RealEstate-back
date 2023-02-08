@@ -1,9 +1,9 @@
 package com.daria.realestate.service.impl;
 
 import com.daria.realestate.dao.*;
-import com.daria.realestate.dao.impl.*;
 import com.daria.realestate.domain.*;
 import com.daria.realestate.domain.enums.AppointmentStatus;
+import com.daria.realestate.dto.Page;
 import com.daria.realestate.service.AppointmentService;
 import org.springframework.stereotype.Service;
 
@@ -49,6 +49,8 @@ public class AppointmentServiceImpl implements AppointmentService {
     public Page<Appointment> usersAppointmentsByAppointmentStatus(long userId, AppointmentStatus appointmentStatus, int page, int elementsPerPage) {
         List<Appointment> appointmentContent = appointmentDAO.usersAppointmentsByAppointmentStatus(userId, appointmentStatus, new PaginationFilter(page, elementsPerPage));
         int elementsInTotal = appointmentDAO.countUsersAppointmentsByAppointmentStatus(userId, appointmentStatus);
+
+
         return new Page<>(appointmentContent, elementsInTotal, page, elementsPerPage);
     }
 

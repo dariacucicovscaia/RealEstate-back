@@ -1,18 +1,12 @@
 package com.daria.realestate.service.impl;
 
-import com.daria.realestate.dao.AddressDAO;
-import com.daria.realestate.dao.EstateDAO;
-import com.daria.realestate.dao.UserDAO;
-import com.daria.realestate.dao.UserRoleDAO;
-import com.daria.realestate.dao.impl.AddressDAOImpl;
-import com.daria.realestate.dao.impl.EstateDAOImpl;
-import com.daria.realestate.dao.impl.UserDAOImpl;
-import com.daria.realestate.dao.impl.UserRoleDAOImpl;
+import com.daria.realestate.dao.*;
 import com.daria.realestate.domain.*;
 import com.daria.realestate.domain.enums.AcquisitionStatus;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
 import com.daria.realestate.dto.EstateDTO;
 import com.daria.realestate.dto.EstateSearchFilter;
+import com.daria.realestate.dto.Page;
 import com.daria.realestate.service.EstateService;
 import org.springframework.stereotype.Service;
 
@@ -22,12 +16,16 @@ import java.util.List;
 public class EstateServiceImpl implements EstateService {
     private final EstateDAO estateDAO;
     private final AddressDAO addressDAO;
+    private final EstatePriceDAO priceDAO;
+    private final EstateDetailsDAO estateDetailsDAO;
     private final UserDAO userDAO;
     private final UserRoleDAO userRoleDAO;
 
-    public EstateServiceImpl(EstateDAO estateDAO, AddressDAO addressDAO, UserDAO userDAO, UserRoleDAO userRoleDAO) {
+    public EstateServiceImpl(EstateDAO estateDAO, AddressDAO addressDAO, EstatePriceDAO priceDAO, EstateDetailsDAO estateDetailsDAO, UserDAO userDAO, UserRoleDAO userRoleDAO) {
         this.estateDAO = estateDAO;
         this.addressDAO = addressDAO;
+        this.priceDAO = priceDAO;
+        this.estateDetailsDAO = estateDetailsDAO;
         this.userDAO = userDAO;
         this.userRoleDAO = userRoleDAO;
     }
@@ -67,10 +65,38 @@ public class EstateServiceImpl implements EstateService {
 
     @Override
     public Page<Estate> getEstatesFilteredByAllEstateCriteria(EstateSearchFilter estateSearchFilter, int elementsPerPage, int pageNumber) {
-
         List<Estate> content = estateDAO.getEstatesFilteredByAllEstateCriteria( estateSearchFilter,  new PaginationFilter(pageNumber, elementsPerPage));
         int totalPageCount = estateDAO.countEstatesFilteredByAllEstateCriteria(estateSearchFilter);
 
         return new Page<>( content, totalPageCount, pageNumber, elementsPerPage);
+    }
+    @Override
+    public EstateDTO createEstate(EstateDTO estateDTO) {
+        User owner = userDAO.getUserByEmail(estateDTO.getEmail());
+
+        Address address = addressDAO.create(new Address(estateDTO.getFullAddress(), estateDTO.getCity(), estateDTO.getCountry()));
+        Estate estate = estateDAO.create(new Estate(estateDTO.getPaymentTransactionType(), estateDTO.getAcquisitionStatus(), estateDTO.getCreatedAt(), estateDTO.getLastUpdatedAt(), address, owner));
+        EstatePrice price = priceDAO.create(new EstatePrice(estateDTO.getPrice(), estateDTO.getLastPriceUpdatedAt(), estateDTO.getCurrency(), estate));
+        EstateDetails estateDetails = estateDetailsDAO.create(new EstateDetails(estateDTO.getSquareMeters(), estateDTO.getNumberOfRooms(), estateDTO.getNumberOfBathRooms(), estateDTO.getNumberOfGarages(), estateDTO.getYearOfConstruction(), estateDTO.getTypeOfEstate(), estate));
+
+        return new EstateDTO(
+                estate.getPaymentTransactionType(),
+                estate.getAcquisitionStatus(),
+                estate.getCreatedAt(),
+                estate.getLastUpdatedAt(),
+                estateDetails.getSquareMeters(),
+                estateDetails.getNumberOfRooms(),
+                estateDetails.getNumberOfBathRooms(),
+                estateDTO.getNumberOfGarages(),
+                estateDetails.getYearOfConstruction(),
+                estateDetails.getTypeOfEstate(),
+                address.getFullAddress(),
+                address.getCity(),
+                address.getCountry(),
+                owner.getEmail(),
+                price.getPrice(),
+                price.getLastUpdatedAt() ,
+                price.getCurrency()
+        );
     }
 }

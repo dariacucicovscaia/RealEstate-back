@@ -5,33 +5,21 @@ import com.daria.realestate.domain.enums.PaymentTransactionType;
 import com.daria.realestate.domain.enums.TypeOfEstate;
 
 public class EstateSearchFilter {
-
     private final AcquisitionStatus acquisitionStatus;
     private final PaymentTransactionType paymentTransactionType;
-
-
     private final int squareMetersFrom;
     private final int squareMetersTo;
-
     private final int numberOfRoomsFrom;
     private final int numberOfRoomsTo;
-
     private final int numberOfBathroomsFrom;
     private final int numberOfBathroomsTo;
-
     private final int numberOfGaragesFrom;
     private final int numberOfGaragesTo;
-
     private final String yearOfConstructionFrom;
     private final String yearOfConstructionTo;
-
     private final TypeOfEstate typeOfEstate;
-
-
     private final long priceFrom;
     private final long priceTo;
-
-
     private final String city;
     private final String country;
 

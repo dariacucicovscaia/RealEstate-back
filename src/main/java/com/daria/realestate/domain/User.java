@@ -33,6 +33,10 @@ public class User {
     public User() {
     }
 
+    public User(String email) {
+        this.email = email;
+    }
+
     public List<Role> getRoles() {
         return roles;
     }

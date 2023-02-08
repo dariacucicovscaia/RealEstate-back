@@ -28,7 +28,7 @@ public class Estate {
         this.lastUpdatedAt = lastUpdatedAt;
     }
 
-    public Estate(PaymentTransactionType paymentTransactionType, AcquisitionStatus acquisitionStatus, LocalDateTime createdAt, LocalDateTime lastUpdatedAt, Address address, User owner) {
+    public Estate (PaymentTransactionType paymentTransactionType, AcquisitionStatus acquisitionStatus, LocalDateTime createdAt, LocalDateTime lastUpdatedAt, Address address, User owner) {
         this.paymentTransactionType = paymentTransactionType;
         this.acquisitionStatus = acquisitionStatus;
         this.createdAt = createdAt;
@@ -42,6 +42,15 @@ public class Estate {
         this.acquisitionStatus = AcquisitionStatus.valueOf(acquisitionStatus);
         this.createdAt =createdAt;
         this.lastUpdatedAt = lastUpdatedAt;
+    }
+    public Estate (long id, String paymentTransactionType, String acquisitionStatus, LocalDateTime createdAt, LocalDateTime lastUpdatedAt, Address address, User owner) {
+        this.id = id;
+        this.paymentTransactionType = PaymentTransactionType.valueOf(paymentTransactionType);
+        this.acquisitionStatus = AcquisitionStatus.valueOf(acquisitionStatus);
+        this.createdAt = createdAt;
+        this.lastUpdatedAt = lastUpdatedAt;
+        this.address = address;
+        this.owner = owner;
     }
 
 

@@ -3,6 +3,7 @@ package com.daria.realestate.dao.impl;
 import com.daria.realestate.dao.EstateDAO;
 import com.daria.realestate.dao.mappers.EstateDTOMapper;
 import com.daria.realestate.dao.mappers.EstateMapper;
+import com.daria.realestate.dao.mappers.EstateWithAllFieldsMapper;
 import com.daria.realestate.domain.Estate;
 import com.daria.realestate.domain.PaginationFilter;
 import com.daria.realestate.domain.enums.AcquisitionStatus;
@@ -117,7 +118,7 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
     @Override
     public List<Estate> getEstatesFilteredByAllEstateCriteria(EstateSearchFilter estateSearchFilter, PaginationFilter paginationFilter) {
         String query = getSqlGetAllFilteredByAllEstateCriteria(estateSearchFilter, paginationFilter, false);
-        return getJdbcTemplate().query(query, new EstateMapper());
+        return getJdbcTemplate().query(query, new EstateWithAllFieldsMapper());
     }
 
     @Override
@@ -135,8 +136,7 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
                 || estateSearchFilter.getYearOfConstructionFrom() != null
                 || estateSearchFilter.getTypeOfEstate() != null;
         boolean isPricePresent = estateSearchFilter.getPriceFrom() >= 0;
-        boolean isAddressPresent = estateSearchFilter.getCity() != null
-                || estateSearchFilter.getCountry() != null;
+
 
         if (isEstateDetailsPresent) {
             query.append(" inner join `estate_details` as ed on e.id = ed.estate_id ");
@@ -144,9 +144,8 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
         if (isPricePresent) {
             query.append(" inner join `price` as p on p.estate_id = e.id ");
         }
-        if (isAddressPresent) {
-            query.append(" inner join `address` as a on e.address_id = a.id ");
-        }
+        query.append(" inner join `address` as a on e.address_id = a.id ");
+        query.append(" inner join `user` as u on u.id = e.owner_id ");
 
         query.append(" where 1=1 ");
 
@@ -238,10 +237,10 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
             query.insert(0, " select count(*) from estate as e ");
 
         } else {
-            query.insert(0, " select e.* from estate as e ");
+            query.insert(0, " select e.* , a.full_address , a.city, a.country, u.email from estate as e ");
 
             if (paginationFilter != null) {
-                query.append(" limit " + paginationFilter.getNrOfElementsWeWantDisplayed() + " offset " + getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed()) + " ");
+                query.append(" limit ").append(paginationFilter.getNrOfElementsWeWantDisplayed()).append(" offset ").append(getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed())).append(" ");
             }
         }
 

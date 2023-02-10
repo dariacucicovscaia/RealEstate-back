@@ -4,7 +4,7 @@ import com.daria.realestate.dao.AppointmentDAO;
 import com.daria.realestate.dao.impl.AppointmentDAOImpl;
 import com.daria.realestate.domain.enums.AppointmentStatus;
 import com.daria.realestate.dto.AppointmentReportDTO;
-import com.daria.realestate.service.PrepExcelObjectService;
+import com.daria.realestate.service.PrepExcelReportService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,13 +20,13 @@ import static org.mockito.Mockito.*;
 public class ExcelReportDataServiceImplTest {
    @Mock
     private AppointmentDAO appointmentDAO;
-    private PrepExcelObjectService serviceUnderTest;
+    private PrepExcelReportService serviceUnderTest;
 
     @Before
     public void before() {
         appointmentDAO = mock(AppointmentDAOImpl.class);
 
-        serviceUnderTest = new PrepExcelObjectServiceImpl((AppointmentDAOImpl) appointmentDAO);
+        serviceUnderTest = new PrepExcelReportServiceImpl(estateDAO, (AppointmentDAOImpl) appointmentDAO, dynamicApplicationConfigurationDAO);
     }
 
     @Test

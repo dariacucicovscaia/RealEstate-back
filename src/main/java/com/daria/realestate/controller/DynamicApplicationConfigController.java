@@ -1,0 +1,34 @@
+package com.daria.realestate.controller;
+
+import com.daria.realestate.domain.DynamicApplicationConfiguration;
+import com.daria.realestate.service.DynamicApplicationConfigService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+
+@RestController
+@RequestMapping("/api/v1/config")
+public class DynamicApplicationConfigController {
+    private final DynamicApplicationConfigService dynamicApplicationConfigService;
+
+    public DynamicApplicationConfigController(DynamicApplicationConfigService dynamicApplicationConfigService) {
+        this.dynamicApplicationConfigService = dynamicApplicationConfigService;
+    }
+
+    @PostMapping("/")
+    public ResponseEntity<DynamicApplicationConfiguration> createDynamicApplicationConfiguration(
+            @RequestBody DynamicApplicationConfiguration dynamicApplicationConfiguration) {
+        return new ResponseEntity<>(dynamicApplicationConfigService.createDynamicConfig(dynamicApplicationConfiguration), HttpStatus.CREATED);
+    }
+    @PutMapping("/update")
+    public ResponseEntity<DynamicApplicationConfiguration> updateDynamicApplicationConfiguration(@RequestBody DynamicApplicationConfiguration dynamicApplicationConfiguration){
+        return new ResponseEntity<>(dynamicApplicationConfigService.updateDynamicConfigValue(dynamicApplicationConfiguration), HttpStatus.OK);
+    }
+    @GetMapping("/{configurationName}")
+    public ResponseEntity<DynamicApplicationConfiguration> getDynamicApplicationConfiguration(@PathVariable String configurationName){
+        return new ResponseEntity<>(dynamicApplicationConfigService.getDynamicConfigByConfigName(configurationName), HttpStatus.OK);
+    }
+
+
+}

@@ -7,16 +7,15 @@
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
    http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
-    <changeSet id="create-report-table" author="DariaC">
-        <createTable tableName="report">
-            <column name="estate_id" type="bigint"/>
-            <column name="drive_file_id" type="varchar(45)"/>
-
-            <column name="local_file_path" type="varchar(225)">
+    <changeSet id="create-dynamic_application_configuration-table" author="DariaC">
+        <createTable tableName="dynamic_application_configuration">
+            <column name="configuration_name" type="varchar(45)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="last_updated" type="timestamp"/>
-            <column name="location" type="varchar(45)"/>
+            <column name="configuration_path" type="varchar(225)">
+                <constraints unique="true"/>
+            </column>
+            <column name="configuration_type" type="varchar(45)"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>

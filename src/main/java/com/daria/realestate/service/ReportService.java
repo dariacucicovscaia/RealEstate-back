@@ -1,15 +1,15 @@
 package com.daria.realestate.service;
 
 
+import com.daria.realestate.domain.enums.FileLocation;
+
 import java.io.File;
 import java.time.LocalDateTime;
 
 public interface ReportService {
 
-    String generateLocalReport(LocalDateTime from, LocalDateTime to, long estateId, String estateAddress);
+    String generateReport(LocalDateTime from, LocalDateTime to, long estateId, FileLocation location);
 
-    String uploadReportToDrive(long estateId,String fileName, File fileToInsert);
-
-    File downloadReportFromDrive(long estateId, String fileNameFromDrive);
+    File getReport(long estateId, String simpleName, FileLocation location);
 
 }

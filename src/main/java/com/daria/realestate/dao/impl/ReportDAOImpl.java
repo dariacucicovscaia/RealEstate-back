@@ -27,20 +27,9 @@ public class ReportDAOImpl extends AbstractDAOImpl<Report> implements ReportDAO 
 
     @Override
     public Report create(Report report) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        getJdbcTemplate()
-                .update(connection -> {
-                    PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT_REPORT, Statement.RETURN_GENERATED_KEYS);
-                    preparedStatement.setLong(1, report.getEstateId());
-                    preparedStatement.setString(2, report.getDriveFileId());
-                    preparedStatement.setString(3, report.getLocalFilePath());
-                    preparedStatement.setTimestamp(4, Timestamp.valueOf(report.getLastUpdated()));
-                    preparedStatement.setString(5, report.getLocation().toString());
+        getJdbcTemplate().update(SQL_INSERT_REPORT,report.getEstateId(), report.getDriveFileId(), report.getLocalFilePath(), report.getLastUpdated().toString(), report.getLocation().toString() );
 
-                    return preparedStatement;
-                }, keyHolder);
-
-        return getById(keyHolder.getKey().longValue());
+        return getById(report.getEstateId());
     }
 
     @Override

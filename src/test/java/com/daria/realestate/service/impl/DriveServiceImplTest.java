@@ -1,6 +1,6 @@
 package com.daria.realestate.service.impl;
 
-import com.daria.realestate.service.DriveService;
+
 import org.junit.Test;
 
 import java.io.File;
@@ -11,7 +11,6 @@ import static org.junit.Assert.*;
 
 public class DriveServiceImplTest {
 
-    private DriveService driveService;
 
 //    public DriveServiceImplTest() {
 //        this.driveService = new DriveServiceImpl();

@@ -29,7 +29,7 @@ public class EstateController {
 
     @PostMapping("/estatesByAllCriteria")
     public Page<Estate> getAllEstatesByAllCriteria(@RequestBody EstateSearchFilter estateSearchFilter,
-                                                   @RequestParam("page") int page, @RequestParam("size") int size){
+                                                                   @RequestParam("page") int page, @RequestParam("size") int size) {
         return estateService.getEstatesFilteredByAllEstateCriteria(estateSearchFilter, size, page);
     }
 }

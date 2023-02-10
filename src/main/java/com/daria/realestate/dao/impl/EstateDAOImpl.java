@@ -149,7 +149,7 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
 
         query.append(" where 1=1 ");
 
-        if (estateSearchFilter.getPaymentTransactionType() != null) {
+        if (estateSearchFilter.getPaymentTransactionType() != null ) {
             query.append(" and e.payment_transaction_type = \"").append(estateSearchFilter.getPaymentTransactionType().toString()).append("\" ");
         }
 

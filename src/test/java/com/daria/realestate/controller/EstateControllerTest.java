@@ -8,6 +8,7 @@ import com.daria.realestate.dto.EstateDTO;
 import com.daria.realestate.dto.EstateSearchFilter;
 import com.daria.realestate.dto.Page;
 import com.daria.realestate.service.impl.EstateServiceImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(controllers = EstateController.class)
+@WebMvcTest(EstateController.class)
 public class EstateControllerTest {
+
     @MockBean
     private EstateServiceImpl estateService;
 
@@ -82,32 +84,15 @@ public class EstateControllerTest {
 
     @Test
     public void getAllEstatesByAllCriteria() throws Exception {
-        given(estateService.getEstatesFilteredByAllEstateCriteria(getEstateSearchFilter(), 5, 1)).willReturn(getEstateList(5));
+    //  given(estateService.getEstatesFilteredByAllEstateCriteria(getEstateSearchFilter(), 5, 1)).willReturn(getEstateList(5));
 
         this.mockMvc.perform(post("/api/v1/estate/estatesByAllCriteria?page=1&size=5")
-
-                        .content("{\n" +
-                                "    \"acquisitionStatus\": \"ON_HOLD\",\n" +
-                                "    \"paymentTransactionType\": \"RENT\",\n" +
-                                "    \"squareMetersFrom\": 0,\n" +
-                                "    \"squareMetersTo\": 0,\n" +
-                                "    \"numberOfRoomsFrom\": 0,\n" +
-                                "    \"numberOfRoomsTo\": 0,\n" +
-                                "    \"numberOfBathroomsFrom\": 0,\n" +
-                                "    \"numberOfBathroomsTo\": 0,\n" +
-                                "    \"numberOfGaragesFrom\": 0,\n" +
-                                "    \"numberOfGaragesTo\": 0,\n" +
-                                "    \"yearOfConstructionFrom\":  \"2023-01-01\",\n" +
-                                "    \"yearOfConstructionTo\": \"2023-01-01\",\n" +
-                                "    \"typeOfEstate\": \"BARN\",\n" +
-                                "    \"priceFrom\": 0,\n" +
-                                "    \"priceTo\": 0,\n" +
-                                "    \"city\": \"city\",\n" +
-                                "    \"country\": \"country\"\n" +
-                                "}")
-                        .contentType(MediaType.APPLICATION_JSON))
+                .content(asJsonString(getEstateSearchFilter()))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
 
                 .andDo(print());
+
 //                .andExpect(jsonPath("$.content").isArray())
 //                .andExpect(jsonPath("$.totalElements", is(5)))
 //                .andExpect(jsonPath("$.currentPage", is(1)))
@@ -167,5 +152,13 @@ public class EstateControllerTest {
                 0, 0,
                 "city", "country"
         );
+    }
+
+    private String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -5,7 +5,7 @@ import com.daria.realestate.domain.DynamicApplicationConfiguration;
 public interface DynamicApplicationConfigurationDAO {
     DynamicApplicationConfiguration create(DynamicApplicationConfiguration dynamicApplicationConfiguration);
     DynamicApplicationConfiguration updateValue(DynamicApplicationConfiguration dynamicApplicationConfiguration);
-    DynamicApplicationConfiguration getByConfigName(String configurationName);
+    DynamicApplicationConfiguration getByConfigNameAndStatus(String configurationName, String configStatus);
     DynamicApplicationConfiguration getByConfigType(String configurationType);
 
 }

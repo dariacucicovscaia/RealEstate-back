@@ -11,9 +11,10 @@
 <changeSet id="insert-dynamic_application_configuration-data" author="DariaC">
 
         <insert tableName="dynamic_application_configuration">
-            <column name="configuration_name" value="localSettings"/>
-            <column name="configuration_path" value="C:/Users/DCUCICOV/Documents/reports"/>
+            <column name="configuration_name" value="fileSettings"/>
+            <column name="configuration_body" value="C:/Users/DCUCICOV/Documents/reports"/>
             <column name="configuration_type" value="local"/>
+            <column name="configuration_status" value="active"/>
         </insert>
 
     </changeSet>

@@ -52,7 +52,7 @@ public class DriveConfig {
         return DRIVE;
     }
     public Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException, GeneralSecurityException {
-        InputStream in = DriveConfig.class.getResourceAsStream(dynamicApplicationConfigurationDAO.getByConfigType("drive").getConfigPath());
+        InputStream in = DriveConfig.class.getResourceAsStream(dynamicApplicationConfigurationDAO.getByConfigType("drive").getBody());
 
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 

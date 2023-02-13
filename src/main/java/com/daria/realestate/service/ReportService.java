@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 public interface ReportService {
 
-    String generateReport(LocalDateTime from, LocalDateTime to, long estateId, FileLocation location);
+    String generateReport(LocalDateTime from, LocalDateTime to, long estateId);
 
     File getReport(long estateId, String simpleName, FileLocation location);
 

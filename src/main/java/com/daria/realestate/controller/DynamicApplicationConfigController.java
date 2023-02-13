@@ -25,9 +25,9 @@ public class DynamicApplicationConfigController {
     public ResponseEntity<DynamicApplicationConfiguration> updateDynamicApplicationConfiguration(@RequestBody DynamicApplicationConfiguration dynamicApplicationConfiguration){
         return new ResponseEntity<>(dynamicApplicationConfigService.updateDynamicConfigValue(dynamicApplicationConfiguration), HttpStatus.OK);
     }
-    @GetMapping("/{configurationName}")
-    public ResponseEntity<DynamicApplicationConfiguration> getDynamicApplicationConfiguration(@PathVariable String configurationName){
-        return new ResponseEntity<>(dynamicApplicationConfigService.getDynamicConfigByConfigName(configurationName), HttpStatus.OK);
+    @GetMapping("/{configurationName}/{configurationStatus}")
+    public ResponseEntity<DynamicApplicationConfiguration> getDynamicApplicationConfiguration(@PathVariable String configurationName, @PathVariable String configurationStatus){
+        return new ResponseEntity<>(dynamicApplicationConfigService.getDynamicConfigByConfigNameAndStatus(configurationName, configurationStatus), HttpStatus.OK);
     }
 
 

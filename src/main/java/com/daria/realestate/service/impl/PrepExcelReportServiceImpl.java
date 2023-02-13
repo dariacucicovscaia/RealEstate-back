@@ -109,7 +109,7 @@ public class PrepExcelReportServiceImpl implements PrepExcelReportService {
     public String generateLocalFileName(long estateId) {
         EstateDTO estate = estateDAO.getAllEstateDetails(estateId);
 
-        return dynamicApplicationConfigurationDAO.getByConfigType("local").getConfigPath() + "/" + estate.getFullAddress().replace(" ", "_") + "/report_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-mm-dd")) + ".xlsx";
+        return dynamicApplicationConfigurationDAO.getByConfigType("local").getBody() + "/" + estate.getFullAddress().replace(" ", "_") + "/report_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-mm-dd")) + ".xlsx";
     }
 
 

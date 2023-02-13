@@ -1,45 +1,41 @@
 package com.daria.realestate.domain;
 
 public class DynamicApplicationConfiguration {
-    /**
-     * UNIQUE - acts like a primary key
-     * rootPath - local
-     * credentialsPath - drive
-     * API_KEY - mail
-     */
-    private String configPath;
-    /**
-     * local -
-     * drive - applicationName
-     * mail - mail.smtp.host
-     */
-    private String configurationName;
-    /**
-     * local/drive/mail
-     */
+    private String configName;
+    private String body;
     private String configType;
 
+    private String status;
 
-    public DynamicApplicationConfiguration(String configurationName, String configPath, String configType) {
-        this.configPath = configPath;
-        this.configurationName = configurationName;
+    public DynamicApplicationConfiguration(String configName, String configType, String body, String status) {
+        this.configName = configName;
+        this.body = body;
         this.configType = configType;
+        this.status = status;
     }
 
-    public String getConfigPath() {
-        return configPath;
+    public String getConfigName() {
+        return configName;
     }
 
-    public void setConfigPath(String configPath) {
-        this.configPath = configPath;
+    public void setConfigName(String configName) {
+        this.configName = configName;
     }
 
-    public String getConfigurationName() {
-        return configurationName;
+    public String getBody() {
+        return body;
     }
 
-    public void setConfigurationName(String configurationName) {
-        this.configurationName = configurationName;
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getConfigType() {

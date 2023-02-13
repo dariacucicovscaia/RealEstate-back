@@ -23,16 +23,13 @@ public class LocalReportServiceImpl implements FileOperations {
 
     @Override
     public String saveFile(LocalDateTime from, LocalDateTime to, long estateId) {
-        String fileName = prepExcelReportService.generateLocalFileName(estateId);
-        File file = new File(fileName);
+        String filePath = prepExcelReportService.generateLocalFileName(estateId);
+        File file = new File(filePath);
         FileOutputStream fos = null;
         try {
-            if (!file.exists()) {
-                file.getParentFile().mkdirs();
-            }
             fos = new FileOutputStream(file);
             prepExcelReportService.generateReport(from, to, estateId).write(fos);
-            reportDAO.create(new Report(estateId, null, fileName, LocalDateTime.now(), FileLocation.LOCAL));
+            reportDAO.create(new Report(estateId, null, filePath, LocalDateTime.now(), FileLocation.local));
             return file.getPath();
         } catch (IOException e) {
             throw new RuntimeException(e);

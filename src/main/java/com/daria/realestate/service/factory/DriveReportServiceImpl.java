@@ -75,7 +75,7 @@ public class DriveReportServiceImpl implements FileOperations {
 
         }
 
-        reportDAO.update(new Report(estateId, uploadedFile.getId(), filePath, LocalDateTime.now(), FileLocation.DRIVE));
+        reportDAO.update(new Report(estateId, uploadedFile.getId(), filePath, LocalDateTime.now(), FileLocation.drive));
 
         return uploadedFile.getId();
     }
@@ -99,7 +99,7 @@ public class DriveReportServiceImpl implements FileOperations {
             FileOutputStream fileOutputStream = new FileOutputStream(report.getLocalFilePath());
             downloadFile(fileName).writeTo(fileOutputStream);
 
-            reportDAO.update(new Report(estateId, getFileByName(fileName).getId(), report.getLocalFilePath(), LocalDateTime.now(), FileLocation.DRIVE));
+            reportDAO.update(new Report(estateId, getFileByName(fileName).getId(), report.getLocalFilePath(), LocalDateTime.now(), FileLocation.drive));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

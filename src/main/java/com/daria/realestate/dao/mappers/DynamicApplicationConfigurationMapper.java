@@ -11,8 +11,9 @@ public class DynamicApplicationConfigurationMapper implements RowMapper< Dynamic
     public DynamicApplicationConfiguration mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new DynamicApplicationConfiguration(
                 rs.getString("configuration_name"),
-                rs.getString("configuration_path"),
-                rs.getString("configuration_type")
-        );
+                rs.getString("configuration_type"),
+                rs.getString("configuration_body"),
+                rs.getString("configuration_status")
+                );
     }
 }

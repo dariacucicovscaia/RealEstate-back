@@ -24,7 +24,7 @@ private final DynamicApplicationConfigurationDAO dynamicApplicationConfiguration
     }
 
     @Override
-    public DynamicApplicationConfiguration getDynamicConfigByConfigName(String configurationName) {
-        return dynamicApplicationConfigurationDAO.getByConfigName(configurationName);
+    public DynamicApplicationConfiguration getDynamicConfigByConfigNameAndStatus(String configurationName, String configurationStatus) {
+        return dynamicApplicationConfigurationDAO.getByConfigNameAndStatus(configurationName, configurationStatus);
     }
 }

@@ -9,13 +9,17 @@
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
     <changeSet id="create-dynamic_application_configuration-table" author="DariaC">
         <createTable tableName="dynamic_application_configuration">
-            <column name="configuration_name" type="varchar(45)">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="configuration_path" type="varchar(225)">
-                <constraints unique="true"/>
-            </column>
+            <column name="configuration_name" type="varchar(45)"/>
             <column name="configuration_type" type="varchar(45)"/>
+            <column name="configuration_body" type="text"/>
+            <column name="configuration_status" type="varchar(45)"/>
         </createTable>
+    </changeSet>
+    <changeSet author="DariaC" id="addUniqueConstraint-dynamic_application_configuration-table">
+        <addUniqueConstraint
+                columnNames="configuration_type, configuration_status"
+                constraintName="id_constraint"
+                tableName="dynamic_application_configuration"
+        />
     </changeSet>
 </databaseChangeLog>

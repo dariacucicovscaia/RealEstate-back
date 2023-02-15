@@ -19,8 +19,8 @@ private final DynamicApplicationConfigurationDAO dynamicApplicationConfiguration
     }
 
     @Override
-    public DynamicApplicationConfiguration updateDynamicConfigValue(DynamicApplicationConfiguration dynamicApplicationConfiguration) {
-        return dynamicApplicationConfigurationDAO.updateValue(dynamicApplicationConfiguration);
+    public DynamicApplicationConfiguration updateDynamicConfigValue(DynamicApplicationConfiguration dynamicApplicationConfiguration, String oldConfigType, String oldConfigStatus) {
+        return dynamicApplicationConfigurationDAO.updateValue(dynamicApplicationConfiguration, oldConfigType, oldConfigStatus);
     }
 
     @Override

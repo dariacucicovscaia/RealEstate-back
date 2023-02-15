@@ -3,8 +3,13 @@ package com.daria.realestate.service.impl;
 import com.daria.realestate.dao.*;
 import com.daria.realestate.domain.*;
 import com.daria.realestate.domain.enums.AppointmentStatus;
+import com.daria.realestate.dto.CreatedAppointmentDTO;
 import com.daria.realestate.dto.Page;
+import com.daria.realestate.dto.enums.MailLocation;
 import com.daria.realestate.service.AppointmentService;
+import com.daria.realestate.service.mail.MailServiceFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,23 +19,26 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     private final AppointmentDAO appointmentDAO;
     private final UserAppointmentDAO userAppointmentDAO;
-    private final UserDAO userDAO;
+    private final DynamicApplicationConfigurationDAO dynamicApplicationConfigurationDAO;
+    private final MailServiceFactory mailServiceFactory;
 
-    public AppointmentServiceImpl(AppointmentDAO appointmentDAO, UserAppointmentDAO userAppointmentDAO, UserDAO userDAO) {
+    Logger logger = LoggerFactory.getLogger(AppointmentServiceImpl.class);
+
+    public AppointmentServiceImpl(AppointmentDAO appointmentDAO, UserAppointmentDAO userAppointmentDAO, DynamicApplicationConfigurationDAO dynamicApplicationConfigurationDAO, MailServiceFactory mailServiceFactory) {
         this.appointmentDAO = appointmentDAO;
         this.userAppointmentDAO = userAppointmentDAO;
-        this.userDAO = userDAO;
+        this.dynamicApplicationConfigurationDAO = dynamicApplicationConfigurationDAO;
+        this.mailServiceFactory = mailServiceFactory;
     }
 
     @Override
-    public Appointment createAppointment(Appointment appointment, long userId) {
-        User user = userDAO.getById(userId);
+    public CreatedAppointmentDTO createAppointment(Appointment appointment, long userId) {
         Appointment createdAppointment = appointmentDAO.create(appointment);
-        Integer userAppointment = userAppointmentDAO.create(user, createdAppointment);
+        CreatedAppointmentDTO createdAppointmentDTO = userAppointmentDAO.create(userId, createdAppointment.getId());
 
-        if (userAppointment == 1) {
-            return createdAppointment;
-        } else return null;
+        MailLocation mailLocation = MailLocation.valueOf(dynamicApplicationConfigurationDAO.getByConfigNameAndStatus("mail", "active").getConfigType());
+
+        return mailServiceFactory.createInstance(mailLocation).appointmentConfirmationEmail(createdAppointmentDTO);
     }
 
     @Override
@@ -49,16 +57,12 @@ public class AppointmentServiceImpl implements AppointmentService {
     public Page<Appointment> usersAppointmentsByAppointmentStatus(long userId, AppointmentStatus appointmentStatus, int page, int elementsPerPage) {
         List<Appointment> appointmentContent = appointmentDAO.usersAppointmentsByAppointmentStatus(userId, appointmentStatus, new PaginationFilter(page, elementsPerPage));
         int elementsInTotal = appointmentDAO.countUsersAppointmentsByAppointmentStatus(userId, appointmentStatus);
-
-
         return new Page<>(appointmentContent, elementsInTotal, page, elementsPerPage);
     }
 
     @Override
     public Appointment getAppointmentById(Long id) {
         Appointment appointment = appointmentDAO.getById(id);
-        appointment.setUsers(userDAO.getAllUsersOfAnAppointment(id));
-
         return appointment;
     }
 
@@ -66,5 +70,20 @@ public class AppointmentServiceImpl implements AppointmentService {
     public Appointment updateAppointment(long appointmentId, Appointment newAppointment) {
         newAppointment.setId(appointmentId);
         return appointmentDAO.update(newAppointment);
+    }
+
+    @Override
+    public AppointmentStatus confirmAppointment(long appointmentId) {
+        Appointment appointment = appointmentDAO.getById(appointmentId);
+
+        logger.info("Old status: " + appointment.getAppointmentStatus());
+        if (appointment.getAppointmentStatus() == AppointmentStatus.CONFIRMED) {
+            logger.error("Appointment was already confirmed!");
+            return AppointmentStatus.CONFIRMED;
+        }
+
+        appointment = appointmentDAO.updateAppointmentStatus(appointmentId, String.valueOf(AppointmentStatus.CONFIRMED));
+        logger.info("New status: " + appointment.getAppointmentStatus());
+        return appointment.getAppointmentStatus();
     }
 }

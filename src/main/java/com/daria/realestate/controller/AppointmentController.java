@@ -1,6 +1,7 @@
 package com.daria.realestate.controller;
 
 import com.daria.realestate.domain.Appointment;
+import com.daria.realestate.dto.CreatedAppointmentDTO;
 import com.daria.realestate.dto.Page;
 import com.daria.realestate.domain.enums.AppointmentStatus;
 import com.daria.realestate.service.AppointmentService;
@@ -18,7 +19,7 @@ public class AppointmentController {
     }
 
     @PostMapping("/create/{userId}")
-    public Appointment createAppointment(@RequestBody Appointment appointment, @PathVariable long userId) {
+    public CreatedAppointmentDTO createAppointment(@RequestBody Appointment appointment, @PathVariable long userId) {
         return appointmentService.createAppointment(appointment, userId);
     }
 
@@ -32,6 +33,13 @@ public class AppointmentController {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(appointmentService.updateAppointment(appointmentId, appointment));
+    }
+
+    @GetMapping("/update/confirm-status/{appointmentId}")
+    public ResponseEntity<AppointmentStatus> updateAppointmentStatus( @PathVariable long appointmentId) {
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(appointmentService.confirmAppointment(appointmentId));
     }
 
     @GetMapping("/myAppointments/{userId}")

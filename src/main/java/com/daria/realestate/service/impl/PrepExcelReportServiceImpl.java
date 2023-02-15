@@ -13,14 +13,12 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
 public class PrepExcelReportServiceImpl implements PrepExcelReportService {
-    private final Workbook workbook;
     private final EstateDAO estateDAO;
     private final AppointmentDAO appointmentDAO;
     private final DynamicApplicationConfigurationDAO dynamicApplicationConfigurationDAO;
@@ -29,7 +27,6 @@ public class PrepExcelReportServiceImpl implements PrepExcelReportService {
         this.estateDAO = estateDAO;
         this.appointmentDAO = appointmentDAO;
         this.dynamicApplicationConfigurationDAO = dynamicApplicationConfigurationDAO;
-        this.workbook = new XSSFWorkbook();
     }
 
     @Override
@@ -56,6 +53,7 @@ public class PrepExcelReportServiceImpl implements PrepExcelReportService {
     }
 
     private Workbook insertBodyInFile(Long estateId, Object[][] body, LocalDateTime from, LocalDateTime to) {
+        Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("report-" + from.format(DateTimeFormatter.ofPattern("yyyy-mm-dd")) + "--" + to.format(DateTimeFormatter.ofPattern("yyyy-mm-dd")) + "-estate-" + estateId);
         int rows = body.length;
         int columns = body[0].length;

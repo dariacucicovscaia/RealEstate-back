@@ -17,17 +17,6 @@ import java.util.List;
 
 @Repository
 public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements AppointmentDAO {
-    private static final String SQL_CREATE_APPOINTMENT = " insert into appointment (made_at, appointment_start, appointment_end, estate_id, appointment_status)" + " values ( ? , ? , ? , ? , ? )";
-    private static final String SQL_GET_APPOINTMENT_BY_ID = " select * from appointment where id = ? ";
-    private static final String SQL_UPDATE_APPOINTMENT = " update appointment set made_at = ? , appointment_start = ? , appointment_end = ?  ,appointment_status = ? where id = ? ";
-    private static final String SQL_DELETE_APPOINTMENT = " delete from appointment where id = ? ";
-
-    private static final String SQL_GET_ALL_USERS_APPOINTMENTS_BY_A_STATUS = " select a.* from user_appointment as ua " + " inner join `user` as u on ua.user_id = u.id " + " inner join appointment as a on ua.appointment_id = a.id " + " where u.id = ? and appointment_status= ? " + " limit ? offset ? ";
-    private static final String SQL_COUNT_ALL_USERS_APPOINTMENTS_BY_A_STATUS = " select count(*) from user_appointment as ua " + " inner join `user` as u on ua.user_id = u.id " + " inner join appointment as a on ua.appointment_id = a.id " + " where u.id = ? and appointment_status= ? ";
-    private static final String SQL_GET_APPOINTMENTS_OF_A_USER = " select a.* from user_appointment as ua " + " inner join `user` as u on ua.user_id = u.id  " + " inner join appointment as a on ua.appointment_id = a.id " + " where u.id = ?  limit ? offset ? ";
-    private static final String SQL_COUNT_APPOINTMENTS_OF_A_USER = " select count(*) from user_appointment as ua " + " inner join `user` as u on ua.user_id = u.id  " + " inner join appointment as a on ua.appointment_id = a.id " + " where u.id = ? ";
-    private static final String SQL_GET_APPOINTMENTS_OF_AN_ESTATE = " select a.* from estate as e " + " inner join appointment as a on a.estate_id = e.id " + " where e.id = ?  limit ? offset ? ";
-    private static final String SQL_GET_APPOINTMENTS_WITH_SPECIFIC_TIME_INTERVAL_BY_ESTATE = " select distinct " + " a.appointment_start, a.appointment_end,u.email,p.first_name, p.last_name, p.phone_number, a.appointment_status  from appointment as a " + " inner join user_appointment as ua on ua.appointment_id = a.id " + " inner join `user` as u on u.id = ua.user_id " + " inner join profile as p on u.id = p.user_id   " + " where a.appointment_start >= ? and a.appointment_start <= ? and a.estate_id = ? ";
 
     public AppointmentDAOImpl(DataSource dataSource) {
         super(dataSource);
@@ -35,6 +24,7 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
 
     @Override
     public List<Appointment> usersAppointmentsByAppointmentStatus(long userId, AppointmentStatus appointmentStatus, PaginationFilter paginationFilter) {
+        String SQL_GET_ALL_USERS_APPOINTMENTS_BY_A_STATUS = " select a.* from user_appointment as ua " + " inner join `user` as u on ua.user_id = u.id " + " inner join appointment as a on ua.appointment_id = a.id " + " where u.id = ? and appointment_status= ? " + " limit ? offset ? ";
         return getJdbcTemplate().query(SQL_GET_ALL_USERS_APPOINTMENTS_BY_A_STATUS,
                 new AppointmentMapper(),
                 userId, appointmentStatus.toString(),
@@ -44,6 +34,7 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
 
     @Override
     public Integer countUsersAppointmentsByAppointmentStatus(long userId, AppointmentStatus appointmentStatus) {
+        String SQL_COUNT_ALL_USERS_APPOINTMENTS_BY_A_STATUS = " select count(*) from user_appointment as ua " + " inner join `user` as u on ua.user_id = u.id " + " inner join appointment as a on ua.appointment_id = a.id " + " where u.id = ? and appointment_status= ? ";
         return getJdbcTemplate().queryForObject(SQL_COUNT_ALL_USERS_APPOINTMENTS_BY_A_STATUS,
                 Integer.class,
                 userId,
@@ -53,6 +44,8 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
 
     @Override
     public List<Appointment> appointmentsOfAUser(long id, PaginationFilter paginationFilter) {
+        String SQL_GET_APPOINTMENTS_OF_A_USER = " select a.* from user_appointment as ua " + " inner join `user` as u on ua.user_id = u.id  " + " inner join appointment as a on ua.appointment_id = a.id " + " where u.id = ?  limit ? offset ? ";
+
         return getJdbcTemplate().query(SQL_GET_APPOINTMENTS_OF_A_USER,
                 new AppointmentMapper(),
                 id, paginationFilter.getNrOfElementsWeWantDisplayed(),
@@ -61,6 +54,8 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
 
     @Override
     public Integer countAppointmentsOfAUser(long id) {
+        String SQL_COUNT_APPOINTMENTS_OF_A_USER = " select count(*) from user_appointment as ua " + " inner join `user` as u on ua.user_id = u.id  " + " inner join appointment as a on ua.appointment_id = a.id " + " where u.id = ? ";
+
         return getJdbcTemplate().queryForObject(SQL_COUNT_APPOINTMENTS_OF_A_USER,
                 Integer.class,
                 id);
@@ -68,6 +63,7 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
 
     @Override
     public Appointment create(Appointment appointment) {
+        String SQL_CREATE_APPOINTMENT = " insert into appointment (made_at, appointment_start, appointment_end, estate_id, appointment_status)" + " values ( ? , ? , ? , ? , ? )";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         getJdbcTemplate()
                 .update(connection -> {
@@ -86,27 +82,39 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
 
     @Override
     public int removeById(long id) {
+        String SQL_DELETE_APPOINTMENT = " delete from appointment where id = ? ";
         return getJdbcTemplate().update(SQL_DELETE_APPOINTMENT, id);
     }
 
     @Override
     public Appointment update(Appointment appointment) {
+        String SQL_UPDATE_APPOINTMENT = " update appointment set made_at = ? , appointment_start = ? , appointment_end = ?  ,appointment_status = ? where id = ? ";
         getJdbcTemplate().update(SQL_UPDATE_APPOINTMENT, appointment.getMadeAt(), appointment.getStart(), appointment.getEnd(), appointment.getAppointmentStatus().toString(), appointment.getId());
         return getById(appointment.getId());
     }
 
     @Override
     public Appointment getById(long id) {
+        String SQL_GET_APPOINTMENT_BY_ID = " select * from appointment where id = ? ";
         return getJdbcTemplate().queryForObject(SQL_GET_APPOINTMENT_BY_ID, new AppointmentMapper(), id);
     }
 
     @Override
     public List<Appointment> getAppointmentsOfAnEstate(Estate estate, PaginationFilter paginationFilter) {
+        String SQL_GET_APPOINTMENTS_OF_AN_ESTATE = " select a.* from estate as e " + " inner join appointment as a on a.estate_id = e.id " + " where e.id = ?  limit ? offset ? ";
         return getJdbcTemplate().query(SQL_GET_APPOINTMENTS_OF_AN_ESTATE, new AppointmentMapper(), estate.getId(), paginationFilter.getNrOfElementsWeWantDisplayed(), getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed()));
     }
 
     @Override
     public List<AppointmentReportDTO> getAppointmentsWithASpecificTimeIntervalByEstateId(LocalDateTime from, LocalDateTime to, long estateId) {
+        String SQL_GET_APPOINTMENTS_WITH_SPECIFIC_TIME_INTERVAL_BY_ESTATE = " select distinct " + " a.appointment_start, a.appointment_end,u.email,p.first_name, p.last_name, p.phone_number, a.appointment_status  from appointment as a " + " inner join user_appointment as ua on ua.appointment_id = a.id " + " inner join `user` as u on u.id = ua.user_id " + " inner join profile as p on u.id = p.user_id   " + " where a.appointment_start >= ? and a.appointment_start <= ? and a.estate_id = ? ";
         return getJdbcTemplate().query(SQL_GET_APPOINTMENTS_WITH_SPECIFIC_TIME_INTERVAL_BY_ESTATE, new AppointmentReportDTOMapper(), from, to, estateId);
+    }
+
+    @Override
+    public Appointment updateAppointmentStatus(long appointmentId, String newAppointmentStatus) {
+        String SQL_UPDATE_STATUS = "update appointment set appointment_status = ? where id = ? ";
+        getJdbcTemplate().update(SQL_UPDATE_STATUS, newAppointmentStatus, appointmentId);
+        return getById(appointmentId);
     }
 }

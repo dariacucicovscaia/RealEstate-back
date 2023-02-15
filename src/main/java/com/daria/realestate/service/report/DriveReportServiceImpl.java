@@ -1,18 +1,23 @@
-package com.daria.realestate.service.factory;
+package com.daria.realestate.service.report;
 
 import com.daria.realestate.configuration.DriveConfig;
 import com.daria.realestate.dao.ReportDAO;
 import com.daria.realestate.domain.Report;
-import com.daria.realestate.domain.enums.FileLocation;
+import com.daria.realestate.dto.enums.FileLocation;
 import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.time.LocalDateTime;
 
 @Service
+@Qualifier("driveServiceImpl")
+@Scope("prototype")
 public class DriveReportServiceImpl implements FileOperations {
     private final DriveConfig driveConfig;
     private final ReportDAO reportDAO;
@@ -43,10 +48,10 @@ public class DriveReportServiceImpl implements FileOperations {
     }
 
     @Override
-    public String saveFile(LocalDateTime from, LocalDateTime to, long estateId) {
-        String filePath = reportDAO.getById(estateId).getLocalFilePath();
-        int lastIndex = filePath.lastIndexOf("/");
-        String fileName = filePath.substring(lastIndex + 1);
+    public String saveFile(String filePath, Workbook workbook) {
+        String path = saveFileOnLocalMachine(filePath,workbook);
+        int lastIndex = path.lastIndexOf("\\") ;
+        String fileName = path.substring(lastIndex + 1);
         File uploadedFile;
         if (getFileByName(fileName) != null) {
             try {
@@ -54,7 +59,7 @@ public class DriveReportServiceImpl implements FileOperations {
                 File file = new File();
                 file.setName(filePath);
 
-                FileContent mediaContent = new FileContent(MIME_TYPE, new java.io.File(filePath));
+                FileContent mediaContent = new FileContent(MIME_TYPE, new java.io.File(path));
 
                 uploadedFile = driveConfig.getDriveService().files().update(fileId, file, mediaContent).execute();
             } catch (IOException e) {
@@ -64,7 +69,7 @@ public class DriveReportServiceImpl implements FileOperations {
             File file = new File();
             file.setName(fileName);
 
-            FileContent fileContent = new FileContent(MIME_TYPE, new java.io.File(filePath));
+            FileContent fileContent = new FileContent(MIME_TYPE, new java.io.File(path));
 
             try {
                 uploadedFile = driveConfig.getDriveService().files().create(file, fileContent).setFields("id").execute();
@@ -75,9 +80,24 @@ public class DriveReportServiceImpl implements FileOperations {
 
         }
 
-        reportDAO.update(new Report(estateId, uploadedFile.getId(), filePath, LocalDateTime.now(), FileLocation.drive));
+        //reportDAO.update(new Report(estateId, uploadedFile.getId(), filePath, LocalDateTime.now(), FileLocation.drive));
 
         return uploadedFile.getId();
+    }
+
+    private String saveFileOnLocalMachine(String filePath, Workbook workbook) {
+        java.io.File file = new java.io.File(filePath);
+        if (!file.exists()) {
+            file.getParentFile().mkdirs();
+        }
+        try(FileOutputStream fileOutputStream = new FileOutputStream(file)) {
+            workbook.write(fileOutputStream);
+            workbook.close();
+            //  reportDAO.create(new Report(estateId, null, filePath, LocalDateTime.now(), FileLocation.local));
+            return file.getPath();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public ByteArrayOutputStream downloadFile(String fileName) {

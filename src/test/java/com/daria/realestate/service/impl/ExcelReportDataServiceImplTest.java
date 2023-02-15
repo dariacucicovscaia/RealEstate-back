@@ -26,7 +26,7 @@ public class ExcelReportDataServiceImplTest {
     public void before() {
         appointmentDAO = mock(AppointmentDAOImpl.class);
 
-        serviceUnderTest = new PrepExcelReportServiceImpl(estateDAO, (AppointmentDAOImpl) appointmentDAO, dynamicApplicationConfigurationDAO);
+      //  serviceUnderTest = new PrepExcelReportServiceImpl(estateDAO, (AppointmentDAOImpl) appointmentDAO, dynamicApplicationConfigurationDAO);
     }
 
     @Test

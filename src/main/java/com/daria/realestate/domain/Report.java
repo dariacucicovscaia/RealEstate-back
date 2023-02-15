@@ -1,6 +1,6 @@
 package com.daria.realestate.domain;
 
-import com.daria.realestate.domain.enums.FileLocation;
+import com.daria.realestate.dto.enums.FileLocation;
 
 import java.time.LocalDateTime;
 

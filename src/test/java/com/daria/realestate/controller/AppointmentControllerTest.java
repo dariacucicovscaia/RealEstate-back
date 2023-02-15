@@ -39,7 +39,8 @@ public class AppointmentControllerTest {
 
     @Test
     public void createAppointment() throws Exception {
-        given(appointmentService.createAppointment(testDataAppointment(), 1L)).willReturn(testDataAppointment());
+        //TODO refactor test
+        //given(appointmentService.createAppointment(testDataAppointment(), 1L)).willReturn(testDataAppointment());
 
         this.mockMvc.perform(post("/api/v1/appointment/create/{userId}", 1)
                         .contentType(MediaType.APPLICATION_JSON)

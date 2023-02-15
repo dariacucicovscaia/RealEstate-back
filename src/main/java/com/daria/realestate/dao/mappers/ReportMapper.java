@@ -1,7 +1,7 @@
 package com.daria.realestate.dao.mappers;
 
 import com.daria.realestate.domain.Report;
-import com.daria.realestate.domain.enums.FileLocation;
+import com.daria.realestate.dto.enums.FileLocation;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

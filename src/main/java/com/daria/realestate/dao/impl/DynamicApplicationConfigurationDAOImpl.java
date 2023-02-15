@@ -27,13 +27,15 @@ public class DynamicApplicationConfigurationDAOImpl implements DynamicApplicatio
     }
 
     @Override
-    public DynamicApplicationConfiguration updateValue(DynamicApplicationConfiguration dynamicApplicationConfiguration) {
-        String SQL_UPDATE_VALUE = " update dynamic_application_configuration set configuration_type = ? , configuration_body = ? , configuration_status = ? where configuration_name = ? ";
+    public DynamicApplicationConfiguration updateValue(DynamicApplicationConfiguration dynamicApplicationConfiguration, String oldConfigType, String oldConfigStatus ) {
+        String SQL_UPDATE_VALUE = " update dynamic_application_configuration set configuration_type = ? , configuration_body = ? , configuration_status = ? " +
+                "where  configuration_type = ? and configuration_status = ? ";
         jdbcTemplate.update(SQL_UPDATE_VALUE,
                 dynamicApplicationConfiguration.getConfigType(),
                 dynamicApplicationConfiguration.getBody(),
                 dynamicApplicationConfiguration.getStatus(),
-                dynamicApplicationConfiguration.getConfigName()
+                oldConfigType,
+                oldConfigStatus
                 );
         return getByConfigType(dynamicApplicationConfiguration.getConfigType());
     }

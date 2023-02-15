@@ -1,12 +1,11 @@
-package com.daria.realestate.service.factory;
+package com.daria.realestate.service.report;
 
 import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.File;
-import java.time.LocalDateTime;
 
 public interface FileOperations {
-    String saveFile(LocalDateTime from, LocalDateTime to, long estateId);
+    String saveFile(String filePath, Workbook workbook);
 
     File getFile(long estateId, String fileName);
 }

@@ -12,25 +12,12 @@ import java.util.List;
 
 
 public interface AppointmentDAO extends DAO<Appointment> {
-    /**
-     * Update appointment
-     *
-     * @param appointment - appointment to be updated
-     * @return updated appointment
-     */
     Appointment update(Appointment appointment);
-
-    /**
-     * Gets all users appointments
-     * @param userId
-     * @param appointmentStatus
-     * @return
-     */
-
     List<Appointment> usersAppointmentsByAppointmentStatus(long userId, AppointmentStatus appointmentStatus, PaginationFilter paginationFilter);
     Integer countUsersAppointmentsByAppointmentStatus(long userId, AppointmentStatus appointmentStatus);
     List<Appointment> appointmentsOfAUser(long id , PaginationFilter paginationFilter);
     List<Appointment> getAppointmentsOfAnEstate(Estate estate, PaginationFilter paginationFilter);
     Integer countAppointmentsOfAUser(long id);
     List<AppointmentReportDTO> getAppointmentsWithASpecificTimeIntervalByEstateId(LocalDateTime from, LocalDateTime to, long estateId);
+    Appointment updateAppointmentStatus(long appointmentId, String newAppointmentStatus);
 }

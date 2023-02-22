@@ -1,7 +1,8 @@
 package com.daria.realestate.controller;
 
+import com.daria.realestate.domain.Report;
+import com.daria.realestate.dto.Page;
 import com.daria.realestate.service.ReportService;
-
 
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api/v1/report")
+@CrossOrigin
 public class ReportController {
 
     private final ReportService reportService;
@@ -30,14 +32,14 @@ public class ReportController {
     @PostMapping("/generate/{from}/{to}/{estateId}")
     public String generateLocalReport(@PathVariable String from,
                                       @PathVariable String to,
-                                      @PathVariable long estateId)  {
+                                      @PathVariable long estateId) {
 
         return reportService.generateReport(LocalDateTime.parse(from), LocalDateTime.parse(to), estateId);
     }
 
-    @GetMapping("/get/{simpleName}/{estateId}")
-    public ResponseEntity<Resource> getFile(@PathVariable String simpleName, @PathVariable long estateId) throws IOException {
-        File file = reportService.getReport(estateId, simpleName);
+    @GetMapping("/get/{estateId}")
+    public ResponseEntity<Resource> getFile(@PathVariable long estateId) throws IOException {
+        File file = reportService.getReport(estateId);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "attachment; filename=" + file.getName());
@@ -50,8 +52,14 @@ public class ReportController {
                 .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
                 .body(new InputStreamResource(resource));
 
-        }
-
-
+    }
+    @GetMapping("/reports/{userId}")
+    public Page<Report> getAllUsersReports(@PathVariable long userId,@RequestParam("pageSize") int pageSize,@RequestParam("pageNumber") int pageNumber) {
+        return reportService.getAllReportsOfAUser(userId, pageSize, pageNumber);
+    }
+    @GetMapping("/hello")
+    public String helloWorld() {
+        return " hi from server";
+    }
 
 }

@@ -5,7 +5,7 @@ import com.daria.realestate.domain.enums.PaymentTransactionType;
 
 import java.time.LocalDateTime;
 
-public class CreatedAppointmentDTO {
+public class AppointmentDTO {
     private final long appointmentId;
 
     private final LocalDateTime appointmentStart;
@@ -21,7 +21,7 @@ public class CreatedAppointmentDTO {
     private final String estateCity;
     private final String estateCountry;
 
-    public CreatedAppointmentDTO(long appointmentId, LocalDateTime appointmentStart, LocalDateTime appointmentEnd, String estatesOwnerEmail, String usersEmail, PaymentTransactionType paymentTransactionType, AcquisitionStatus acquisitionStatus, String fullEstateAddress, String estateCity, String estateCountry) {
+    public AppointmentDTO(long appointmentId, LocalDateTime appointmentStart, LocalDateTime appointmentEnd, String estatesOwnerEmail, String usersEmail, PaymentTransactionType paymentTransactionType, AcquisitionStatus acquisitionStatus, String fullEstateAddress, String estateCity, String estateCountry) {
         this.appointmentId = appointmentId;
         this.appointmentStart = appointmentStart;
         this.appointmentEnd = appointmentEnd;

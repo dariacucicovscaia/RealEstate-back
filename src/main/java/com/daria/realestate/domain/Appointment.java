@@ -25,6 +25,14 @@ public class Appointment {
         this.appointmentStatus = appointmentStatus;
         this.estate = estate;
     }
+    public Appointment(long id, LocalDateTime madeAt, LocalDateTime start, LocalDateTime end, AppointmentStatus appointmentStatus, Estate estate) {
+        this.id = id;
+        this.madeAt = madeAt;
+        this.start = start;
+        this.end = end;
+        this.appointmentStatus = appointmentStatus;
+        this.estate = estate;
+    }
 
     public Appointment(Long id, LocalDateTime madeAt, LocalDateTime start, LocalDateTime end, String appointmentStatus) {
         this.id = id;

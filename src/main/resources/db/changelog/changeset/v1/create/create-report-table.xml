@@ -9,14 +9,14 @@
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
     <changeSet id="create-report-table" author="DariaC">
         <createTable tableName="report">
-            <column name="estate_id" type="bigint"/>
-            <column name="drive_file_id" type="varchar(45)"/>
-
-            <column name="local_file_path" type="varchar(225)">
+            <column name="estate_id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+
+            <column name="file_path" type="varchar(225)"/>
             <column name="last_updated" type="timestamp"/>
             <column name="location" type="varchar(45)"/>
         </createTable>
+
     </changeSet>
 </databaseChangeLog>

@@ -12,8 +12,7 @@ public class ReportMapper implements RowMapper<Report> {
     public Report mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new Report(
                 rs.getLong("estate_id"),
-                rs.getString("drive_file_id"),
-                rs.getString("local_file_path"),
+                rs.getString("file_path"),
                 rs.getTimestamp("last_updated").toLocalDateTime(),
                 FileLocation.valueOf(rs.getString("location"))
         );

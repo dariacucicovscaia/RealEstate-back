@@ -2,16 +2,16 @@ package com.daria.realestate.dao.mappers;
 
 import com.daria.realestate.domain.enums.AcquisitionStatus;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
-import com.daria.realestate.dto.CreatedAppointmentDTO;
+import com.daria.realestate.dto.AppointmentDTO;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class CreatedAppointmentDTOMapper implements RowMapper<CreatedAppointmentDTO> {
+public class CreatedAppointmentDTOMapper implements RowMapper<AppointmentDTO> {
     @Override
-    public CreatedAppointmentDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return new CreatedAppointmentDTO(
+    public AppointmentDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return new AppointmentDTO(
                 rs.getLong("id"),
                 rs.getTimestamp("appointment_start").toLocalDateTime(),
                 rs.getTimestamp("appointment_end").toLocalDateTime(),

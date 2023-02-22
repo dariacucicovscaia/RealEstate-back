@@ -2,9 +2,7 @@ package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.UserAppointmentDAO;
 import com.daria.realestate.dao.mappers.CreatedAppointmentDTOMapper;
-import com.daria.realestate.domain.Appointment;
-import com.daria.realestate.domain.User;
-import com.daria.realestate.dto.CreatedAppointmentDTO;
+import com.daria.realestate.dto.AppointmentDTO;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -33,7 +31,7 @@ public class UserAppointmentDAOImpl implements UserAppointmentDAO {
     }
 
     @Override
-    public CreatedAppointmentDTO create(long userId, long appointmentId) {
+    public AppointmentDTO create(long userId, long appointmentId) {
         jdbcTemplate.update(INSERT_INTO_USER_APPOINTMENT, userId, appointmentId);
         return getCreatedAppointment(userId, appointmentId);
     }
@@ -43,7 +41,7 @@ public class UserAppointmentDAOImpl implements UserAppointmentDAO {
         return jdbcTemplate.update(DELETE_FROM_USER_APPOINTMENT, userId, appointmentId);
     }
 
-    private CreatedAppointmentDTO getCreatedAppointment(long userId, long appointmentId){
+    private AppointmentDTO getCreatedAppointment(long userId, long appointmentId){
        return jdbcTemplate.queryForObject(GET_CREATED_APPOINTMENT_DTO,
                 new CreatedAppointmentDTOMapper(),
                 userId,

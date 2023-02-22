@@ -4,8 +4,8 @@ public class DynamicApplicationConfiguration {
     private String configName;
     private String body;
     private String configType;
-
     private String status;
+
 
     public DynamicApplicationConfiguration(String configName, String configType, String body, String status) {
         this.configName = configName;

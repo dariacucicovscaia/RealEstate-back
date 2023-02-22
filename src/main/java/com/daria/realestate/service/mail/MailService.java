@@ -1,8 +1,7 @@
 package com.daria.realestate.service.mail;
 
-import com.daria.realestate.domain.Appointment;
-import com.daria.realestate.dto.CreatedAppointmentDTO;
+import com.daria.realestate.dto.AppointmentDTO;
 
 public interface MailService {
-    CreatedAppointmentDTO appointmentConfirmationEmail(CreatedAppointmentDTO appointment);
+    AppointmentDTO appointmentConfirmationEmail(AppointmentDTO appointment);
 }

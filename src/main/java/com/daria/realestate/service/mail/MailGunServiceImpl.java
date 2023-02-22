@@ -1,15 +1,15 @@
 package com.daria.realestate.service.mail;
 
 import com.daria.realestate.dao.DynamicApplicationConfigurationDAO;
-import com.daria.realestate.dao.EstateDAO;
-import com.daria.realestate.domain.Appointment;
-import com.daria.realestate.dto.CreatedAppointmentDTO;
-import com.daria.realestate.dto.EstateDTO;
+import com.daria.realestate.dto.AppointmentDTO;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mailgun.api.v3.MailgunMessagesApi;
 import com.mailgun.client.MailgunClient;
 import com.mailgun.model.message.Message;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -20,16 +20,17 @@ import org.springframework.stereotype.Service;
 public class MailGunServiceImpl implements MailService {
 
     private final DynamicApplicationConfigurationDAO dynamicApplicationConfigurationDAO;
-    private final EstateDAO estateDAO;
+
+    Logger logger = LoggerFactory.getLogger(MailGunServiceImpl.class);
 
 
-    public MailGunServiceImpl(DynamicApplicationConfigurationDAO dynamicApplicationConfigurationDAO, EstateDAO estateDAO) {
+    public MailGunServiceImpl(DynamicApplicationConfigurationDAO dynamicApplicationConfigurationDAO) {
         this.dynamicApplicationConfigurationDAO = dynamicApplicationConfigurationDAO;
-        this.estateDAO = estateDAO;
+
     }
 
     @Override
-    public CreatedAppointmentDTO appointmentConfirmationEmail(CreatedAppointmentDTO appointment) {
+    public AppointmentDTO appointmentConfirmationEmail(AppointmentDTO appointment) {
         MailgunMessagesApi mailgunMessagesApi = MailgunClient.config(getProperty("api_key"))
                 .createApi(MailgunMessagesApi.class);
 
@@ -41,16 +42,16 @@ public class MailGunServiceImpl implements MailService {
                 .mailgunVariables("{\n" +
                         "    \"date\":\"Start: " + appointment.getAppointmentStart() + ", End: " + appointment.getAppointmentEnd() + "\",\n" +
                         "    \"address\":\"Str " + appointment.getFullEstateAddress() + ", " + appointment.getEstateCity() + ", " + appointment.getEstateCountry() + "\",\n" +
-                        "    \"ownerEmail\":\"" +appointment.getEstatesOwnerEmail() + "\",\n" +
+                        "    \"ownerEmail\":\"" + appointment.getEstatesOwnerEmail() + "\",\n" +
                         "    \"href\":\"http://localhost:8080/api/v1/appointment/update/confirm-status/" + appointment.getAppointmentId() + "\"\n" +
                         "}")
                 .build();
 
-       //TODO refactor using string utils comms lang
-       if( mailgunMessagesApi.sendMessage(getProperty("domain_name"), message).getId() != null){
-           return appointment;
-       }else
-        return null;
+        if (StringUtils.isNotBlank(mailgunMessagesApi.sendMessage(getProperty("domain_name"), message).getId())) {
+            logger.info("The message was sent from MailGun");
+            return appointment;
+        } else
+            return null;
     }
 
     private String getProperty(String key) {

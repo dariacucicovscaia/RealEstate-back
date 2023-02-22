@@ -5,12 +5,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FileServiceFactory {
+public class FileInstanceServiceFactory {
     private FileOperations localReportService;
 
     private FileOperations driveService;
 
-    public FileServiceFactory(@Qualifier("localReportServiceImpl") FileOperations localReportService, @Qualifier("driveServiceImpl") FileOperations driveService) {
+    public FileInstanceServiceFactory(@Qualifier("localReportServiceImpl") FileOperations localReportService, @Qualifier("driveServiceImpl") FileOperations driveService) {
         this.localReportService = localReportService;
         this.driveService = driveService;
     }

@@ -3,7 +3,7 @@ package com.daria.realestate.service.report;
 import com.daria.realestate.configuration.DriveConfig;
 import com.daria.realestate.dao.ReportDAO;
 import com.daria.realestate.domain.Report;
-import com.daria.realestate.dto.enums.FileLocation;
+import com.daria.realestate.service.DriveService;
 import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
@@ -13,12 +13,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.time.LocalDateTime;
 
 @Service
 @Qualifier("driveServiceImpl")
 @Scope("prototype")
-public class DriveReportServiceImpl implements FileOperations {
+public class DriveReportServiceImpl implements FileOperations, DriveService {
     private final DriveConfig driveConfig;
     private final ReportDAO reportDAO;
     private final String MIME_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -28,7 +27,7 @@ public class DriveReportServiceImpl implements FileOperations {
         this.reportDAO = reportDAO;
     }
 
-    //    @Override
+    @Override
     public File getFileByName(String fileName) {
         FileList result;
         try {
@@ -49,8 +48,8 @@ public class DriveReportServiceImpl implements FileOperations {
 
     @Override
     public String saveFile(String filePath, Workbook workbook) {
-        String path = saveFileOnLocalMachine(filePath,workbook);
-        int lastIndex = path.lastIndexOf("\\") ;
+        String path = saveFileOnLocalMachine(filePath, workbook);
+        int lastIndex = path.lastIndexOf("\\");
         String fileName = path.substring(lastIndex + 1);
         File uploadedFile;
         if (getFileByName(fileName) != null) {
@@ -80,8 +79,6 @@ public class DriveReportServiceImpl implements FileOperations {
 
         }
 
-        //reportDAO.update(new Report(estateId, uploadedFile.getId(), filePath, LocalDateTime.now(), FileLocation.drive));
-
         return uploadedFile.getId();
     }
 
@@ -90,20 +87,20 @@ public class DriveReportServiceImpl implements FileOperations {
         if (!file.exists()) {
             file.getParentFile().mkdirs();
         }
-        try(FileOutputStream fileOutputStream = new FileOutputStream(file)) {
+        try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
             workbook.write(fileOutputStream);
             workbook.close();
-            //  reportDAO.create(new Report(estateId, null, filePath, LocalDateTime.now(), FileLocation.local));
+
             return file.getPath();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public ByteArrayOutputStream downloadFile(String fileName) {
+    private ByteArrayOutputStream downloadFile(String realFileId) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try {
-            driveConfig.getDriveService().files().get(getFileByName(fileName).getId())
+            driveConfig.getDriveService().files().get(realFileId)
                     .executeMediaAndDownloadTo(outputStream);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -112,19 +109,18 @@ public class DriveReportServiceImpl implements FileOperations {
     }
 
     @Override
-    public java.io.File getFile(long estateId, String fileName) {
+    public java.io.File download(long estateId, String realFileId) {
         Report report = reportDAO.getById(estateId);
 
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream(report.getLocalFilePath());
-            downloadFile(fileName).writeTo(fileOutputStream);
+            FileOutputStream fileOutputStream = new FileOutputStream(report.getFilePath());
+            downloadFile(realFileId).writeTo(fileOutputStream);
 
-            reportDAO.update(new Report(estateId, getFileByName(fileName).getId(), report.getLocalFilePath(), LocalDateTime.now(), FileLocation.drive));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
 
-        return new java.io.File(report.getLocalFilePath());
+        return new java.io.File(report.getFilePath());
     }
 }

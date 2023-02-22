@@ -1,10 +1,7 @@
 package com.daria.realestate.service.mail;
 
 import com.daria.realestate.dao.DynamicApplicationConfigurationDAO;
-import com.daria.realestate.dao.EstateDAO;
-import com.daria.realestate.domain.Appointment;
-import com.daria.realestate.dto.CreatedAppointmentDTO;
-import com.daria.realestate.dto.EstateDTO;
+import com.daria.realestate.dto.AppointmentDTO;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sendgrid.Method;
@@ -13,6 +10,8 @@ import com.sendgrid.SendGrid;
 import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Email;
 import com.sendgrid.helpers.mail.objects.Personalization;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -23,11 +22,11 @@ import java.io.IOException;
 @Qualifier("sendgridService")
 @Scope("prototype")
 public class SendGridServiceImpl implements MailService {
-    private final EstateDAO estateDAO;
+    Logger logger = LoggerFactory.getLogger(SendGridServiceImpl.class);
+
     private final DynamicApplicationConfigurationDAO dynamicApplicationConfigurationDAO;
 
-    public SendGridServiceImpl(EstateDAO estateDAO, DynamicApplicationConfigurationDAO dynamicApplicationConfigurationDAO) {
-        this.estateDAO = estateDAO;
+    public SendGridServiceImpl( DynamicApplicationConfigurationDAO dynamicApplicationConfigurationDAO) {
         this.dynamicApplicationConfigurationDAO = dynamicApplicationConfigurationDAO;
     }
 
@@ -55,7 +54,7 @@ public class SendGridServiceImpl implements MailService {
     }
 
     @Override
-    public CreatedAppointmentDTO appointmentConfirmationEmail(CreatedAppointmentDTO appointment) {
+    public AppointmentDTO appointmentConfirmationEmail(AppointmentDTO appointment) {
 
         Email from = new Email("daria.cucicovscaia@stefanini.com");
 
@@ -79,6 +78,7 @@ public class SendGridServiceImpl implements MailService {
             request.setBody(mail.build());
 
             if (sg.api(request).getStatusCode() == 202) {
+                logger.info("The message was sent using SendGrid");
                 return appointment;
             } else return null;
         } catch (IOException ex) {

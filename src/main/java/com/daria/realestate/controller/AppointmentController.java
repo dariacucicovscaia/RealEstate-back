@@ -1,17 +1,17 @@
 package com.daria.realestate.controller;
 
 import com.daria.realestate.domain.Appointment;
-import com.daria.realestate.dto.CreatedAppointmentDTO;
+import com.daria.realestate.dto.AppointmentDTO;
 import com.daria.realestate.dto.Page;
 import com.daria.realestate.domain.enums.AppointmentStatus;
 import com.daria.realestate.service.AppointmentService;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/appointment")
+@CrossOrigin
 public class AppointmentController {
     private final AppointmentService appointmentService;
     public AppointmentController(AppointmentService appointmentService) {
@@ -19,7 +19,7 @@ public class AppointmentController {
     }
 
     @PostMapping("/create/{userId}")
-    public CreatedAppointmentDTO createAppointment(@RequestBody Appointment appointment, @PathVariable long userId) {
+    public AppointmentDTO createAppointment(@RequestBody Appointment appointment, @PathVariable long userId) {
         return appointmentService.createAppointment(appointment, userId);
     }
 

@@ -14,6 +14,7 @@ public class User {
     private List<Appointment> appointment;
     private List<Role> roles;
 
+
     public User(Long id, String email, String password) {
         this.id = id;
         this.email = email;

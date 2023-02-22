@@ -53,6 +53,10 @@ public class Estate {
         this.owner = owner;
     }
 
+    public Estate(Address address) {
+        this.address = address;
+    }
+
 
     public Address getAddress() {
         return address;

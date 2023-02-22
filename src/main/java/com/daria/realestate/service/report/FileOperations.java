@@ -6,6 +6,4 @@ import java.io.File;
 
 public interface FileOperations {
     String saveFile(String filePath, Workbook workbook);
-
-    File getFile(long estateId, String fileName);
 }

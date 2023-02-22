@@ -10,6 +10,9 @@ import com.daria.realestate.domain.User;
 import com.daria.realestate.domain.enums.Role;
 import com.daria.realestate.dto.RegistrationDTO;
 import com.daria.realestate.service.UserService;
+import com.daria.realestate.service.mail.SendGridServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,7 +22,7 @@ public class UserServiceImpl implements UserService {
     private final ProfileDAO profileDAO;
     private final AddressDAO addressDAO;
     private final UserRoleDAO userRoleDAO;
-
+    Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     public UserServiceImpl(UserDAO userDAO, ProfileDAO profileDAO, AddressDAO addressDAO, UserRoleDAO userRoleDAO) {
         this.userDAO = userDAO;
@@ -50,7 +53,12 @@ public class UserServiceImpl implements UserService {
         User user = userDAO.create(new User(registrationDTO.getEmail(), registrationDTO.getPassword()));
         Address address = addressDAO.create(new Address(registrationDTO.getFullAddress(), registrationDTO.getCity(), registrationDTO.getCountry()));
         Profile profile = profileDAO.create(new Profile(registrationDTO.getFirstName(), registrationDTO.getLastName(), registrationDTO.getPhoneNumber(), address, user));
-        Role role = userRoleDAO.create(user.getId(), registrationDTO.getRole());
+        Role role;
+        if(registrationDTO.getRole() == null){
+            role = userRoleDAO.create(user.getId(), Role.USER);
+        }else{
+            role = userRoleDAO.create(user.getId(), registrationDTO.getRole());
+        }
 
         return new RegistrationDTO(
                 user.getEmail(),

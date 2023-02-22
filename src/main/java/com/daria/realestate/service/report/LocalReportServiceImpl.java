@@ -25,7 +25,7 @@ public class LocalReportServiceImpl implements FileOperations {
             fos = new FileOutputStream(file);
             workbook.write(fos);
             workbook.close();
-            //  reportDAO.create(new Report(estateId, null, filePath, LocalDateTime.now(), FileLocation.local));
+
             return file.getPath();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -38,11 +38,6 @@ public class LocalReportServiceImpl implements FileOperations {
                 System.out.println("Failed to close streams");
             }
         }
-    }
-
-    @Override
-    public File getFile(long estateId, String fileName) {
-        return null;
     }
 
 }

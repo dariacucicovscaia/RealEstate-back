@@ -3,11 +3,11 @@ package com.daria.realestate.service.impl;
 import com.daria.realestate.dao.*;
 import com.daria.realestate.domain.*;
 import com.daria.realestate.domain.enums.AppointmentStatus;
-import com.daria.realestate.dto.CreatedAppointmentDTO;
+import com.daria.realestate.dto.AppointmentDTO;
 import com.daria.realestate.dto.Page;
 import com.daria.realestate.dto.enums.MailLocation;
 import com.daria.realestate.service.AppointmentService;
-import com.daria.realestate.service.mail.MailServiceFactory;
+import com.daria.realestate.service.mail.MailInstanceServiceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -20,25 +20,25 @@ public class AppointmentServiceImpl implements AppointmentService {
     private final AppointmentDAO appointmentDAO;
     private final UserAppointmentDAO userAppointmentDAO;
     private final DynamicApplicationConfigurationDAO dynamicApplicationConfigurationDAO;
-    private final MailServiceFactory mailServiceFactory;
+    private final MailInstanceServiceFactory mailInstanceServiceFactory;
 
     Logger logger = LoggerFactory.getLogger(AppointmentServiceImpl.class);
 
-    public AppointmentServiceImpl(AppointmentDAO appointmentDAO, UserAppointmentDAO userAppointmentDAO, DynamicApplicationConfigurationDAO dynamicApplicationConfigurationDAO, MailServiceFactory mailServiceFactory) {
+    public AppointmentServiceImpl(AppointmentDAO appointmentDAO, UserAppointmentDAO userAppointmentDAO, DynamicApplicationConfigurationDAO dynamicApplicationConfigurationDAO, MailInstanceServiceFactory mailInstanceServiceFactory) {
         this.appointmentDAO = appointmentDAO;
         this.userAppointmentDAO = userAppointmentDAO;
         this.dynamicApplicationConfigurationDAO = dynamicApplicationConfigurationDAO;
-        this.mailServiceFactory = mailServiceFactory;
+        this.mailInstanceServiceFactory = mailInstanceServiceFactory;
     }
 
     @Override
-    public CreatedAppointmentDTO createAppointment(Appointment appointment, long userId) {
+    public AppointmentDTO createAppointment(Appointment appointment, long userId) {
         Appointment createdAppointment = appointmentDAO.create(appointment);
-        CreatedAppointmentDTO createdAppointmentDTO = userAppointmentDAO.create(userId, createdAppointment.getId());
+        AppointmentDTO appointmentDTO = userAppointmentDAO.create(userId, createdAppointment.getId());
 
         MailLocation mailLocation = MailLocation.valueOf(dynamicApplicationConfigurationDAO.getByConfigNameAndStatus("mail", "active").getConfigType());
 
-        return mailServiceFactory.createInstance(mailLocation).appointmentConfirmationEmail(createdAppointmentDTO);
+        return mailInstanceServiceFactory.createInstance(mailLocation).appointmentConfirmationEmail(appointmentDTO);
     }
 
     @Override

@@ -24,7 +24,13 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
 
     @Override
     public List<Appointment> usersAppointmentsByAppointmentStatus(long userId, AppointmentStatus appointmentStatus, PaginationFilter paginationFilter) {
-        String SQL_GET_ALL_USERS_APPOINTMENTS_BY_A_STATUS = " select a.* from user_appointment as ua " + " inner join `user` as u on ua.user_id = u.id " + " inner join appointment as a on ua.appointment_id = a.id " + " where u.id = ? and appointment_status= ? " + " limit ? offset ? ";
+        String SQL_GET_ALL_USERS_APPOINTMENTS_BY_A_STATUS =
+                " select a.*, address.* from user_appointment as ua " +
+                        " inner join `user` as u on ua.user_id = u.id " +
+                        " inner join appointment as a on ua.appointment_id = a.id " +
+                        " inner join `estate` as e on e.id = a.estate_id "+
+                        " inner join `address` on address.id=e.address_id " +
+                        " where u.id = ? and appointment_status= ? " + " limit ? offset ? ";
         return getJdbcTemplate().query(SQL_GET_ALL_USERS_APPOINTMENTS_BY_A_STATUS,
                 new AppointmentMapper(),
                 userId, appointmentStatus.toString(),
@@ -44,7 +50,13 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
 
     @Override
     public List<Appointment> appointmentsOfAUser(long id, PaginationFilter paginationFilter) {
-        String SQL_GET_APPOINTMENTS_OF_A_USER = " select a.* from user_appointment as ua " + " inner join `user` as u on ua.user_id = u.id  " + " inner join appointment as a on ua.appointment_id = a.id " + " where u.id = ?  limit ? offset ? ";
+        String SQL_GET_APPOINTMENTS_OF_A_USER =
+                " select a.*, address.* from user_appointment as ua " +
+                        " inner join `user` as u on ua.user_id = u.id  " +
+                        " inner join appointment as a on ua.appointment_id = a.id " +
+                        " inner join `estate` as e on e.id = a.estate_id "+
+                        " inner join `address` on address.id=e.address_id " +
+                        " where u.id = ?  limit ? offset ? ";
 
         return getJdbcTemplate().query(SQL_GET_APPOINTMENTS_OF_A_USER,
                 new AppointmentMapper(),
@@ -54,7 +66,13 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
 
     @Override
     public Integer countAppointmentsOfAUser(long id) {
-        String SQL_COUNT_APPOINTMENTS_OF_A_USER = " select count(*) from user_appointment as ua " + " inner join `user` as u on ua.user_id = u.id  " + " inner join appointment as a on ua.appointment_id = a.id " + " where u.id = ? ";
+        String SQL_COUNT_APPOINTMENTS_OF_A_USER =
+                " select count(*) from user_appointment as ua " +
+                        " inner join `user` as u on ua.user_id = u.id  " +
+                        " inner join appointment as a on ua.appointment_id = a.id " +
+                        " inner join `estate` as e on e.id = a.estate_id "+
+                        " inner join `address` on address.id=e.address_id " +
+                        " where u.id = ? ";
 
         return getJdbcTemplate().queryForObject(SQL_COUNT_APPOINTMENTS_OF_A_USER,
                 Integer.class,

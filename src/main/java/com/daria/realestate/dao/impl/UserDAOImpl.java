@@ -1,6 +1,7 @@
 package com.daria.realestate.dao.impl;
 
 import com.daria.realestate.dao.UserDAO;
+import com.daria.realestate.dao.mappers.UserMapper;
 import com.daria.realestate.dao.mappers.UserWithNoPasswordMapper;
 import com.daria.realestate.domain.User;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -55,7 +56,7 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
 
     @Override
     public User getUserByEmail(String email) {
-        return getJdbcTemplate().queryForObject(SQL_GET_USER_BY_EMAIL, new UserWithNoPasswordMapper(), email);
+        return getJdbcTemplate().queryForObject(SQL_GET_USER_BY_EMAIL, new UserMapper(), email);
     }
 
     @Override

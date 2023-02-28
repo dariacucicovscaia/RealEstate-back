@@ -15,7 +15,7 @@
             <column name="email" type="varchar(45)">
                 <constraints nullable="false"/>
             </column>
-            <column name="password" type="varchar(45)">
+            <column name="password" type="varchar(256)">
                 <constraints nullable="false"/>
             </column>
 

@@ -10,9 +10,9 @@ import com.daria.realestate.domain.User;
 import com.daria.realestate.domain.enums.Role;
 import com.daria.realestate.dto.RegistrationDTO;
 import com.daria.realestate.service.UserService;
-import com.daria.realestate.service.mail.SendGridServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,18 +22,22 @@ public class UserServiceImpl implements UserService {
     private final ProfileDAO profileDAO;
     private final AddressDAO addressDAO;
     private final UserRoleDAO userRoleDAO;
+    private final BCryptPasswordEncoder passwordEncoder;
     Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
-    public UserServiceImpl(UserDAO userDAO, ProfileDAO profileDAO, AddressDAO addressDAO, UserRoleDAO userRoleDAO) {
+    public UserServiceImpl(UserDAO userDAO, ProfileDAO profileDAO, AddressDAO addressDAO, UserRoleDAO userRoleDAO, BCryptPasswordEncoder passwordEncoder) {
         this.userDAO = userDAO;
         this.profileDAO = profileDAO;
         this.addressDAO = addressDAO;
         this.userRoleDAO = userRoleDAO;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public User getUserByEmail(String email) {
-        return userDAO.getUserByEmail(email);
+        User user = userDAO.getUserByEmail(email);
+        user.setRoles(userRoleDAO.getRolesOfAUser(user.getId()));
+        return user;
     }
 
     @Override
@@ -50,7 +54,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public RegistrationDTO registerUser(RegistrationDTO registrationDTO) {
-        User user = userDAO.create(new User(registrationDTO.getEmail(), registrationDTO.getPassword()));
+        User user = userDAO.create(new User(registrationDTO.getEmail(), passwordEncoder.encode(registrationDTO.getPassword())));
         Address address = addressDAO.create(new Address(registrationDTO.getFullAddress(), registrationDTO.getCity(), registrationDTO.getCountry()));
         Profile profile = profileDAO.create(new Profile(registrationDTO.getFirstName(), registrationDTO.getLastName(), registrationDTO.getPhoneNumber(), address, user));
         Role role;

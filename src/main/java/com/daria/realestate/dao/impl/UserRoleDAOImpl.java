@@ -37,6 +37,6 @@ public class UserRoleDAOImpl implements UserRoleDAO {
 
     @Override
     public List<Role> getRolesOfAUser(long userId) {
-        return jdbcTemplate.query(SQL_SELECT_ALL_ROLES_OF_A_USER,new RoleMapper(), userId);
+        return jdbcTemplate.query(SQL_SELECT_ALL_ROLES_OF_A_USER, new RoleMapper(), userId);
     }
 }

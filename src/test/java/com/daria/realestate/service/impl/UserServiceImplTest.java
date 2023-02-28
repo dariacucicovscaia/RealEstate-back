@@ -34,7 +34,7 @@ public class UserServiceImplTest {
         userRoleDAO = mock(UserRoleDAOImpl.class);
         profileDAO = mock(ProfileDAOImpl.class);
         addressDAO = mock(AddressDAOImpl.class);
-        serviceUnderTests = new UserServiceImpl( userDAO, profileDAO, addressDAO,  userRoleDAO);
+       // serviceUnderTests = new UserServiceImpl( userDAO, profileDAO, addressDAO,  userRoleDAO, passwordEncoder);
     }
 
     @Test

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class JWTAuthTokenFilter extends OncePerRequestFilter {
+public class JWTOncePerRequestFilter extends OncePerRequestFilter {
     private JWTProvider jwtProvider;
     @Autowired
     public void setJwtProvider(JWTProvider jwtProvider) {

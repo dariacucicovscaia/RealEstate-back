@@ -1,20 +1,20 @@
 package com.daria.realestate.configuration.security.jwt;
 
+import com.daria.realestate.configuration.security.core.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 import java.util.stream.Collectors;
+
 
 @Service
 public class JWTProvider {
@@ -46,13 +46,14 @@ public class JWTProvider {
     }
 
     public String createToken(Authentication authentication) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
         Claims claims = Jwts.claims().setSubject(userDetails.getUsername());
-        claims.put("roles", userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
+        claims.put("id", userDetails.getId());
+        claims.put("email", userDetails.getUsername());
+        claims.put("roles", userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toUnmodifiableList()));
 
         return Jwts.builder()
-                .setSubject(userDetails.getUsername())
                 .setClaims(claims)
                 .signWith(SignatureAlgorithm.HS256, secret.getBytes(StandardCharsets.UTF_8))
                 .setIssuedAt(new Date())
@@ -63,10 +64,12 @@ public class JWTProvider {
     public Authentication getAuthentication(String token) {
         Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(secret.getBytes()).build().parseClaimsJws(token);
 
-        Collection<? extends GrantedAuthority> authorities = claims.getBody().get("roles", ArrayList.class);
-        return new UsernamePasswordAuthenticationToken(
-                claims.getSignature(),
-                null,
+        List<String> roles = claims.getBody().get("roles", ArrayList.class);
+
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        roles.stream().forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
+
+        return new UsernamePasswordAuthenticationToken(claims.getBody().getSubject(), "",
                 authorities);
     }
 }

@@ -1,7 +1,7 @@
 package com.daria.realestate.controller;
 
 import com.daria.realestate.dto.LoginDTO;
-import com.daria.realestate.service.AuthService;
+import com.daria.realestate.service.AuthenticationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,17 +11,16 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class AuthController {
 
-    private final AuthService authService;
+    private final AuthenticationService authenticationService;
 
-    public AuthController(AuthService authService) {
-        this.authService = authService;
+    public AuthController(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
     }
 
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
-
-        return ResponseEntity.ok(authService.login(loginDTO));
+        return ResponseEntity.ok(authenticationService.login(loginDTO));
 
     }
 }

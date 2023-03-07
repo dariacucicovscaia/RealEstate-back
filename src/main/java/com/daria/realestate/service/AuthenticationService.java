@@ -2,6 +2,6 @@ package com.daria.realestate.service;
 
 import com.daria.realestate.dto.LoginDTO;
 
-public interface AuthService {
+public interface AuthenticationService {
     String login(LoginDTO loginDTO);
 }

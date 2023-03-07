@@ -5,6 +5,7 @@ public class Profile {
     private String firstName;
     private String lastName;
     private String phoneNumber;
+    private String profilePicture;
 
     private Address address;
     private User user;
@@ -12,8 +13,9 @@ public class Profile {
     public Profile() {
     }
 
-    public Profile(Long id, String firstName, String lastName, String phoneNumber) {
+    public Profile(Long id, String profilePicture,String firstName, String lastName, String phoneNumber) {
         this.id = id;
+        this.profilePicture = profilePicture;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
@@ -26,10 +28,19 @@ public class Profile {
         this.address = address;
         this.user = user;
     }
+
     public Profile(String firstName, String lastName, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 
     public Long getId() {

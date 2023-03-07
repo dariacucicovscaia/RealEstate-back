@@ -6,6 +6,7 @@ import com.daria.realestate.domain.enums.TypeOfEstate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class EstateDTO {
     private final PaymentTransactionType paymentTransactionType;
@@ -30,7 +31,9 @@ public class EstateDTO {
     private final LocalDateTime lastPriceUpdatedAt;
     private final String currency;
 
-    public EstateDTO(PaymentTransactionType paymentTransactionType, AcquisitionStatus acquisitionStatus, LocalDateTime createdAt, LocalDateTime lastUpdatedAt, int squareMeters, int numberOfRooms, int numberOfBathRooms, int numberOfGarages, LocalDate yearOfConstruction, TypeOfEstate typeOfEstate, String fullAddress, String city, String country, String email, Long price, LocalDateTime lastPriceUpdatedAt, String currency) {
+    private List<String> estatePhotos;
+
+    public EstateDTO(PaymentTransactionType paymentTransactionType, AcquisitionStatus acquisitionStatus, LocalDateTime createdAt, LocalDateTime lastUpdatedAt, int squareMeters, int numberOfRooms, int numberOfBathRooms, int numberOfGarages, LocalDate yearOfConstruction, TypeOfEstate typeOfEstate, String fullAddress, String city, String country, String email, Long price, LocalDateTime lastPriceUpdatedAt, String currency, List<String> estatePhotos) {
         this.paymentTransactionType = paymentTransactionType;
         this.acquisitionStatus = acquisitionStatus;
         this.createdAt = createdAt;
@@ -48,6 +51,7 @@ public class EstateDTO {
         this.price = price;
         this.lastPriceUpdatedAt = lastPriceUpdatedAt;
         this.currency = currency;
+        this.estatePhotos = estatePhotos;
     }
 
     public PaymentTransactionType getPaymentTransactionType() {
@@ -138,6 +142,14 @@ public class EstateDTO {
         return currency;
     }
 
+    public List<String> getEstatePhotos() {
+        return estatePhotos;
+    }
+
+    public void setEstatePhotos(List<String> estatePhotos) {
+        this.estatePhotos = estatePhotos;
+    }
+
     @Override
     public String toString() {
         return "EstateDTO{" +
@@ -158,6 +170,8 @@ public class EstateDTO {
                 ", price=" + price +
                 ", lastPriceUpdatedAt=" + lastPriceUpdatedAt +
                 ", currency='" + currency + '\'' +
+                ", estatePhotos='" + estatePhotos + '\'' +
                 '}';
     }
+
 }

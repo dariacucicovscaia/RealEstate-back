@@ -1,9 +1,9 @@
 package com.daria.realestate.domain;
 
 import com.daria.realestate.domain.enums.AcquisitionStatus;
-import com.daria.realestate.domain.enums.PaymentTransactionType;
-
+import com.daria.realestate.domain.enums.PaymentTransactionType;;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 public class Estate {
@@ -13,6 +13,7 @@ public class Estate {
     private LocalDateTime createdAt;
     private LocalDateTime lastUpdatedAt;
 
+    private List<String> estatePhotos;
     private Address address;
     private User owner;
 
@@ -35,6 +36,10 @@ public class Estate {
         this.lastUpdatedAt = lastUpdatedAt;
         this.address = address;
         this.owner = owner;
+    }
+
+    public Estate(Long id) {
+        this.id = id;
     }
 
     public Estate(String paymentTransactionType, String acquisitionStatus, LocalDateTime createdAt, LocalDateTime lastUpdatedAt) {
@@ -113,6 +118,14 @@ public class Estate {
 
     public void setAcquisitionStatus(AcquisitionStatus acquisitionStatus) {
         this.acquisitionStatus = acquisitionStatus;
+    }
+
+    public List<String> getEstatePhotos() {
+        return estatePhotos;
+    }
+
+    public void setEstatePhotos(List<String> estatePhotos) {
+        this.estatePhotos = estatePhotos;
     }
 
     @Override

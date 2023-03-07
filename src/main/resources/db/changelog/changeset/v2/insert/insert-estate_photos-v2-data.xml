@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+   http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="insert-estate_photos-data" author="DariaC">
+        <insert tableName="estate_photos">
+            <column name="estate_id" value="1"/>
+            <column name="image_path" value="/estate/e1.png"/>
+        </insert>
+        <insert tableName="estate_photos">
+            <column name="estate_id" value="1"/>
+            <column name="image_path" value="/estate/e2.png"/>
+        </insert>
+        <insert tableName="estate_photos">
+            <column name="estate_id" value="1"/>
+            <column name="image_path" value="/estate/e3.png"/>
+        </insert>
+        <insert tableName="estate_photos">
+            <column name="estate_id" value="1"/>
+            <column name="image_path" value="/estate/e4.png"/>
+        </insert>
+
+    </changeSet>
+    <changeSet id="insert-estate_photos-data-2" author="DariaC">
+        <insert tableName="estate_photos">
+            <column name="estate_id" value="14"/>
+            <column name="image_path" value="/estate/e2.1.png"/>
+        </insert>
+        <insert tableName="estate_photos">
+            <column name="estate_id" value="14"/>
+            <column name="image_path" value="/estate/e2.2.jpg"/>
+        </insert>
+        <insert tableName="estate_photos">
+            <column name="estate_id" value="14"/>
+            <column name="image_path" value="/estate/e2.3.jpeg"/>
+        </insert>
+        <insert tableName="estate_photos">
+            <column name="estate_id" value="14"/>
+            <column name="image_path" value="/estate/e2.4.jpg"/>
+        </insert>
+
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+   http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet id="create-estate_photos-v2-table" author="DariaC">
+        <createTable tableName="estate_photos">
+            <column name="estate_id" type="bigint" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="image_path" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="DariaC" id="addUniqueConstraint-estate_photos-table">
+        <addUniqueConstraint
+                columnNames="estate_id, image_path"
+                constraintName="unique_constraint"
+                tableName="estate_photos"
+        />
+    </changeSet>
+</databaseChangeLog>

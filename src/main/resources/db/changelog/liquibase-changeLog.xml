@@ -8,6 +8,34 @@
    http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-   <includeAll path="db\changelog\changeset\v1\"/>
+    <!--   <includeAll  path="db\changelog\changeset\v1\" />-->
+    <!-- create -->
+    <include file="db/changelog/changeset/v1/create/create-address-table.xml"/>
+    <include file="db/changelog/changeset/v1/create/create-appointment-table.xml"/>
+    <include file="db/changelog/changeset/v1/create/create-dynamic_application_configuration-table.xml"/>
+    <include file="db/changelog/changeset/v1/create/create-estate-table.xml"/>
+    <include file="db/changelog/changeset/v1/create/create-estate_details-table.xml"/>
+    <include file="db/changelog/changeset/v1/create/create-price-table.xml"/>
+    <include file="db/changelog/changeset/v1/create/create-report-table.xml"/>
+    <include file="db/changelog/changeset/v1/create/create-user_appointment-table.xml"/>
+    <include file="db/changelog/changeset/v1/create/create-user_role-table.xml"/>
 
+    <include file="/db/changelog/changeset/v2/create/create-profile-v2-table.xml"/>
+    <include file="/db/changelog/changeset/v2/create/create-estate_photos-v2-table.xml"/>
+    <include file="/db/changelog/changeset/v2/create/create-user-v2-table.xml"/>
+
+    <!--    insert -->
+    <include file="db/changelog/changeset/v1/insert/insert-address-data.xml"/>
+    <include file="db/changelog/changeset/v1/insert/insert-appointment-data.xml"/>
+    <include file="db/changelog/changeset/v1/insert/insert-dynamic_application_configuration-data.xml"/>
+    <include file="db/changelog/changeset/v1/insert/insert-estate-data.xml"/>
+    <include file="db/changelog/changeset/v1/insert/insert-estate_details-data.xml"/>
+    <include file="db/changelog/changeset/v1/insert/insert-price-data.xml"/>
+    <include file="db/changelog/changeset/v1/insert/insert-user_appointment-data.xml"/>
+    <include file="db/changelog/changeset/v1/insert/insert-user_role-data.xml"/>
+
+
+    <include file="db/changelog/changeset/v2/insert/insert-profile-v2-data.xml"/>
+    <include file="db/changelog/changeset/v2/insert/insert-user-v2-data.xml"/>
+    <include file="db/changelog/changeset/v2/insert/insert-estate_photos-v2-data.xml"/>
 </databaseChangeLog>

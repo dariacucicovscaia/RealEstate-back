@@ -1,10 +1,12 @@
 package com.daria.realestate.domain;
 
 
+import com.daria.realestate.domain.enums.AccountStatus;
 import com.daria.realestate.domain.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,6 +17,9 @@ public class User {
     private String email;
     @JsonIgnore
     private String password;
+    private AccountStatus accountStatus;
+    private LocalDateTime createdAt;
+
     private List<Appointment> appointment;
     private List<Role> roles = new ArrayList<>();
 
@@ -25,6 +30,12 @@ public class User {
         this.password = password;
     }
 
+    public User(long id, String email, AccountStatus accountStatus, LocalDateTime createdAt) {
+        this.id = id;
+        this.email = email;
+        this.accountStatus = accountStatus;
+        this.createdAt = createdAt;
+    }
 
     public User(Long id, String email) {
         this.id = id;
@@ -75,6 +86,21 @@ public class User {
         this.password = password;
     }
 
+    public AccountStatus getAccountStatus() {
+        return accountStatus;
+    }
+
+    public void setAccountStatus(AccountStatus accountStatus) {
+        this.accountStatus = accountStatus;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 
     @Override
     public String toString() {

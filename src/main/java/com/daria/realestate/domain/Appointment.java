@@ -40,7 +40,13 @@ public class Appointment {
         this.start = start;
         this.end = end;
         this.appointmentStatus = AppointmentStatus.valueOf(appointmentStatus);
+    }
 
+    public Appointment(LocalDateTime madeAt, LocalDateTime start, LocalDateTime end, AppointmentStatus appointmentStatus) {
+        this.madeAt = madeAt;
+        this.start = start;
+        this.end = end;
+        this.appointmentStatus = appointmentStatus;
     }
 
     public Long getId() {

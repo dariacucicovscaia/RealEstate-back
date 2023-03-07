@@ -8,12 +8,26 @@
    http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-<changeSet id="insert-dynamic_application_configuration-data" author="DariaC">
+    <changeSet id="insert-dynamic_application_configuration-data" author="DariaC">
 
         <insert tableName="dynamic_application_configuration">
             <column name="configuration_name" value="fileSettings"/>
             <column name="configuration_body" value="C:/Users/DCUCICOV/Documents/reports"/>
             <column name="configuration_type" value="local"/>
+            <column name="configuration_status" value="active"/>
+        </insert>
+
+    </changeSet>
+    <changeSet id="insert-dynamic_application_configuration-data-mailgun" author="DariaC">
+
+        <insert tableName="dynamic_application_configuration">
+            <column name="configuration_name" value="mail"/>
+            <column name="configuration_body" value=
+                    "{ &#34;api_key&#34; : &#34;0dc5f19222bba4cda13a05f3a73db41c-d1a07e51-cd275861&#34;,
+                    &#34;domain_name&#34; : &#34;sandboxd75a71bf392144d7bd5da93befe54057.mailgun.org&#34;,
+                    &#34;template_name&#34; : &#34;appointment_teamplate&#34; }"
+            />
+            <column name="configuration_type" value="mailgun"/>
             <column name="configuration_status" value="active"/>
         </insert>
 

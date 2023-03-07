@@ -33,7 +33,7 @@ public class EstateDTOMapper implements RowMapper<EstateDTO> {
 
                 rs.getLong("price"),
                 rs.getTimestamp("last_price_update").toLocalDateTime(),
-                rs.getString("concurrency")
-        );
+                rs.getString("concurrency"),
+                null);
     }
 }

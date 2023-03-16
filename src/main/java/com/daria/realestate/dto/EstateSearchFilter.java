@@ -4,6 +4,8 @@ import com.daria.realestate.domain.enums.AcquisitionStatus;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
 import com.daria.realestate.domain.enums.TypeOfEstate;
 
+import java.util.List;
+
 public class EstateSearchFilter {
     private final AcquisitionStatus acquisitionStatus;
     private final PaymentTransactionType paymentTransactionType;
@@ -17,14 +19,15 @@ public class EstateSearchFilter {
     private final int numberOfGaragesTo;
     private final String yearOfConstructionFrom;
     private final String yearOfConstructionTo;
-    private final TypeOfEstate typeOfEstate;
+    private List<TypeOfEstate> typeOfEstates;
     private final long priceFrom;
     private final long priceTo;
     private final String city;
     private final String country;
+    private boolean latestAdded;
 
 
-    public EstateSearchFilter(AcquisitionStatus acquisitionStatus, PaymentTransactionType paymentTransactionType, int squareMetersFrom, int squareMetersTo, int numberOfRoomsFrom, int numberOfRoomsTo, int numberOfBathroomsFrom, int numberOfBathroomsTo, int numberOfGaragesFrom, int numberOfGaragesTo, String yearOfConstructionFrom, String yearOfConstructionTo, TypeOfEstate typeOfEstate, long priceFrom, long priceTo, String city, String country) {
+    public EstateSearchFilter(AcquisitionStatus acquisitionStatus, PaymentTransactionType paymentTransactionType, int squareMetersFrom, int squareMetersTo, int numberOfRoomsFrom, int numberOfRoomsTo, int numberOfBathroomsFrom, int numberOfBathroomsTo, int numberOfGaragesFrom, int numberOfGaragesTo, String yearOfConstructionFrom, String yearOfConstructionTo,  List<TypeOfEstate> typeOfEstates, long priceFrom, long priceTo, String city, String country) {
         this.acquisitionStatus = acquisitionStatus;
         this.paymentTransactionType = paymentTransactionType;
         this.squareMetersFrom = squareMetersFrom;
@@ -37,7 +40,7 @@ public class EstateSearchFilter {
         this.numberOfGaragesTo = numberOfGaragesTo;
         this.yearOfConstructionFrom = yearOfConstructionFrom;
         this.yearOfConstructionTo = yearOfConstructionTo;
-        this.typeOfEstate = typeOfEstate;
+        this.typeOfEstates = typeOfEstates;
         this.priceFrom = priceFrom;
         this.priceTo = priceTo;
         this.city = city;
@@ -104,10 +107,9 @@ public class EstateSearchFilter {
     }
 
 
-    public TypeOfEstate getTypeOfEstate() {
-        return typeOfEstate;
+    public List<TypeOfEstate> getTypeOfEstates() {
+        return typeOfEstates;
     }
-
 
     public long getPriceFrom() {
         return priceFrom;
@@ -128,5 +130,15 @@ public class EstateSearchFilter {
         return country;
     }
 
+    public void setTypeOfEstates(List<TypeOfEstate> typeOfEstates) {
+        this.typeOfEstates = typeOfEstates;
+    }
 
+    public boolean getLatestAdded() {
+        return latestAdded;
+    }
+
+    public void setLatestAdded(boolean latestAdded) {
+        this.latestAdded = latestAdded;
+    }
 }

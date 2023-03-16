@@ -1,9 +1,9 @@
 package com.daria.realestate.service.impl;
 
+import com.daria.realestate.configuration.security.core.UserDetailsImpl;
 import com.daria.realestate.dao.UserDAO;
 import com.daria.realestate.dao.UserRoleDAO;
 import com.daria.realestate.domain.User;
-import com.daria.realestate.configuration.security.core.UserDetailsImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

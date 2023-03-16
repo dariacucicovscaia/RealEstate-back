@@ -1,6 +1,8 @@
 package com.daria.realestate.dao;
 
+import com.daria.realestate.domain.PaginationFilter;
 import com.daria.realestate.domain.User;
+import com.daria.realestate.dto.UserWithAllProfileDetails;
 
 import java.util.List;
 
@@ -34,4 +36,8 @@ public interface UserDAO extends DAO<User> {
     List<User> getAllUsersOfAnAppointment(long appointmentId);
     List<User> getAllUsersThatHaveAppointments();
 
+    List<UserWithAllProfileDetails> getAllUsers(String criteria, PaginationFilter paginationFilter);
+    Integer getAllUsersCount(String criteria);
+
+    User updateProfileStatus(long userId, boolean isActive);
 }

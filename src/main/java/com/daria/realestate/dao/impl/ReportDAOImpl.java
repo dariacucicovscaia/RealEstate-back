@@ -6,14 +6,9 @@ import com.daria.realestate.domain.PaginationFilter;
 import com.daria.realestate.domain.Report;
 import com.daria.realestate.dto.enums.FileLocation;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
-import java.sql.Timestamp;
 import java.util.List;
 
 @Repository

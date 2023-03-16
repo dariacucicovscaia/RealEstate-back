@@ -2,18 +2,18 @@ package com.daria.realestate.service.impl;
 
 import com.daria.realestate.configuration.security.jwt.JWTProvider;
 import com.daria.realestate.dto.LoginDTO;
-import com.daria.realestate.service.AuthService;
+import com.daria.realestate.service.AuthenticationService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthServiceImpl implements AuthService {
+public class AuthenticationServiceImpl implements AuthenticationService {
     private final JWTProvider jwtProvider;
     private final AuthenticationManager authManager;
 
-    public AuthServiceImpl(JWTProvider jwtProvider, AuthenticationManager authManager) {
+    public AuthenticationServiceImpl(JWTProvider jwtProvider, AuthenticationManager authManager) {
         this.jwtProvider = jwtProvider;
         this.authManager = authManager;
     }

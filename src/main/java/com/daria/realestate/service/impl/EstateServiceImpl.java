@@ -33,6 +33,10 @@ public class EstateServiceImpl implements EstateService {
     @Override
     public Page<Estate> getAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(int elementsPerPage, int pageNumber, PaymentTransactionType paymentTransactionType, AcquisitionStatus acquisitionStatus) {
         List<Estate> filteredEstateList = estateDAO.getAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatusPaginated(paymentTransactionType, acquisitionStatus, new PaginationFilter(pageNumber, elementsPerPage));
+        for (Estate estate : filteredEstateList) {
+            estate.setEstatePhotos(estateDAO.getEstateImages(estate.getId()));
+        }
+
         int totalPageCount = estateDAO.countAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(paymentTransactionType, acquisitionStatus);
 
         return new Page<>(filteredEstateList, totalPageCount, pageNumber, elementsPerPage);
@@ -45,7 +49,9 @@ public class EstateServiceImpl implements EstateService {
 
     @Override
     public EstateDTO getAllDetailsOfAnEstate(long estateId) {
-        return estateDAO.getAllEstateDetails(estateId);
+        EstateDTO estate = estateDAO.getAllEstateDetails(estateId);
+        estate.setEstatePhotos(estateDAO.getEstateImages(estateId));
+        return estate;
     }
 
     @Override
@@ -65,17 +71,22 @@ public class EstateServiceImpl implements EstateService {
 
     @Override
     public Page<Estate> getEstatesFilteredByAllEstateCriteria(EstateSearchFilter estateSearchFilter, int elementsPerPage, int pageNumber) {
-        List<Estate> content = estateDAO.getEstatesFilteredByAllEstateCriteria( estateSearchFilter,  new PaginationFilter(pageNumber, elementsPerPage));
+        List<Estate> content = estateDAO.getEstatesFilteredByAllEstateCriteria(estateSearchFilter, new PaginationFilter(pageNumber, elementsPerPage));
+        for (Estate estate : content) {
+            estate.setEstatePhotos(estateDAO.getEstateImages(estate.getId()));
+        }
         int totalPageCount = estateDAO.countEstatesFilteredByAllEstateCriteria(estateSearchFilter);
 
-        return new Page<>( content, totalPageCount, pageNumber, elementsPerPage);
+        return new Page<>(content, totalPageCount, pageNumber, elementsPerPage);
     }
+
     @Override
     public EstateDTO createEstate(EstateDTO estateDTO) {
         User owner = userDAO.getUserByEmail(estateDTO.getEmail());
 
         Address address = addressDAO.create(new Address(estateDTO.getFullAddress(), estateDTO.getCity(), estateDTO.getCountry()));
         Estate estate = estateDAO.create(new Estate(estateDTO.getPaymentTransactionType(), estateDTO.getAcquisitionStatus(), estateDTO.getCreatedAt(), estateDTO.getLastUpdatedAt(), address, owner));
+        List<String> images = estateDAO.setEstateImages(estate.getId(), estateDTO.getEstatePhotos());
         EstatePrice price = priceDAO.create(new EstatePrice(estateDTO.getPrice(), estateDTO.getLastPriceUpdatedAt(), estateDTO.getCurrency(), estate));
         EstateDetails estateDetails = estateDetailsDAO.create(new EstateDetails(estateDTO.getSquareMeters(), estateDTO.getNumberOfRooms(), estateDTO.getNumberOfBathRooms(), estateDTO.getNumberOfGarages(), estateDTO.getYearOfConstruction(), estateDTO.getTypeOfEstate(), estate));
 
@@ -95,8 +106,19 @@ public class EstateServiceImpl implements EstateService {
                 address.getCountry(),
                 owner.getEmail(),
                 price.getPrice(),
-                price.getLastUpdatedAt() ,
-                price.getCurrency()
-        );
+                price.getLastUpdatedAt(),
+                price.getCurrency(),
+                images);
     }
+
+    @Override
+    public Page<Estate> getOwnerEstates(long ownerId, int page, int pageSize) {
+        List<Estate> estates = estateDAO.getOwnerEstates(ownerId, new PaginationFilter(page, pageSize));
+        for (Estate estate : estates) {
+            estate.setEstatePhotos(estateDAO.getEstateImages(estate.getId()));
+        }
+        return new Page<>(estates, estateDAO.countOwnersEstates(ownerId), page, pageSize);
+    }
+
+
 }

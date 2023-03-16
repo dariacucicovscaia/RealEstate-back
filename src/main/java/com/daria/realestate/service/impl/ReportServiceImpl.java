@@ -12,7 +12,7 @@ import com.daria.realestate.service.ReportService;
 import com.daria.realestate.service.report.FileInstanceServiceFactory;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public String generateReport(LocalDateTime from, LocalDateTime to, long estateId) {
-        FileLocation location = FileLocation.valueOf(dynamicApplicationConfigurationDAO.getByConfigNameAndStatus("fileSettings", "active").getConfigType());
+        FileLocation location = FileLocation.valueOf(dynamicApplicationConfigurationDAO.getByConfigNameAndStatus("fileSettings", true).getConfigType());
 
         String filePath = prepExcelReportService.generateLocalFileName(estateId);
         String fileName = fileInstanceServiceFactory.createInstance(location).saveFile(filePath, prepExcelReportService.generateReport(from, to, estateId));

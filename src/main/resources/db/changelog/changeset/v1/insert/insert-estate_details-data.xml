@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
-   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
-   http://www.liquibase.org/xml/ns/dbchangelog
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
     <changeSet id="insert-estate_details-data" author="DariaC">
@@ -79,7 +76,7 @@
             <column name="number_of_bathrooms" value="2"/>
             <column name="number_of_garages" value="1"/>
             <column name="year_of_construction" value="2003-12-02"/>
-            <column name="type_of_estate" value="APPARTMENT"/>
+            <column name="type_of_estate" value="CONDO"/>
         </insert>
         <insert tableName="estate_details">
             <column name="estate_id" value="9"/>
@@ -97,7 +94,7 @@
             <column name="number_of_bathrooms" value="2"/>
             <column name="number_of_garages" value="1"/>
             <column name="year_of_construction" value="1965-10-12"/>
-            <column name="type_of_estate" value="APPARTMENT"/>
+            <column name="type_of_estate" value="CONDO"/>
         </insert>
 
 

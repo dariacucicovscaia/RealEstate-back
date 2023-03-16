@@ -3,7 +3,9 @@ package com.daria.realestate.dao.impl;
 import com.daria.realestate.dao.AppointmentDAO;
 import com.daria.realestate.dao.mappers.AppointmentMapper;
 import com.daria.realestate.dao.mappers.AppointmentReportDTOMapper;
-import com.daria.realestate.domain.*;
+import com.daria.realestate.domain.Appointment;
+import com.daria.realestate.domain.Estate;
+import com.daria.realestate.domain.PaginationFilter;
 import com.daria.realestate.domain.enums.AppointmentStatus;
 import com.daria.realestate.dto.AppointmentReportDTO;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -11,7 +13,9 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -113,7 +117,7 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
 
     @Override
     public Appointment getById(long id) {
-        String SQL_GET_APPOINTMENT_BY_ID = " select * from appointment where id = ? ";
+        String SQL_GET_APPOINTMENT_BY_ID = " select a.*, address.* from estate as e  inner join `address` on address.id=e.address_id  inner join appointment as a on a.estate_id = e.id  where a.id = ? ";
         return getJdbcTemplate().queryForObject(SQL_GET_APPOINTMENT_BY_ID, new AppointmentMapper(), id);
     }
 

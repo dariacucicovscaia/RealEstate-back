@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,13 +21,13 @@ import org.springframework.stereotype.Service;
 public class MailGunServiceImpl implements MailService {
 
     private final DynamicApplicationConfigurationDAO dynamicApplicationConfigurationDAO;
-
+    private final Environment environment;
     Logger logger = LoggerFactory.getLogger(MailGunServiceImpl.class);
 
 
-    public MailGunServiceImpl(DynamicApplicationConfigurationDAO dynamicApplicationConfigurationDAO) {
+    public MailGunServiceImpl(DynamicApplicationConfigurationDAO dynamicApplicationConfigurationDAO, Environment environment) {
         this.dynamicApplicationConfigurationDAO = dynamicApplicationConfigurationDAO;
-
+        this.environment = environment;
     }
 
     @Override
@@ -43,10 +44,9 @@ public class MailGunServiceImpl implements MailService {
                         "    \"date\":\"Start: " + appointment.getAppointmentStart() + ", End: " + appointment.getAppointmentEnd() + "\",\n" +
                         "    \"address\":\"Str " + appointment.getFullEstateAddress() + ", " + appointment.getEstateCity() + ", " + appointment.getEstateCountry() + "\",\n" +
                         "    \"ownerEmail\":\"" + appointment.getEstatesOwnerEmail() + "\",\n" +
-                        "    \"href\":\"http://localhost:8080/api/v1/appointment/update/confirm-status/" + appointment.getAppointmentId() + "\"\n" +
+                        "    \"href\":\"" + environment.getProperty("frontend.path") + "/confirm-appointment/" + appointment.getAppointmentId() + "\"\n" +
                         "}")
                 .build();
-
         if (StringUtils.isNotBlank(mailgunMessagesApi.sendMessage(getProperty("domain_name"), message).getId())) {
             logger.info("The message was sent from MailGun");
             return appointment;

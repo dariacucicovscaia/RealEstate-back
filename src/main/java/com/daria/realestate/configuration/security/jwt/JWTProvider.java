@@ -8,10 +8,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -53,11 +54,13 @@ public class JWTProvider {
         claims.put("email", userDetails.getUsername());
         claims.put("roles", userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toUnmodifiableList()));
 
+        Duration duration = Duration.ofDays(1);
+
         return Jwts.builder()
                 .setClaims(claims)
                 .signWith(SignatureAlgorithm.HS256, secret.getBytes(StandardCharsets.UTF_8))
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 6000 * 1000))
+                .setExpiration(Date.from(Instant.now().plusMillis(duration.toMillis())))
                 .compact();
     }
 

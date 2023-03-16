@@ -1,6 +1,9 @@
 package com.daria.realestate.dao.impl;
 
-import com.daria.realestate.domain.*;
+import com.daria.realestate.domain.Address;
+import com.daria.realestate.domain.Estate;
+import com.daria.realestate.domain.PaginationFilter;
+import com.daria.realestate.domain.User;
 import com.daria.realestate.domain.enums.AcquisitionStatus;
 import com.daria.realestate.domain.enums.OrderBy;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
@@ -104,6 +107,11 @@ public class EstateDAOImplTest extends AbstractPropsSet {
     @Test
     public void testCountAfterFiltration() {
        Assert.assertEquals((Integer)12 , estateDAO.countAllEstatesFilteredByPaymentTransactionTypeAndAcquisitionStatus(PaymentTransactionType.RENT, AcquisitionStatus.OPEN));
+    }
+
+    @Test
+    public void testGetPathFromImages() {
+        System.out.println(estateDAO.getEstateImages(1));
     }
 }
 

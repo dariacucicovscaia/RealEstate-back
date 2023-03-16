@@ -22,33 +22,34 @@ public class DynamicApplicationConfigurationDAOImpl implements DynamicApplicatio
                 dynamicApplicationConfiguration.getConfigName(),
                 dynamicApplicationConfiguration.getConfigType(),
                 dynamicApplicationConfiguration.getBody(),
-                dynamicApplicationConfiguration.getStatus());
+                dynamicApplicationConfiguration.isActive());
         return getByConfigType(dynamicApplicationConfiguration.getConfigType());
     }
 
     @Override
-    public DynamicApplicationConfiguration updateValue(DynamicApplicationConfiguration dynamicApplicationConfiguration, String oldConfigType, String oldConfigStatus ) {
-        String SQL_UPDATE_VALUE = " update dynamic_application_configuration set configuration_type = ? , configuration_body = ? , configuration_status = ? " +
-                "where  configuration_type = ? and configuration_status = ? ";
-        jdbcTemplate.update(SQL_UPDATE_VALUE,
-                dynamicApplicationConfiguration.getConfigType(),
-                dynamicApplicationConfiguration.getBody(),
-                dynamicApplicationConfiguration.getStatus(),
-                oldConfigType,
-                oldConfigStatus
-                );
-        return getByConfigType(dynamicApplicationConfiguration.getConfigType());
-    }
-
-    @Override
-    public DynamicApplicationConfiguration getByConfigNameAndStatus(String configurationName, String configStatus) {
+    public DynamicApplicationConfiguration getByConfigNameAndStatus(String configurationName, boolean configStatus) {
         String SQL_GET_VALUE_BY_KEY = " select * from dynamic_application_configuration where configuration_name = ? and configuration_status = ?  ";
-        return jdbcTemplate.queryForObject(SQL_GET_VALUE_BY_KEY, new DynamicApplicationConfigurationMapper(),  configurationName, configStatus);
+        return jdbcTemplate.queryForObject(SQL_GET_VALUE_BY_KEY, new DynamicApplicationConfigurationMapper(), configurationName, configStatus);
     }
 
     @Override
     public DynamicApplicationConfiguration getByConfigType(String configurationType) {
         String SQL_GET_VALUE_BY_KEY = " select * from dynamic_application_configuration where configuration_type = ? ";
-        return jdbcTemplate.queryForObject(SQL_GET_VALUE_BY_KEY, new DynamicApplicationConfigurationMapper(),  configurationType);
+        return jdbcTemplate.queryForObject(SQL_GET_VALUE_BY_KEY, new DynamicApplicationConfigurationMapper(), configurationType);
+    }
+
+
+
+    @Override
+    public DynamicApplicationConfiguration changePropertyStatusFlag(String configurationName, String configurationType) {
+        boolean propertyFlag = getByConfigType(configurationType).isActive();
+
+        String changePropertyStatusFlagSQL = "UPDATE dynamic_application_configuration " +
+                " SET configuration_status = ? " +
+                " WHERE configuration_name= ? and configuration_type = ? ";
+
+        jdbcTemplate.update(changePropertyStatusFlagSQL, !propertyFlag, configurationName, configurationType);
+
+        return getByConfigType(configurationType);
     }
 }

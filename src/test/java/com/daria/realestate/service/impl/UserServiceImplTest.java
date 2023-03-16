@@ -1,6 +1,9 @@
 package com.daria.realestate.service.impl;
 
-import com.daria.realestate.dao.*;
+import com.daria.realestate.dao.AddressDAO;
+import com.daria.realestate.dao.ProfileDAO;
+import com.daria.realestate.dao.UserDAO;
+import com.daria.realestate.dao.UserRoleDAO;
 import com.daria.realestate.dao.impl.AddressDAOImpl;
 import com.daria.realestate.dao.impl.ProfileDAOImpl;
 import com.daria.realestate.dao.impl.UserDAOImpl;
@@ -13,7 +16,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.mock;
 
 
 public class UserServiceImplTest {

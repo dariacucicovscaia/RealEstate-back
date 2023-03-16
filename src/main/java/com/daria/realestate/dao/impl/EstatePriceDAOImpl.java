@@ -8,7 +8,9 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.sql.Timestamp;
 @Repository
 public class EstatePriceDAOImpl extends AbstractDAOImpl<EstatePrice> implements EstatePriceDAO {
     private static final String SQL_CREATE_ESTATE_PRICE = " insert into price ( price, last_updated_at, concurrency, estate_id )  values ( ? , ? , ? , ? ) ";

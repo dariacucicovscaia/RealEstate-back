@@ -2,10 +2,10 @@ package com.daria.realestate.controller;
 
 import com.daria.realestate.domain.Appointment;
 import com.daria.realestate.domain.Estate;
-import com.daria.realestate.dto.Page;
 import com.daria.realestate.domain.enums.AcquisitionStatus;
 import com.daria.realestate.domain.enums.AppointmentStatus;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
+import com.daria.realestate.dto.Page;
 import com.daria.realestate.service.impl.AppointmentServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,14 +17,15 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.hamcrest.CoreMatchers.is;
 
 
 @RunWith(SpringRunner.class)

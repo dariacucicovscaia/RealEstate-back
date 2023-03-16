@@ -1,9 +1,12 @@
 package com.daria.realestate.domain;
 
 import com.daria.realestate.domain.enums.AcquisitionStatus;
-import com.daria.realestate.domain.enums.PaymentTransactionType;;
+import com.daria.realestate.domain.enums.PaymentTransactionType;
+
 import java.time.LocalDateTime;
 import java.util.List;
+
+;
 
 
 public class Estate {

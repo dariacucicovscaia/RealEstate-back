@@ -4,7 +4,9 @@ import com.daria.realestate.dao.ProfileDAO;
 import com.daria.realestate.dao.impl.ProfileDAOImpl;
 import com.daria.realestate.domain.Profile;
 import com.daria.realestate.service.ProfileService;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mock;
 
 import static org.mockito.Mockito.*;

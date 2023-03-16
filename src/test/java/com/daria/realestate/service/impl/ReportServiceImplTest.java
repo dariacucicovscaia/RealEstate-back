@@ -1,14 +1,6 @@
 package com.daria.realestate.service.impl;
 
 
-import com.daria.realestate.domain.enums.AppointmentStatus;
-import com.daria.realestate.service.ReportService;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.time.LocalDateTime;
-
 public class ReportServiceImplTest {
 
 //    private ReportService serviceUnderTest;

@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
-   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
-   http://www.liquibase.org/xml/ns/dbchangelog
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
     <!-- All users passwords are 123456 -->
@@ -13,223 +10,223 @@
         <insert tableName="user">
             <column name="email" value="AnnaMarian@gmail.com"/>
             <column name="password" value="$2a$04$Kkon6qj9AHOGe73dpFm.3.bvT8RGpFEMNDWsTvQD9GEqYlbRUEqJm"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status"  valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="CornelMihailov@gmail.com"/>
             <column name="password" value="$2a$04$MeyHkqPkxSThxtUpiQ9QXu5R4HalC3lk9SLay8sp.B/zc0w99nhAu"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status"  valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="JohnSmith@gmail.com"/>
             <column name="password" value="$2a$04$q/Hs5N.J7hmTvKQrefGqd.Jn21fVKD4.yaqhuHAEJsOSdfRUNASqe"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status"  valueNumeric="0"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="ClavaAllun@gmail.com"/>
             <column name="password" value="$2a$04$ZJWb395plt9iDlMQTT.FLeFwBGvxYPJ1E627W65zMdeHtfnj1cYFy"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="StasMarin@gmail.com"/>
             <column name="password" value="$2a$04$NQdQ5tgQbkNpBExtiFhQt.4fEedwoWwHIi1W4SOd7dBgzkJJ2bRE6"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="LenaCorr@gmail.com"/>
             <column name="password" value="$2a$04$J2Ir4KCCJXMuBAoPm7aZYO6LytWNBeeTv9qnJsvuiEhrHzKZtaCwa"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="MarianaLane@gmail.com"/>
             <column name="password" value="$2a$04$pzoZz5IaeYgwCeUQ2IRB..Q.0.MKHIDIWT2GYaIFElOB0Y4nkxP2."/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="NonaMass@gmail.com"/>
             <column name="password" value="$2a$04$D96ZApz9NaXEx2nw0wCReu012.ip8/TaYyN5ONifU1Z0ZZR6OLd7u"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="CorinaMass@gmail.com"/>
             <column name="password" value="$2a$04$0dAS9gduDW/TdI0N1Tm3Beh9caDEZdgMeA4Yq5pE4GZGpDgmeAp9O"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="AndreiJohn@gmail.com"/>
             <column name="password" value="$2a$04$ZuSMN2rhlNDxbFqoVgNVG.SAwkc6HZ9oLFWnzPp2OhxQyDkqHy8/u"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="JohnDoe@gmail.com"/>
             <column name="password" value="$2a$04$QG41/DWWk12V7JlVIm/yn.kCY6Y5Mn/CrLUzylPQ7vv0lRjuU5wY2"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="JaneDoe@gmail.com"/>
             <column name="password" value="$2a$04$AlvnB6RM0YDEq7nHHPWQl.zBMZm./nEt1XMU8mCwHnTDZxYRiTi8K"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="MichaelSmith@gmail.com"/>
             <column name="password" value="$2a$04$QqjTvr11p.bXExuHgA76l.zoAIVK9Roe7MGhF.kkO2SzeJxsMfR/i"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="EmilyBrown@gmail.com"/>
             <column name="password" value="$2a$04$BFmeSwg3zyS/IiOMoq.GneRd0uPGJBo8lxA1UXoMd1sxJrVWBsIOm"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="WilliamJones@gmail.com"/>
             <column name="password" value="$2a$04$WUfu32wfQzTuk/Vs2YoMT.KGIOB5qPblzsOVEAe6/sQbxPxaTn2h."/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="OliviaTaylor@gmail.com"/>
             <column name="password" value="$2a$04$IxyNOzJW2zw1ZTU9WCKjRODmJ3hv72oX8NHpc0G3COyU/JIc9cacC"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="AlexanderJohnson@gmail.com"/>
             <column name="password" value="$2a$04$wpp.pFKEjjkDtYS.uQPc.O//c.1KYVU7.dWQptCjF5ByMpjEDatky"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="AvaMiller@gmail.com"/>
             <column name="password" value="$2a$04$N4NfIJ45bzWYkjkhMBB4Fud7TUXRntygXKRSd6zCS4Z59OHDWa8RK"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="EthanWilson@gmail.com"/>
             <column name="password" value="$2a$04$qF/MDbymS5spWOsMFLwvCeG8EdP4V1cBQwDBAOfmXFjgQvhqMFVF2"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="AbigailAnderson@gmail.com"/>
             <column name="password" value="$2a$04$bE.8Qeq.OickRgX5NfqKOOFXJkDUqIsrKuZKgrajcVK53vUbRtnW6"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="MadisonMoore@gmail.com"/>
             <column name="password" value="$2a$04$DfHv8OEOlAJWuRFi/fIM0OLbWZsbIruR1lePCiolQLE6HedwZqxT."/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="MasonLewis@gmail.com"/>
             <column name="password" value="$2a$04$EaRNA3oGBa4x2UvdFLQJv.NlMJB71ycF2q2UvqCSkvqwd/RyWV7wG"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="NoahYoung@gmail.com"/>
             <column name="password" value="$2a$04$g4xGbLiNwB1WQ7VoU6wiHez9vstEkfCusTCquxTINCvmsvD28XaZC"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="IsabellaKing@gmail.com"/>
             <column name="password" value="$2a$04$oYliHX9zTTtWQonLr0Dp7.6h0PrQpsz1BpRXo48vLjpRdQ9cvIg/C"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="LucasBrown@gmail.com"/>
             <column name="password" value="$2a$04$Um.P0kIphlrlEgy6rtcqPOqf8Fa1KHu.Gc4VU2.xHb2tirfXTURwC"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="MiaGreen@gmail.com"/>
             <column name="password" value="$2a$04$dBx30QSlvrcLVKwzlw90n.h1kFTHv5ikWPTZDJ706MNUTIrXQ2nYu"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="AveryHarris@gmail.com"/>
             <column name="password" value="$2a$04$oduIk4zdNzpoP.oBUraOeuIw9ADywnexixX6wBEfYs7l1PLhEGgyq"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="EllaClark@gmaile"/>
             <column name="password" value="$2a$04$gdBcHddioboms7XThxD5JuDTJIu76rdVHLQ4j.oW9y7wzNyino642"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="EvelynHall@gmail.com"/>
             <column name="password" value="$2a$04$kH/wrx/Ce6zDGEJ1MG6YL.tE2HFGDfzZbvE12B54ChvxIpzz5CEh2"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="NatalieAdams@gmail.com"/>
             <column name="password" value="$2a$04$rS7BpWIiFI11g7vB8v62QOiknUF77bT.20HMuGx8lCfFYwy.CEKU."/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="LiamCook@gmail.com"/>
             <column name="password" value="$2a$04$PBdLME3d.KcHc5nBXwNDOudvyFA5VvndYWjnW2kDwScIcrIUir1UK"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="SophiaBailey@gmail.com"/>
             <column name="password" value="$2a$04$uBhEChluuCh8yYcIZurkvOkFDlRZXlNED/ZLFwa2haUpBscBc0qzW"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="MilaBell@gmail.com"/>
             <column name="password" value="$2a$04$b0bjFZ16s31u4LPWLQj0dO7HM/a5Zc2H2s78yFHOzuLQlI3wjIFHW"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="AidenCooper@gmail.com"/>
             <column name="password" value="$2a$04$18HMwDHjKWTnv87UkSc7eOtQ2iiH0G1NI0zG.LDKWTNx.GWpE6eFK"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="LilaBaker@gmail.com"/>
             <column name="password" value="$2a$04$XBmqTN3VXwC67Sq5QfHHy.CZzCMeA6wnVB7FHYQrTVUyq0ypLBcdW"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="EliTurner@gmail.com"/>
             <column name="password" value="$2a$04$divM1RkywlvlW2REaOHIHeKNLRxbpxMBFfam0hRu7Yvl3eXAmpyvy"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
         <insert tableName="user">
             <column name="email" value="AriaParker@gmail.com"/>
             <column name="password" value="$2a$04$Ta8oHmf2z3H2k0Hm.iPHHe9HABfdfzu6E6UVoXn.Nnq5KBUPe608G"/>
-            <column name="account_status" value="ACTIVE"/>
+            <column name="account_status" valueNumeric="1"/>
             <column name="created_at" valueDate="now()"/>
         </insert>
     </changeSet>

@@ -1,10 +1,8 @@
 package com.daria.realestate.dto;
 
-import com.daria.realestate.domain.enums.AccountStatus;
 import com.daria.realestate.domain.enums.Role;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserWithAllProfileDetails {
@@ -14,10 +12,10 @@ public class UserWithAllProfileDetails {
     private String lastName;
     private String email;
     private List<Role> roles;
-    private AccountStatus accountStatus;
+    private boolean accountStatus;
     private LocalDateTime createdAt;
 
-    public UserWithAllProfileDetails(long id, String profilePicture, String firstName, String lastName, String email, List<Role> roles, AccountStatus accountStatus, LocalDateTime createdAt) {
+    public UserWithAllProfileDetails(long id, String profilePicture, String firstName, String lastName, String email, List<Role> roles, boolean accountStatus, LocalDateTime createdAt) {
         this.id = id;
         this.profilePicture = profilePicture;
         this.firstName = firstName;
@@ -52,7 +50,7 @@ public class UserWithAllProfileDetails {
         return roles;
     }
 
-    public AccountStatus getAccountStatus() {
+    public boolean getAccountStatus() {
         return accountStatus;
     }
 
@@ -84,7 +82,7 @@ public class UserWithAllProfileDetails {
         this.roles = roles;
     }
 
-    public void setAccountStatus(AccountStatus accountStatus) {
+    public void setAccountStatus(boolean accountStatus) {
         this.accountStatus = accountStatus;
     }
 

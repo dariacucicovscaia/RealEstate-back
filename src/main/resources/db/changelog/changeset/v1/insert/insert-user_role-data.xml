@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
-   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
-   http://www.liquibase.org/xml/ns/dbchangelog
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
     <changeSet id="insert-user_role-data" author="DariaC">
         <insert tableName="user_role">
             <column name="user_id" value="1"/>
-            <column name="role" value="SELLER"/>
+            <column name="role" value="USER"/>
         </insert>
         <insert tableName="user_role">
             <column name="user_id" value="1"/>
-            <column name="role" value="USER"/>
+            <column name="role" value="ADMIN"/>
         </insert>
         <insert tableName="user_role">
             <column name="user_id" value="2"/>
             <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="2"/>
+            <column name="role" value="ADMIN"/>
         </insert>
         <insert tableName="user_role">
             <column name="user_id" value="3"/>
@@ -97,12 +98,78 @@
             <column name="user_id" value="20"/>
             <column name="role" value="USER"/>
         </insert>
-
-    </changeSet>
-    <changeSet id="insert-admin-user_role-data" author="DariaC">
         <insert tableName="user_role">
-            <column name="user_id" value="2"/>
+            <column name="user_id" value="21"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="22"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="23"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="24"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="25"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="25"/>
             <column name="role" value="ADMIN"/>
         </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="26"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="27"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="28"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="29"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="30"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="31"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="32"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="33"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="34"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="35"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="36"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="37"/>
+            <column name="role" value="USER"/>
+        </insert>
     </changeSet>
+
 </databaseChangeLog>

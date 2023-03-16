@@ -7,7 +7,7 @@ import com.daria.realestate.domain.EstateDetails;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.*;
+import java.sql.Date;
 @Repository
 public class EstateDetailsDAOImpl extends AbstractDAOImpl<EstateDetails> implements EstateDetailsDAO {
     private static final String SQL_CREATE_ESTATE_DETAILS = " insert into estate_details (estate_id , square_meters, number_of_rooms , number_of_bathrooms , number_of_garages , year_of_construction ,  type_of_estate )  values( ? , ? , ? , ? , ? , ? , ? ) ";

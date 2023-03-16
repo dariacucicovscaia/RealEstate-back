@@ -2,7 +2,6 @@ package com.daria.realestate.service.impl;
 
 import com.daria.realestate.dao.EstateDetailsDAO;
 import com.daria.realestate.dao.impl.EstateDetailsDAOImpl;
-import com.daria.realestate.domain.Estate;
 import com.daria.realestate.domain.EstateDetails;
 import com.daria.realestate.domain.enums.TypeOfEstate;
 import com.daria.realestate.service.EstateDetailsService;

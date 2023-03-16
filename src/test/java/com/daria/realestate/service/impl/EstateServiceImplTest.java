@@ -2,7 +2,10 @@ package com.daria.realestate.service.impl;
 
 import com.daria.realestate.dao.*;
 import com.daria.realestate.dao.impl.*;
-import com.daria.realestate.domain.*;
+import com.daria.realestate.domain.Address;
+import com.daria.realestate.domain.Estate;
+import com.daria.realestate.domain.PaginationFilter;
+import com.daria.realestate.domain.User;
 import com.daria.realestate.domain.enums.AcquisitionStatus;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
 import com.daria.realestate.domain.enums.TypeOfEstate;
@@ -81,7 +84,7 @@ public class EstateServiceImplTest {
 
     @Test
     public void getAllDetailsOfAnEstate() {
-        EstateDTO estateDTO = new EstateDTO(PaymentTransactionType.SALE, AcquisitionStatus.SOLD, LocalDateTime.of(2022, 12, 12, 20, 10, 20), LocalDateTime.of(2022, 12, 12, 20, 10, 20), 25, 2, 2, 1, LocalDate.of(2023, 01, 01), TypeOfEstate.TOWNHOUSE, "fullAddress", "city", "country", "email", 10000L, LocalDateTime.of(2022, 12, 12, 20, 10, 20), "EUR");
+        EstateDTO estateDTO = new EstateDTO(PaymentTransactionType.SALE, AcquisitionStatus.SOLD, LocalDateTime.of(2022, 12, 12, 20, 10, 20), LocalDateTime.of(2022, 12, 12, 20, 10, 20), 25, 2, 2, 1, LocalDate.of(2023, 01, 01), TypeOfEstate.TOWNHOUSE, "fullAddress", "city", "country", "email", 10000L, LocalDateTime.of(2022, 12, 12, 20, 10, 20), "EUR", null);
 
         when(estateDAO.getAllEstateDetails(1L)).thenReturn(estateDTO);
 

@@ -1,5 +1,5 @@
 package com.daria.realestate.dao;
-
+//TODO tratam exceptiile sql in dao si trimitem null
 
 public interface DAO<T> {
     /**

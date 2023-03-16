@@ -3,10 +3,9 @@ package com.daria.realestate.service.impl;
 import com.daria.realestate.dao.AppointmentDAO;
 import com.daria.realestate.dao.UserAppointmentDAO;
 import com.daria.realestate.dao.UserDAO;
-import com.daria.realestate.dao.impl.AppointmentDAOImpl;
-import com.daria.realestate.dao.impl.UserAppointmentDAOImpl;
-import com.daria.realestate.dao.impl.UserDAOImpl;
-import com.daria.realestate.domain.*;
+import com.daria.realestate.domain.Appointment;
+import com.daria.realestate.domain.Estate;
+import com.daria.realestate.domain.PaginationFilter;
 import com.daria.realestate.domain.enums.AcquisitionStatus;
 import com.daria.realestate.domain.enums.AppointmentStatus;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
@@ -20,7 +19,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class AppointmentServiceImplTest {
     @Mock

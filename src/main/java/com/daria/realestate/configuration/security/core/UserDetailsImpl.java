@@ -10,33 +10,33 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//todo rename into custom
 public class UserDetailsImpl implements UserDetails {
     private Long id;
     private String email;
-
+    private boolean isAccountActive;
     @JsonIgnore
     private String password;
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(Long id, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+    public UserDetailsImpl(Long id, String email, String password, Collection<? extends GrantedAuthority> authorities, boolean isAccountActive) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.authorities = authorities;
+        this.isAccountActive = isAccountActive;
     }
 
     public static UserDetails build(User user) {
         List<GrantedAuthority> authorities = user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.name()))
                 .collect(Collectors.toList());
-
         return new UserDetailsImpl(
                 user.getId(),
                 user.getEmail(),
                 user.getPassword(),
-                authorities);
+                authorities,
+                user.isAccountActive());
     }
 
     @Override
@@ -61,7 +61,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return isAccountActive;
     }
 
     @Override

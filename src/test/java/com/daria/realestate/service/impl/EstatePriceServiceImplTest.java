@@ -13,7 +13,6 @@ import org.mockito.Mock;
 
 import java.time.LocalDateTime;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class EstatePriceServiceImplTest {

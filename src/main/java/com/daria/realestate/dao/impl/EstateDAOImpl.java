@@ -8,14 +8,18 @@ import com.daria.realestate.domain.Estate;
 import com.daria.realestate.domain.PaginationFilter;
 import com.daria.realestate.domain.enums.AcquisitionStatus;
 import com.daria.realestate.domain.enums.PaymentTransactionType;
+import com.daria.realestate.domain.enums.TypeOfEstate;
 import com.daria.realestate.dto.EstateDTO;
 import com.daria.realestate.dto.EstateSearchFilter;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -80,7 +84,7 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
                 estate.getAcquisitionStatus().toString(),
                 estate.getPaymentTransactionType().toString(),
                 Timestamp.valueOf(estate.getCreatedAt()),
-                Timestamp.valueOf(estate.getLastUpdatedAt()),
+                Timestamp.valueOf(LocalDateTime.now()),
                 estate.getId()
         );
         return getById(estate.getId());
@@ -134,7 +138,7 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
                 || estateSearchFilter.getNumberOfRoomsFrom() >= 0
                 || estateSearchFilter.getNumberOfGaragesFrom() >= 0
                 || estateSearchFilter.getYearOfConstructionFrom() != null
-                || estateSearchFilter.getTypeOfEstate() != null;
+                || (estateSearchFilter.getTypeOfEstates() != null && !estateSearchFilter.getTypeOfEstates().isEmpty());
         boolean isPricePresent = estateSearchFilter.getPriceFrom() >= 0;
 
 
@@ -147,9 +151,10 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
         query.append(" inner join `address` as a on e.address_id = a.id ");
         query.append(" inner join `user` as u on u.id = e.owner_id ");
 
+
         query.append(" where 1=1 ");
 
-        if (estateSearchFilter.getPaymentTransactionType() != null ) {
+        if (estateSearchFilter.getPaymentTransactionType() != null) {
             query.append(" and e.payment_transaction_type = \"").append(estateSearchFilter.getPaymentTransactionType().toString()).append("\" ");
         }
 
@@ -200,7 +205,7 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
             }
 
         }
-        if (estateSearchFilter.getYearOfConstructionFrom() != null) {
+        if (StringUtils.isNotBlank(estateSearchFilter.getYearOfConstructionFrom())) {
             LocalDate from = LocalDate.parse(estateSearchFilter.getYearOfConstructionFrom());
 
             query.append(" and  ed.year_of_construction > \"").append(estateSearchFilter.getYearOfConstructionFrom()).append("\" ");
@@ -213,9 +218,17 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
             }
 
         }
-        if (estateSearchFilter.getTypeOfEstate() != null) {
-            query.append(" and ed.type_of_estate = \"").append(estateSearchFilter.getTypeOfEstate().toString()).append("\" ");
+
+
+        if (estateSearchFilter.getTypeOfEstates() != null && !estateSearchFilter.getTypeOfEstates().isEmpty()) {
+            query.append(" and (1!=1 ");
+            for (TypeOfEstate estateType : estateSearchFilter.getTypeOfEstates()) {
+
+                query.append(" or ed.type_of_estate = \"").append(estateType.toString()).append("\" ");
+            }
+            query.append(" ) ");
         }
+
         if (estateSearchFilter.getPriceFrom() >= 0) {
             query.append(" and p.price > ").append(estateSearchFilter.getPriceFrom()).append(" ");
 
@@ -226,16 +239,19 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
                 query.append("and  p.price < ").append(estateSearchFilter.getPriceTo()).append(" ");
             }
         }
-        if (estateSearchFilter.getCity() != null) {
+        if (StringUtils.isNotBlank(estateSearchFilter.getCity())) {
             query.append("and a.city = \"").append(estateSearchFilter.getCity()).append("\" ");
         }
-        if (estateSearchFilter.getCountry() != null) {
+        if (StringUtils.isNotBlank(estateSearchFilter.getCountry())) {
             query.append("and  a.country = \"").append(estateSearchFilter.getCountry()).append("\" ");
+        }
+
+        if (estateSearchFilter.getLatestAdded()) {
+            query.append(" ORDER BY e.last_updated_at DESC ");
         }
 
         if (count) {
             query.insert(0, " select count(*) from estate as e ");
-
         } else {
             query.insert(0, " select e.* , a.full_address , a.city, a.country, u.email from estate as e ");
 
@@ -246,4 +262,39 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
 
         return query.toString();
     }
+
+    @Override
+    public List<String> setEstateImages(long estateId, List<String> images) {
+        String SQL = " insert into estate_photos values (estate_id, image_path) ";
+        List<Integer> response = new ArrayList<>();
+        for (String img : images) {
+            response.add(getJdbcTemplate().update(SQL, estateId, img));
+        }
+
+        if (response.size() == images.size()) {
+            return null;
+        } else return images;
+    }
+
+    @Override
+    public List<String> getEstateImages(long estateId) {
+        String SQL = " select f.image_path from estate as e\n" +
+                "  left join `estate_photos` as f on e.id = f.estate_id  \n" +
+                "  where e.id = ?";
+
+        return getJdbcTemplate().queryForList(SQL, String.class, estateId);
+    }
+
+    @Override
+    public List<Estate> getOwnerEstates(long ownerId, PaginationFilter paginationFilter) {
+        String SQL = " select * from estate where owner_id = ? limit ? offset ? ";
+        return getJdbcTemplate().query(SQL, new EstateMapper(), ownerId, paginationFilter.getNrOfElementsWeWantDisplayed(), getOffset(paginationFilter.getPageNumber(), paginationFilter.getNrOfElementsWeWantDisplayed()));
+    }
+
+    @Override
+    public Integer countOwnersEstates(long ownerId) {
+        String SQL = " select count(*) from estate where owner_id = "+ownerId;
+        return getJdbcTemplate().queryForObject(SQL, Integer.class );
+    }
+
 }

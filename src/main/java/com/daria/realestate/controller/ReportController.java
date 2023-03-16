@@ -3,7 +3,6 @@ package com.daria.realestate.controller;
 import com.daria.realestate.domain.Report;
 import com.daria.realestate.dto.Page;
 import com.daria.realestate.service.ReportService;
-
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;

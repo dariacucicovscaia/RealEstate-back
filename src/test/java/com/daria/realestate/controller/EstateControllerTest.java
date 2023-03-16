@@ -8,7 +8,7 @@ import com.daria.realestate.dto.EstateDTO;
 import com.daria.realestate.dto.EstateSearchFilter;
 import com.daria.realestate.dto.Page;
 import com.daria.realestate.service.impl.EstateServiceImpl;
-import com.fasterxml.jackson.databind.ObjectMapper;;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +25,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+;
 
 
 @RunWith(SpringRunner.class)
@@ -118,8 +121,8 @@ public class EstateControllerTest {
                 "email",
                 10000L,
                 LocalDateTime.parse("2017-05-15T15:12:59.152"),
-                "EUR"
-        );
+                "EUR",
+                null);
     }
 
     private Page<Estate> getEstateList(int totalElements) {
@@ -148,8 +151,7 @@ public class EstateControllerTest {
                 0,
                 "2023-01-01",
                 "2023-01-01",
-                TypeOfEstate.BARN,
-                0, 0,
+                null, 0, 0,
                 "city", "country"
         );
     }

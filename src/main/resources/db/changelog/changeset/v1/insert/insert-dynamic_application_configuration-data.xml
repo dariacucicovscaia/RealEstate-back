@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
-   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
-   http://www.liquibase.org/xml/ns/dbchangelog
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
     <changeSet id="insert-dynamic_application_configuration-data" author="DariaC">
@@ -14,7 +11,7 @@
             <column name="configuration_name" value="fileSettings"/>
             <column name="configuration_body" value="C:/Users/DCUCICOV/Documents/reports"/>
             <column name="configuration_type" value="local"/>
-            <column name="configuration_status" value="active"/>
+            <column name="configuration_status" valueNumeric="1"/>
         </insert>
 
     </changeSet>
@@ -28,7 +25,24 @@
                     &#34;template_name&#34; : &#34;appointment_teamplate&#34; }"
             />
             <column name="configuration_type" value="mailgun"/>
-            <column name="configuration_status" value="active"/>
+            <column name="configuration_status" valueNumeric="1"/>
+        </insert>
+
+        <insert tableName="dynamic_application_configuration">
+            <column name="configuration_name" value="mail"/>
+            <column name="configuration_body" value=
+                    "{ &#34;api_key&#34; : &#34;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&#34;,
+                    &#34;template_id&#34; : &#34;d-b2dfc59f7b9c498a8e884b47ae780605&#34; }"
+            />
+            <column name="configuration_type" value="sendgrid"/>
+            <column name="configuration_status" valueNumeric="0"/>
+        </insert>
+
+        <insert tableName="dynamic_application_configuration">
+            <column name="configuration_name" value="fileSettings"/>
+            <column name="configuration_body" value="/client_secret.json"/>
+            <column name="configuration_type" value="drive"/>
+            <column name="configuration_status" valueNumeric="0"/>
         </insert>
 
     </changeSet>

@@ -3,13 +3,10 @@ package com.daria.realestate.service.impl;
 import com.daria.realestate.dao.AddressDAO;
 import com.daria.realestate.dao.impl.AddressDAOImpl;
 import com.daria.realestate.domain.Address;
-import com.daria.realestate.domain.Appointment;
-import com.daria.realestate.domain.User;
 import com.daria.realestate.service.AddressService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 
 import static org.mockito.Mockito.*;

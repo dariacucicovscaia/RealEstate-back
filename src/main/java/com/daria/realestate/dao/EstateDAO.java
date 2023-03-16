@@ -41,4 +41,10 @@ public interface EstateDAO extends DAO<Estate> {
     List<Estate> getEstatesFilteredByAllEstateCriteria(EstateSearchFilter estateSearchFilter, PaginationFilter paginationFilter);
 
     Integer countEstatesFilteredByAllEstateCriteria(EstateSearchFilter estateSearchFilter);
+    List<String> setEstateImages(long estateId, List<String> images);
+    List<String> getEstateImages(long estateId);
+
+    List<Estate> getOwnerEstates(long ownerId, PaginationFilter paginationFilter);
+
+    Integer countOwnersEstates(long ownerId);
 }

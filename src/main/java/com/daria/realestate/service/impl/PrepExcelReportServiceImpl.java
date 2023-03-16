@@ -37,16 +37,15 @@ public class PrepExcelReportServiceImpl implements PrepExcelReportService {
 
         int rows = appointments.size();
 
-        for (AppointmentReportDTO appointmentReportDTO : appointments) {
-            for (int i = 1; i <= rows; i++) {
-                result[i][0] = appointmentReportDTO.getStart();
-                result[i][1] = appointmentReportDTO.getEnd();
-                result[i][2] = appointmentReportDTO.getEmail();
-                result[i][3] = appointmentReportDTO.getFirstName();
-                result[i][4] = appointmentReportDTO.getLastName();
-                result[i][5] = appointmentReportDTO.getPhoneNumber();
-                result[i][6] = appointmentReportDTO.getAppointmentStatus();
-            }
+
+        for (int i = 1; i <= rows; i++) {
+            result[i][0] = appointments.get(i - 1).getStart();
+            result[i][1] = appointments.get(i - 1).getEnd();
+            result[i][2] = appointments.get(i - 1).getEmail();
+            result[i][3] = appointments.get(i - 1).getFirstName();
+            result[i][4] = appointments.get(i - 1).getLastName();
+            result[i][5] = appointments.get(i - 1).getPhoneNumber();
+            result[i][6] = appointments.get(i - 1).getAppointmentStatus();
         }
 
         return result;

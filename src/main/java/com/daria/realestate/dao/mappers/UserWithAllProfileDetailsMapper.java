@@ -1,6 +1,5 @@
 package com.daria.realestate.dao.mappers;
 
-import com.daria.realestate.domain.enums.AccountStatus;
 import com.daria.realestate.dto.UserWithAllProfileDetails;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -18,7 +17,7 @@ public class UserWithAllProfileDetailsMapper implements RowMapper<UserWithAllPro
                 rs.getString("last_name"),
                 rs.getString("email"),
                 null,
-                AccountStatus.valueOf(rs.getString("account_status")),
+               rs.getBoolean("account_status"),
                 rs.getTimestamp("created_at").toLocalDateTime()
         );
     }

@@ -1,7 +1,6 @@
 package com.daria.realestate.service.impl;
 
 import com.daria.realestate.dao.EstatePriceDAO;
-import com.daria.realestate.dao.impl.EstatePriceDAOImpl;
 import com.daria.realestate.domain.EstatePrice;
 import com.daria.realestate.service.EstatePriceService;
 import org.springframework.stereotype.Service;

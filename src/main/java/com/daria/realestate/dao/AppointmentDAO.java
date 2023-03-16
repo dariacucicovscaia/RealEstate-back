@@ -3,7 +3,6 @@ package com.daria.realestate.dao;
 import com.daria.realestate.domain.Appointment;
 import com.daria.realestate.domain.Estate;
 import com.daria.realestate.domain.PaginationFilter;
-import com.daria.realestate.domain.User;
 import com.daria.realestate.domain.enums.AppointmentStatus;
 import com.daria.realestate.dto.AppointmentReportDTO;
 

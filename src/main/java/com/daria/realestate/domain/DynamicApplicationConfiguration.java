@@ -4,14 +4,14 @@ public class DynamicApplicationConfiguration {
     private String configName;
     private String body;
     private String configType;
-    private String status;
+    private boolean isActive;
 
 
-    public DynamicApplicationConfiguration(String configName, String configType, String body, String status) {
+    public DynamicApplicationConfiguration(String configName, String configType, String body, boolean isActive) {
         this.configName = configName;
         this.body = body;
         this.configType = configType;
-        this.status = status;
+        this.isActive = isActive;
     }
 
     public String getConfigName() {
@@ -30,12 +30,12 @@ public class DynamicApplicationConfiguration {
         this.body = body;
     }
 
-    public String getStatus() {
-        return status;
+    public boolean isActive() {
+        return isActive;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public String getConfigType() {

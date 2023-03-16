@@ -1,23 +1,20 @@
 package com.daria.realestate.domain;
 
 
-import com.daria.realestate.domain.enums.AccountStatus;
 import com.daria.realestate.domain.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 public class User {
     private Long id;
     private String email;
     @JsonIgnore
     private String password;
-    private AccountStatus accountStatus;
+    //TODO change account status to boolean
+    private boolean isAccountActive;
     private LocalDateTime createdAt;
 
     private List<Appointment> appointment;
@@ -30,10 +27,10 @@ public class User {
         this.password = password;
     }
 
-    public User(long id, String email, AccountStatus accountStatus, LocalDateTime createdAt) {
+    public User(long id, String email, boolean isAccountActive, LocalDateTime createdAt) {
         this.id = id;
         this.email = email;
-        this.accountStatus = accountStatus;
+        this.isAccountActive = isAccountActive;
         this.createdAt = createdAt;
     }
 
@@ -86,12 +83,12 @@ public class User {
         this.password = password;
     }
 
-    public AccountStatus getAccountStatus() {
-        return accountStatus;
+    public boolean isAccountActive() {
+        return isAccountActive;
     }
 
-    public void setAccountStatus(AccountStatus accountStatus) {
-        this.accountStatus = accountStatus;
+    public void setAccountActive(boolean accountActive) {
+        isAccountActive = accountActive;
     }
 
     public LocalDateTime getCreatedAt() {

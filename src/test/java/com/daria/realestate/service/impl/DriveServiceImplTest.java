@@ -1,14 +1,6 @@
 package com.daria.realestate.service.impl;
 
 
-import org.junit.Test;
-
-import java.io.File;
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-
-import static org.junit.Assert.*;
-
 public class DriveServiceImplTest {
 
 

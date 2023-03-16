@@ -1,12 +1,13 @@
 package com.daria.realestate.controller;
 
 import com.daria.realestate.domain.Appointment;
+import com.daria.realestate.domain.enums.AppointmentStatus;
 import com.daria.realestate.dto.AppointmentDTO;
 import com.daria.realestate.dto.Page;
-import com.daria.realestate.domain.enums.AppointmentStatus;
 import com.daria.realestate.service.AppointmentService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,10 +18,10 @@ public class AppointmentController {
     public AppointmentController(AppointmentService appointmentService) {
         this.appointmentService = appointmentService;
     }
-
-    @PostMapping("/create/{userId}")
-    public AppointmentDTO createAppointment(@RequestBody Appointment appointment, @PathVariable long userId) {
-        return appointmentService.createAppointment(appointment, userId);
+    @PreAuthorize("hasAnyAuthority('USER')")
+    @PostMapping("/create/{startTime}/{userId}/{estateId}")
+    public AppointmentDTO createAppointment(@PathVariable String startTime, @PathVariable long userId, @PathVariable long estateId) {
+        return appointmentService.createAppointment(startTime, userId, estateId);
     }
 
     @GetMapping("/details/{appointmentId}")
@@ -34,7 +35,7 @@ public class AppointmentController {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(appointmentService.updateAppointment(appointmentId, appointment));
     }
-
+    @PreAuthorize("hasAnyAuthority('USER')")
     @GetMapping("/update/confirm-status/{appointmentId}")
     public ResponseEntity<AppointmentStatus> updateAppointmentStatus( @PathVariable long appointmentId) {
         return ResponseEntity.ok()
@@ -48,6 +49,7 @@ public class AppointmentController {
         return appointmentService.getAppointmentsOfAUser(userId, page, size);
     }
 
+    @PreAuthorize("hasAnyAuthority('USER')")
     @GetMapping("/myAppointments/{userId}/{appointmentStatus}")
     public Page<Appointment> usersAppointmentsByAppointmentStatus(@PathVariable long userId, @PathVariable AppointmentStatus appointmentStatus, @RequestParam("page") int page,
                                                                   @RequestParam("size") int size) {

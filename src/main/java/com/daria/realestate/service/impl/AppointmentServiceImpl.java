@@ -1,7 +1,11 @@
 package com.daria.realestate.service.impl;
 
-import com.daria.realestate.dao.*;
-import com.daria.realestate.domain.*;
+import com.daria.realestate.dao.AppointmentDAO;
+import com.daria.realestate.dao.DynamicApplicationConfigurationDAO;
+import com.daria.realestate.dao.UserAppointmentDAO;
+import com.daria.realestate.domain.Appointment;
+import com.daria.realestate.domain.Estate;
+import com.daria.realestate.domain.PaginationFilter;
 import com.daria.realestate.domain.enums.AppointmentStatus;
 import com.daria.realestate.dto.AppointmentDTO;
 import com.daria.realestate.dto.Page;
@@ -12,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -32,11 +37,21 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public AppointmentDTO createAppointment(Appointment appointment, long userId) {
+    public AppointmentDTO createAppointment(String startTime, long userId, long estateId) {
+        //TODO refactor code
+
+        Appointment appointment = new Appointment(
+                LocalDateTime.now(),
+                LocalDateTime.parse(startTime),
+                LocalDateTime.parse(startTime).plusHours(1),
+                AppointmentStatus.SCHEDULED,
+                new Estate(estateId)
+        );
+
         Appointment createdAppointment = appointmentDAO.create(appointment);
         AppointmentDTO appointmentDTO = userAppointmentDAO.create(userId, createdAppointment.getId());
 
-        MailLocation mailLocation = MailLocation.valueOf(dynamicApplicationConfigurationDAO.getByConfigNameAndStatus("mail", "active").getConfigType());
+        MailLocation mailLocation = MailLocation.valueOf(dynamicApplicationConfigurationDAO.getByConfigNameAndStatus("mail", true).getConfigType());
 
         return mailInstanceServiceFactory.createInstance(mailLocation).appointmentConfirmationEmail(appointmentDTO);
     }

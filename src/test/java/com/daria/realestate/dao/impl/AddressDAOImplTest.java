@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class AddressDAOImplTest extends AbstractPropsSet {
-
     @Autowired
     private AddressDAO addressDAO;
 
@@ -50,14 +49,14 @@ public class AddressDAOImplTest extends AbstractPropsSet {
         String fullAddressAfterUpdate = "fullAddress";
 
         address.setFullAddress(fullAddressAfterUpdate);
-        Address updatedAddress = addressDAO.update(address);
+        Address updatedAddress = addressDAO.updateAddress(address);
 
         Assert.assertEquals(fullAddressAfterUpdate, updatedAddress.getFullAddress());
         Assert.assertEquals(address.getCity(), updatedAddress.getCity());
         Assert.assertEquals(address.getCountry(), updatedAddress.getCountry());
 
         address.setFullAddress(fullAddressBeforeUpdate);
-        updatedAddress = addressDAO.update(address);
+        updatedAddress = addressDAO.updateAddress(address);
 
         Assert.assertEquals(fullAddressBeforeUpdate, updatedAddress.getFullAddress());
         Assert.assertEquals(address.getCity(), updatedAddress.getCity());

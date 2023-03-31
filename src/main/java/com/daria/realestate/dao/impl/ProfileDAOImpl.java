@@ -3,6 +3,7 @@ package com.daria.realestate.dao.impl;
 import com.daria.realestate.dao.ProfileDAO;
 import com.daria.realestate.dao.mappers.ProfileMapper;
 import com.daria.realestate.domain.Profile;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -10,13 +11,14 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+
 @Repository
 public class ProfileDAOImpl extends AbstractDAOImpl<Profile> implements ProfileDAO {
     private final static String SQL_INSERT_PROFILE = " insert into profile (first_name, last_name, phone_number, address_id, user_id) values( ? , ? , ? , ? , ? ) ";
     private final static String SQL_DELETE_PROFILE = " delete from profile where id = ? ";
     private static final String SQL_GET_PROFILE_BY_ID = " select * from profile where id = ? ";
-    private static final String SQL_UPDATE_PROFILE = " update profile   set  first_name = ?, last_name  = ?, phone_number = ? where id = ? ";
     private static final String SQL_UPDATE_PROFILE_PICTURE = " update profile set profile_picture = ? where user_id = ? ";
+    private static final String SQL_GET_PROFILE_BY_USER_ID = " select * from profile where user_id = ? ";
 
     public ProfileDAOImpl(DataSource dataSource) {
         super(dataSource);
@@ -49,16 +51,41 @@ public class ProfileDAOImpl extends AbstractDAOImpl<Profile> implements ProfileD
         return getJdbcTemplate().queryForObject(SQL_GET_PROFILE_BY_ID, new ProfileMapper(), id);
     }
 
+    private Profile getProfileByUserId(long userId) {
+        return getJdbcTemplate().queryForObject(SQL_GET_PROFILE_BY_USER_ID, new ProfileMapper(), userId);
+    }
+
 
     @Override
-    public Profile update(Profile profile) {
-       getJdbcTemplate().update(SQL_UPDATE_PROFILE, profile.getFirstName(), profile.getLastName(), profile.getPhoneNumber(), profile.getId());
-       return getById(profile.getId());
+    public Profile update(long userId, Profile profile) {
+        String sqlUpdateProfile =
+                " update profile set user_id= " + userId+ " ,";
+
+        if (StringUtils.isNotBlank(profile.getFirstName())) {
+            sqlUpdateProfile += " first_name = \"" + profile.getFirstName() + "\" ,";
+        }
+        if (StringUtils.isNotBlank(profile.getLastName())) {
+            sqlUpdateProfile += " last_name = \"" + profile.getLastName() + "\" ,";
+        }
+        if (StringUtils.isNotBlank(profile.getProfilePicture())) {
+            sqlUpdateProfile += " profile_picture = \"" + profile.getProfilePicture() + "\" ,";
+        }
+        if (StringUtils.isNotBlank(profile.getPhoneNumber())) {
+            sqlUpdateProfile += " phone_number = \"" + profile.getPhoneNumber() + "\" ,";
+        }
+
+        sqlUpdateProfile = sqlUpdateProfile.substring(0, sqlUpdateProfile.length() - 1);
+
+        sqlUpdateProfile += " where user_id = " + userId + " ";
+
+        getJdbcTemplate().update(sqlUpdateProfile);
+        return getProfileByUserId(userId);
     }
 
     @Override
     public Profile updateProfilePicture(long userId, String profilePicture) {
-        return getJdbcTemplate().queryForObject(SQL_UPDATE_PROFILE_PICTURE, new ProfileMapper(), profilePicture, userId);
+        getJdbcTemplate().update(SQL_UPDATE_PROFILE_PICTURE, profilePicture, userId);
+        return getProfileByUserId(userId);
     }
 }
 

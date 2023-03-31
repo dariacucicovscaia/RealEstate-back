@@ -11,7 +11,7 @@ import java.util.List;
 
 
 public interface AppointmentDAO extends DAO<Appointment> {
-    Appointment update(Appointment appointment);
+    Appointment updateAppointment(Appointment appointment);
     List<Appointment> usersAppointmentsByAppointmentStatus(long userId, AppointmentStatus appointmentStatus, PaginationFilter paginationFilter);
     Integer countUsersAppointmentsByAppointmentStatus(long userId, AppointmentStatus appointmentStatus);
     List<Appointment> appointmentsOfAUser(long id , PaginationFilter paginationFilter);

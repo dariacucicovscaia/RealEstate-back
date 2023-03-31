@@ -21,15 +21,15 @@ public class ProfileServiceImplTest {
         profileDAO = mock(ProfileDAOImpl.class);
         serviceUnderTests = new ProfileServiceImpl((ProfileDAOImpl) profileDAO);
     }
-    
+
     @Test
     public void updateProfile() {
         Profile profile = new Profile("firstName", "lastName", "phoneNumber");
-        when(profileDAO.update(profile)).thenReturn(profile);
+        when(profileDAO.update(1, profile)).thenReturn(profile);
 
-        serviceUnderTests.updateProfile(profile);
+        serviceUnderTests.updateProfile(1, profile);
 
-        verify(profileDAO).update(profile);
+        verify(profileDAO).update(1, profile);
     }
 
     @Test

@@ -2,11 +2,10 @@ package com.daria.realestate.domain;
 
 public class Profile {
     private Long id;
-    private String firstName;
     private String lastName;
+    private String firstName;
     private String phoneNumber;
     private String profilePicture;
-
     private Address address;
     private User user;
 
@@ -19,6 +18,13 @@ public class Profile {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
+    }
+
+    public Profile(String firstName, String lastName, String phoneNumber, String profilePicture) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.profilePicture = profilePicture;
     }
 
     public Profile(String firstName, String lastName, String phoneNumber, Address address, User user) {

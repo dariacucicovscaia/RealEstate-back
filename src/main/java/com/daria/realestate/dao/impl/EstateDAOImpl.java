@@ -265,7 +265,7 @@ public class EstateDAOImpl extends AbstractDAOImpl<Estate> implements EstateDAO 
 
     @Override
     public List<String> setEstateImages(long estateId, List<String> images) {
-        String SQL = " insert into estate_photos values (estate_id, image_path) ";
+        String SQL = " insert into `estate_photos` (estate_id, image_path) VALUES( ? , ? ) ";
         List<Integer> response = new ArrayList<>();
         for (String img : images) {
             response.add(getJdbcTemplate().update(SQL, estateId, img));

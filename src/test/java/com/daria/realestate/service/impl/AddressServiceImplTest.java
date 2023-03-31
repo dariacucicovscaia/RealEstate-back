@@ -40,10 +40,10 @@ public class AddressServiceImplTest {
     @Test
     public void update() {
         Address address = new Address(1L, "fullAddress", "city", "country");
-        when(addressDAO.update(address)).thenReturn(address);
+        when(addressDAO.updateAddress(address)).thenReturn(address);
 
         serviceUnderTests.update(address);
 
-        verify(addressDAO).update(address);
+        verify(addressDAO).updateAddress(address);
     }
 }

@@ -50,7 +50,7 @@ public class AddressDAOImpl extends AbstractDAOImpl<Address> implements AddressD
     }
 
     @Override
-    public Address update(Address address) {
+    public Address updateAddress(Address address) {
         getJdbcTemplate().update(SQL_UPDATE_ADDRESS, address.getFullAddress(), address.getCity(), address.getCountry(), address.getId());
         return getById(address.getId());
     }

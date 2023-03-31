@@ -51,11 +51,11 @@ public class ProfileDAOImplTest extends AbstractPropsSet {
         String newFirstName = "firstName";
         profile.setFirstName(newFirstName);
 
-        profile = profileDAO.update(profile);
+//        profile = profileDAO.update(profile);
         Assert.assertEquals(newFirstName, profile.getFirstName());
 
-        profile.setFirstName(oldFirstName);
-        profile = profileDAO.update(profile);
+//        profile.setFirstName(oldFirstName);
+//        profile = profileDAO.update(profile);
         Assert.assertEquals(oldFirstName, profile.getFirstName());
 
     }

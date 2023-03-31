@@ -8,6 +8,8 @@ import com.daria.realestate.domain.PaginationFilter;
 import com.daria.realestate.domain.User;
 import com.daria.realestate.dto.UserWithAllProfileDetails;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
+import org.springframework.jdbc.IncorrectResultSetColumnCountException;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -63,7 +65,11 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
 
     @Override
     public User getUserByEmail(String email) {
-        return getJdbcTemplate().queryForObject(SQL_GET_USER_BY_EMAIL, new UserMapper(), email);
+        try{
+            return getJdbcTemplate().queryForObject(SQL_GET_USER_BY_EMAIL, new UserMapper(), email);
+        }catch (IncorrectResultSizeDataAccessException e){
+            throw new RuntimeException("Such user could not be found, check email spelling and try again");
+        }
     }
 
     @Override
@@ -106,6 +112,15 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDAO {
         getJdbcTemplate().update(SQL, isActive, userId);
 
         return getById(userId);
+    }
+
+    @Override
+    public UserWithAllProfileDetails getUserWithAllProfileDetails(long userId) {
+        String SQL = " select u.id, p.first_name, p.last_name, u.email, u.account_status, u.created_at, p.profile_picture from `user` as u " +
+                "inner join `profile` as p on u.id = p.user_id  where u.id = ?";
+
+        return getJdbcTemplate().queryForObject(  SQL,
+                new UserWithAllProfileDetailsMapper(), userId);
     }
 
     @Override

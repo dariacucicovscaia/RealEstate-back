@@ -2,9 +2,8 @@ package com.daria.realestate.controller;
 
 import com.daria.realestate.domain.Profile;
 import com.daria.realestate.service.ProfileService;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/profile")
@@ -15,7 +14,9 @@ public class ProfileController {
         this.profileService = profileService;
     }
 
-    public Profile updateProfilePicture(@PathVariable long userId, @PathVariable String profilePicture){
+    @PreAuthorize("hasAnyAuthority('USER')")
+    @PutMapping("/addProfilePicture/{userId}")
+    public Profile updateProfilePicture(@PathVariable long userId,@RequestParam(value = "profilePicture") String profilePicture) {
         return profileService.updateProfilePicture(userId, profilePicture);
     }
 }

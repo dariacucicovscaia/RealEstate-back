@@ -84,7 +84,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public Appointment updateAppointment(long appointmentId, Appointment newAppointment) {
         newAppointment.setId(appointmentId);
-        return appointmentDAO.update(newAppointment);
+        return appointmentDAO.updateAppointment(newAppointment);
     }
 
     @Override

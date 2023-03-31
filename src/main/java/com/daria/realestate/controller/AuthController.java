@@ -5,10 +5,11 @@ import com.daria.realestate.service.AuthenticationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/auth")
-@CrossOrigin
 public class AuthController {
 
     private final AuthenticationService authenticationService;
@@ -16,11 +17,12 @@ public class AuthController {
     public AuthController(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
-
-
+//todo dto instead of hashmap
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
-        return ResponseEntity.ok(authenticationService.login(loginDTO));
-
+    public ResponseEntity<Map<String, String>> login(@RequestBody LoginDTO loginDTO) {
+        Map<String , String > result = new HashMap<>();
+        result.put("token", authenticationService.login(loginDTO));
+        result.put("type", "Bearer ");
+        return ResponseEntity.ok(result);
     }
 }

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/appointment")
-@CrossOrigin
 public class AppointmentController {
     private final AppointmentService appointmentService;
     public AppointmentController(AppointmentService appointmentService) {

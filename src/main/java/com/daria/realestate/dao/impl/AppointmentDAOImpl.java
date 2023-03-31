@@ -109,7 +109,7 @@ public class AppointmentDAOImpl extends AbstractDAOImpl<Appointment> implements 
     }
 
     @Override
-    public Appointment update(Appointment appointment) {
+    public Appointment updateAppointment(Appointment appointment) {
         String SQL_UPDATE_APPOINTMENT = " update appointment set made_at = ? , appointment_start = ? , appointment_end = ?  ,appointment_status = ? where id = ? ";
         getJdbcTemplate().update(SQL_UPDATE_APPOINTMENT, appointment.getMadeAt(), appointment.getStart(), appointment.getEnd(), appointment.getAppointmentStatus().toString(), appointment.getId());
         return getById(appointment.getId());

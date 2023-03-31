@@ -10,6 +10,7 @@ import com.daria.realestate.dto.Page;
 import com.daria.realestate.service.EstateService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -85,9 +86,9 @@ public class EstateServiceImpl implements EstateService {
         User owner = userDAO.getUserByEmail(estateDTO.getEmail());
 
         Address address = addressDAO.create(new Address(estateDTO.getFullAddress(), estateDTO.getCity(), estateDTO.getCountry()));
-        Estate estate = estateDAO.create(new Estate(estateDTO.getPaymentTransactionType(), estateDTO.getAcquisitionStatus(), estateDTO.getCreatedAt(), estateDTO.getLastUpdatedAt(), address, owner));
+        Estate estate = estateDAO.create(new Estate(estateDTO.getPaymentTransactionType(), estateDTO.getAcquisitionStatus(), LocalDateTime.now(),LocalDateTime.now(), address, owner));
         List<String> images = estateDAO.setEstateImages(estate.getId(), estateDTO.getEstatePhotos());
-        EstatePrice price = priceDAO.create(new EstatePrice(estateDTO.getPrice(), estateDTO.getLastPriceUpdatedAt(), estateDTO.getCurrency(), estate));
+        EstatePrice price = priceDAO.create(new EstatePrice(estateDTO.getPrice(), LocalDateTime.now(), estateDTO.getCurrency(), estate));
         EstateDetails estateDetails = estateDetailsDAO.create(new EstateDetails(estateDTO.getSquareMeters(), estateDTO.getNumberOfRooms(), estateDTO.getNumberOfBathRooms(), estateDTO.getNumberOfGarages(), estateDTO.getYearOfConstruction(), estateDTO.getTypeOfEstate(), estate));
 
         return new EstateDTO(

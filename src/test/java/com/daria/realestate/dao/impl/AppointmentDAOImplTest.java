@@ -48,11 +48,11 @@ public class AppointmentDAOImplTest extends AbstractPropsSet {
         AppointmentStatus previousStatus = appointment.getAppointmentStatus();
         AppointmentStatus newStatus = AppointmentStatus.CONFIRMED;
         appointment.setAppointmentStatus(newStatus);
-        Appointment updatedAppointment = appointmentDAO.update(appointment);
+        Appointment updatedAppointment = appointmentDAO.updateAppointment(appointment);
 
         Assert.assertEquals(newStatus, updatedAppointment.getAppointmentStatus());
         appointment.setAppointmentStatus(previousStatus);
-        updatedAppointment = appointmentDAO.update(appointment);
+        updatedAppointment = appointmentDAO.updateAppointment(appointment);
         Assert.assertEquals(previousStatus, updatedAppointment.getAppointmentStatus());
     }
 

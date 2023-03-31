@@ -40,4 +40,7 @@ public interface UserDAO extends DAO<User> {
     Integer getAllUsersCount(String criteria);
 
     User updateProfileStatus(long userId, boolean isActive);
+
+    UserWithAllProfileDetails getUserWithAllProfileDetails(long userId);
+
 }

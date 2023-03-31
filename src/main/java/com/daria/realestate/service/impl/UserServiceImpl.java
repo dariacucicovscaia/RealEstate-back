@@ -11,6 +11,7 @@ import com.daria.realestate.domain.User;
 import com.daria.realestate.domain.enums.Role;
 import com.daria.realestate.dto.Page;
 import com.daria.realestate.dto.RegistrationDTO;
+import com.daria.realestate.dto.UserProfileDTO;
 import com.daria.realestate.dto.UserWithAllProfileDetails;
 import com.daria.realestate.service.UserService;
 import org.slf4j.Logger;
@@ -46,9 +47,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(User user) {
-        return userDAO.update(user);
+    public UserWithAllProfileDetails updateUser(long userId, UserProfileDTO userProfileDTO) {
+        Profile profile = new Profile(
+                userProfileDTO.getFirstName(),
+                userProfileDTO.getLastName(),
+                userProfileDTO.getPhoneNumber(),
+                userProfileDTO.getProfilePhoto()
+                );
+        profileDAO.update(userId, profile);
+
+        return userDAO.getUserWithAllProfileDetails(userId);
     }
+
 
     @Override
     public User getUserById(Long id) {
@@ -77,6 +87,12 @@ public class UserServiceImpl implements UserService {
     public User updateProfileStatus(long userId, boolean isActive) {
         return userDAO.updateProfileStatus( userId,  isActive);
     }
+
+    @Override
+    public UserWithAllProfileDetails getUserWithAllProfileDetails(long userId) {
+        return userDAO.getUserWithAllProfileDetails(userId);
+    }
+
 
     @Override
     public RegistrationDTO registerUser(RegistrationDTO registrationDTO) {

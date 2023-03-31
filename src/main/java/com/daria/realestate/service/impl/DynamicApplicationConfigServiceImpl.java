@@ -15,7 +15,7 @@ public class DynamicApplicationConfigServiceImpl implements DynamicApplicationCo
 
     @Override
     public DynamicApplicationConfiguration createDynamicConfig(DynamicApplicationConfiguration dynamicApplicationConfiguration) {
-        return dynamicApplicationConfigurationDAO.create(dynamicApplicationConfiguration);
+        return dynamicApplicationConfigurationDAO.createDynamicApplicationConfiguration(dynamicApplicationConfiguration);
     }
 
     @Override

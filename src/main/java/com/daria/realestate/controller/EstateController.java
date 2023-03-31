@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/estate")
-@CrossOrigin
 public class EstateController {
     private final EstateService estateService;
 
@@ -29,6 +28,7 @@ public class EstateController {
     @PreAuthorize("hasAnyAuthority('USER')")
     @PostMapping()
     public EstateDTO createEstate(@RequestBody EstateDTO estateDTO) {
+
         return estateService.createEstate(estateDTO);
     }
 

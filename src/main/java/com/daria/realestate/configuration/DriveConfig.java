@@ -22,51 +22,51 @@ import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
 
-@Component
+//@Component
 public class DriveConfig {
-    private static final String APPLICATION_NAME = "RealEstate";
-    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-    private static final String TOKENS_DIRECTORY_PATH = "tokens";
-    private static final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE);
-    private final DynamicApplicationConfigurationDAO dynamicApplicationConfigurationDAO;
-    private Drive DRIVE;
-
-    public DriveConfig(DynamicApplicationConfigurationDAO dynamicApplicationConfigurationDAO) {
-        this.dynamicApplicationConfigurationDAO = dynamicApplicationConfigurationDAO;
-    }
-    public Drive getDriveService() {
-        if (DRIVE != null) {
-            return DRIVE;
-        }
-        final NetHttpTransport HTTP_TRANSPORT;
-        Credential credential;
-        try {
-            HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-            credential = getCredentials(HTTP_TRANSPORT);
-        } catch (IOException | GeneralSecurityException e) {
-            throw new RuntimeException(e);
-        }
-
-        DRIVE = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
-                .setApplicationName(APPLICATION_NAME).build();
-        return DRIVE;
-    }
-    public Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException, GeneralSecurityException {
-        InputStream in = DriveConfig.class.getResourceAsStream(dynamicApplicationConfigurationDAO.getByConfigType("drive").getBody());
-
-        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-
-        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-                .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
-                .setAccessType("offline")
-                .build();
-
-
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-        Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("orderprocessoradm1n@gmail.com");
-
-    //    saveProperty("OauthAccessToken", credential.getAccessToken());
-        return credential;
-    }
+//    private static final String APPLICATION_NAME = "RealEstate";
+//    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+//    private static final String TOKENS_DIRECTORY_PATH = "tokens";
+//    private static final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE);
+//    private final DynamicApplicationConfigurationDAO dynamicApplicationConfigurationDAO;
+//    private Drive DRIVE;
+//
+//    public DriveConfig(DynamicApplicationConfigurationDAO dynamicApplicationConfigurationDAO) {
+//        this.dynamicApplicationConfigurationDAO = dynamicApplicationConfigurationDAO;
+//    }
+//    public Drive getDriveService() {
+//        if (DRIVE != null) {
+//            return DRIVE;
+//        }
+//        final NetHttpTransport HTTP_TRANSPORT;
+//        Credential credential;
+//        try {
+//            HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+//            credential = getCredentials(HTTP_TRANSPORT);
+//        } catch (IOException | GeneralSecurityException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        DRIVE = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
+//                .setApplicationName(APPLICATION_NAME).build();
+//        return DRIVE;
+//    }
+//    public Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException, GeneralSecurityException {
+//        InputStream in = DriveConfig.class.getResourceAsStream(dynamicApplicationConfigurationDAO.getByConfigType("drive").getBody());
+//
+//        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+//
+//        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
+//                .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
+//                .setAccessType("offline")
+//                .build();
+//
+//
+//        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+//        Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("orderprocessoradm1n@gmail.com");
+//
+//    //    saveProperty("OauthAccessToken", credential.getAccessToken());
+//        return credential;
+//    }
 
 }

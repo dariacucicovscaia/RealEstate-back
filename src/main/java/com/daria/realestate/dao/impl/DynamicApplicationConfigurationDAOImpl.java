@@ -3,10 +3,12 @@ package com.daria.realestate.dao.impl;
 import com.daria.realestate.dao.DynamicApplicationConfigurationDAO;
 import com.daria.realestate.dao.mappers.DynamicApplicationConfigurationMapper;
 import com.daria.realestate.domain.DynamicApplicationConfiguration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@DependsOn({"liquibase"})
 public class DynamicApplicationConfigurationDAOImpl implements DynamicApplicationConfigurationDAO {
 
     private final JdbcTemplate jdbcTemplate;
@@ -16,7 +18,7 @@ public class DynamicApplicationConfigurationDAOImpl implements DynamicApplicatio
     }
 
     @Override
-    public DynamicApplicationConfiguration create(DynamicApplicationConfiguration dynamicApplicationConfiguration) {
+    public DynamicApplicationConfiguration createDynamicApplicationConfiguration(DynamicApplicationConfiguration dynamicApplicationConfiguration) {
         String SQL_CREATE_DYNAMIC_APP_CONFIG = " insert into dynamic_application_configuration (configuration_name, configuration_type, configuration_body, configuration_status ) values ( ? , ? , ? ,?) ";
         jdbcTemplate.update(SQL_CREATE_DYNAMIC_APP_CONFIG,
                 dynamicApplicationConfiguration.getConfigName(),

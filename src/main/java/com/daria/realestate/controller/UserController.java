@@ -21,7 +21,7 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-//TODO use controller adviser for handling validation
+
     @PostMapping("/register")
     public RegistrationDTO register(@Valid @RequestBody RegistrationDTO userDTO) {
         return userService.registerUser(userDTO);
@@ -54,7 +54,6 @@ public class UserController {
     @PreAuthorize("hasAnyAuthority('USER')")
     @PutMapping("/updateProfile/{userId}")
     public ResponseEntity<UserWithAllProfileDetails> updateProfile(@PathVariable long userId,
-//                                                                   @Valid
                                                                    @RequestBody UserProfileDTO profile) {
         return ResponseEntity.ok(userService.updateUser(userId, profile));
     }

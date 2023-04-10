@@ -55,9 +55,6 @@ public class ReportController {
     public Page<Report> getAllUsersReports(@PathVariable long userId,@RequestParam("pageSize") int pageSize,@RequestParam("pageNumber") int pageNumber) {
         return reportService.getAllReportsOfAUser(userId, pageSize, pageNumber);
     }
-    @GetMapping("/hello")
-    public String helloWorld() {
-        return " hi from server";
-    }
+
 
 }

@@ -1,6 +1,5 @@
 package com.daria.realestate.service.report;
 
-import com.daria.realestate.configuration.DriveConfig;
 import com.daria.realestate.dao.DynamicApplicationConfigurationDAO;
 import com.daria.realestate.dao.ReportDAO;
 import com.daria.realestate.domain.Report;
@@ -67,7 +66,7 @@ public class DriveReportServiceImpl implements FileOperations, DriveService {
     }
 
     public Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException, GeneralSecurityException {
-        InputStream in = DriveConfig.class.getResourceAsStream(dynamicApplicationConfigurationDAO.getByConfigType("drive").getBody());
+        InputStream in = DriveReportServiceImpl.class.getResourceAsStream(dynamicApplicationConfigurationDAO.getByConfigType("drive").getBody());
 
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 

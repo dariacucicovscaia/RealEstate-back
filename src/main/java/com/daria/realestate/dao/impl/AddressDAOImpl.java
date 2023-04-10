@@ -11,7 +11,7 @@ import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 
-//TODO sql query into methods
+
 @Repository
 public class AddressDAOImpl extends AbstractDAOImpl<Address> implements AddressDAO {
     private static final String SQL_UPDATE_ADDRESS = " update address set full_address = ?, city  = ?, country = ? where id = ? ";
